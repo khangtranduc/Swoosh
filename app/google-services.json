@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "998352044983",
+    "project_id": "swooshdatabase",
+    "storage_bucket": "swooshdatabase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:998352044983:android:3c382a93a1ceaf44e3de32",
+        "android_client_info": {
+          "package_name": "com.example.swoosh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "998352044983-i667msb87mkr2c4mjvkidj7co6kqtin3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.swoosh",
+            "certificate_hash": "ff14adb3a4b975a6722a8dd533099d75c0eeb93a"
+          }
+        },
+        {
+          "client_id": "998352044983-e0o39emj26v9fflnn2lllj1fus5utkgc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyARJv5bBDXShBAd1FDFaR12rTQUq5dM4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "998352044983-e0o39emj26v9fflnn2lllj1fus5utkgc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
