@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="30dp"
-    tools:context=".ui.login.LogIn">
+    tools:context=".ui.register.Register">
 
     <TextView
         android:layout_width="wrap_content"
@@ -18,14 +18,31 @@
         android:textSize="60sp"/>
 
     <EditText
-        android:id="@+id/email_et"
+        android:id="@+id/register_name_et"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:inputType="textEmailAddress"
         android:ems="10"
-        android:layout_marginTop="96dp"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
+        android:textSize="14sp"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/nunito"
+        android:background="@drawable/selection_highlight"
+        android:hint="@string/email_hint"
+        android:drawableStart="@drawable/person_drawable"
+        android:drawablePadding="12dp"
+        />
+
+    <EditText
+        android:id="@+id/register_email_et"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:layout_marginTop="16dp"
         android:textSize="14sp"
         android:fontFamily="@font/nunito"
         android:background="@drawable/selection_highlight"
@@ -35,7 +52,7 @@
         />
 
     <EditText
-        android:id="@+id/password_et"
+        android:id="@+id/register_password_et"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="16dp"
@@ -51,40 +68,33 @@
         android:drawablePadding="12dp"
         />
 
+    <EditText
+        android:id="@+id/register_pass_confirm_et"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:textSize="14sp"
+        android:fontFamily="@font/nunito"
+        android:background="@drawable/selection_highlight"
+        android:hint="@string/confirm_password_hint"
+        android:drawableStart="@drawable/lock_drawable"
+        android:drawablePadding="12dp"
+        />
+
     <Button
-        android:id="@+id/login_btn"
-        android:layout_width="150dp"
+        android:id="@+id/register_btn"
+        android:layout_width="175dp"
         android:layout_height="60dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/button_type_1"
-        android:text="Log In"
+        android:text="Register"
         android:textSize="20sp"
         android:textAllCaps="false"
         android:fontFamily="@font/nunito_bold"
         />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="24dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Don't have an account?"
-            android:fontFamily="@font/nunito_semibold"
-            />
-
-        <TextView
-            android:id="@+id/register_now"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:fontFamily="@font/poppins_bold"
-            android:text="Register Now!"
-            android:textColor="?attr/colorAccent" />
-
-    </LinearLayout>
 
 </LinearLayout>

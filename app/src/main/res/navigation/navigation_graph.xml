@@ -10,6 +10,27 @@
         android:id="@+id/logIn"
         android:name="com.example.swoosh.ui.login.LogIn"
         android:label="Log In"
-        tools:layout="@layout/fragment_log_in" />
+        tools:layout="@layout/fragment_log_in" >
+        <action
+            android:id="@+id/gotoRegister"
+            app:destination="@id/register"/>
+        <action
+            android:id="@+id/gotoHome"
+            app:destination="@id/nav_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/register"
+        android:name="com.example.swoosh.ui.register.Register"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/gotoLogIn"
+            app:destination="@id/logIn" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.swoosh.ui.home.Home"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
 
 </navigation>
