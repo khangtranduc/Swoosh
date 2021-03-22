@@ -14,4 +14,65 @@
         android:layout_height="match_parent"
         app:defaultNavHost="true"
         app:navGraph="@navigation/navigation_graph"/>
+
+    <fragment
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.example.swoosh.ui.nav.BottomSheet"
+        />
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottom_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:backgroundTint="?attr/colorPrimary"
+        app:fabAnimationMode="scale"
+        app:fabAlignmentMode="center"
+        app:fabCradleRoundedCornerRadius="32dp"
+        app:fabCradleMargin="8dp"
+        app:hideOnScroll="true"
+        app:layout_scrollFlags="scroll|enterAlways">
+
+        <LinearLayout
+            android:id="@+id/expand_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="4dp"
+            android:layout_marginBottom="4dp"
+            android:foreground="@drawable/expand_ripple_foreground"
+            >
+
+            <ImageView
+                android:id="@+id/bottom_up_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_up"
+                />
+
+            <TextView
+                android:id="@+id/destination_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Boards"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/nunito_bold"
+                android:textColor="@color/white"
+                />
+
+        </LinearLayout>
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_board_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_baseline_add_24"
+        app:layout_anchor="@id/bottom_app_bar"
+        android:contentDescription="Add new Board" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
