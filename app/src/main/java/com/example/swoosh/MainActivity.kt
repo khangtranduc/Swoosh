@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import com.example.swoosh.ui.nav.BottomSheet
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -66,11 +67,13 @@ class MainActivity : AppCompatActivity(),
                 showBottomBar()
                 bottomSheet.close()
                 destination_title.text = "Boards"
+                fabAdd()
                 Log.d("debug", "Home")
             }
             R.id.nav_chat -> {
                 bottomSheet.close()
                 destination_title.text = "Chats"
+                fabSend()
                 Log.d("debug", "Chat")
             }
             R.id.logIn -> {
@@ -82,6 +85,16 @@ class MainActivity : AppCompatActivity(),
                 Log.d("debug", "Register")
             }
         }
+    }
+
+    private fun fabSend(){
+        bottom_app_bar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+        add_board_fab.setImageResource(R.drawable.ic_baseline_send_24)
+    }
+
+    private fun fabAdd(){
+        bottom_app_bar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+        add_board_fab.setImageResource(R.drawable.ic_baseline_add_24)
     }
 
     private fun showBottomBar(){
