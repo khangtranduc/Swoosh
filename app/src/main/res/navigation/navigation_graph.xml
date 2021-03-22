@@ -36,7 +36,11 @@
         android:id="@+id/nav_chat"
         android:name="com.example.swoosh.ui.chat.Chat"
         android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat" />
+        tools:layout="@layout/fragment_chat" >
+        <action
+            android:id="@+id/gotoChatWindow"
+            app:destination="@id/nav_chat_window" />
+    </fragment>
 
     <action
         android:id="@+id/action_global_login"
@@ -46,5 +50,16 @@
         app:popUpToInclusive="true"/>
     <action
         android:id="@+id/action_global_chat"
-        app:destination="@+id/chat" />
+        app:destination="@+id/nav_chat" />
+    <fragment
+        android:id="@+id/nav_chat_window"
+        android:name="com.example.swoosh.ui.chat.ChatWindow"
+        android:label="Chat Window"
+        tools:layout="@layout/fragment_chat_window">
+        <argument
+            android:name="convo"
+            android:defaultValue="null"
+            app:argType="string"
+            />
+    </fragment>
 </navigation>

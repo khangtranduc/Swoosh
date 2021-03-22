@@ -70,10 +70,14 @@ class MainActivity : AppCompatActivity(),
                 fabAdd()
                 Log.d("debug", "Home")
             }
+            R.id.nav_chat_window -> {
+                fabSend()
+                Log.d("debug", "Chat Window")
+            }
             R.id.nav_chat -> {
                 bottomSheet.close()
                 destination_title.text = "Chats"
-                fabSend()
+                fabAddPerson()
                 Log.d("debug", "Chat")
             }
             R.id.logIn -> {
@@ -90,6 +94,11 @@ class MainActivity : AppCompatActivity(),
     private fun fabSend(){
         bottom_app_bar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
         add_board_fab.setImageResource(R.drawable.ic_baseline_send_24)
+    }
+
+    private fun fabAddPerson(){
+        bottom_app_bar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
+        add_board_fab.setImageResource(R.drawable.ic_baseline_person_add_alt_1_24)
     }
 
     private fun fabAdd(){

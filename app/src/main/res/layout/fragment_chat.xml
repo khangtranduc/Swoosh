@@ -9,7 +9,7 @@
     tools:context=".ui.chat.Chat">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/home_recycler"
+        android:id="@+id/convo_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
