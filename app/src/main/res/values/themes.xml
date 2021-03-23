@@ -13,5 +13,8 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <!-- Toolbar things-->
+        <item name="android:homeAsUpIndicator">@drawable/ic_baseline_arrow_back_24</item>
     </style>
+    <style name="ThemeOverlay.Toolbar" parent="ThemeOverlay.AppCompat.Dark"/>
 </resources>

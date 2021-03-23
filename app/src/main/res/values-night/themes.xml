@@ -10,4 +10,5 @@
         <item name="colorSecondaryVariant">@color/orange_700</item>
         <item name="colorOnSecondary">@color/black</item>
     </style>
+    <style name="ThemeOverlay.Toolbar" parent="ThemeOverlay.AppCompat.Light"/>
 </resources>

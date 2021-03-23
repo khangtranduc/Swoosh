@@ -35,6 +35,10 @@ class MainActivity : AppCompatActivity(),
             bottomSheet.toggle()
         }
 
+        add_media.setOnClickListener{
+
+        }
+
         bottomSheet.behaviour.addBottomSheetCallback(object: BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_HIDDEN || newState == BottomSheetBehavior.STATE_COLLAPSED){
@@ -72,12 +76,14 @@ class MainActivity : AppCompatActivity(),
             }
             R.id.nav_chat_window -> {
                 fabSend()
+                showChatET()
                 Log.d("debug", "Chat Window")
             }
             R.id.nav_chat -> {
                 bottomSheet.close()
                 destination_title.text = "Chats"
                 fabAddPerson()
+                hideChatET()
                 Log.d("debug", "Chat")
             }
             R.id.logIn -> {
@@ -94,6 +100,24 @@ class MainActivity : AppCompatActivity(),
     private fun fabSend(){
         bottom_app_bar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
         add_board_fab.setImageResource(R.drawable.ic_baseline_send_24)
+    }
+
+    private fun showChatET(){
+        expand_btn.visibility = View.GONE
+        chat_et_container.visibility = View.VISIBLE
+        chat_et_container.alpha = 0f
+        chat_et_container.animate().alpha(1F)
+                .setDuration(300)
+                .setInterpolator(DecelerateInterpolator())
+    }
+
+    private fun hideChatET() {
+        chat_et_container.visibility = View.GONE
+        expand_btn.visibility = View.VISIBLE
+        expand_btn.alpha = 0f
+        expand_btn.animate().alpha(1f)
+                .setDuration(300)
+                .setInterpolator(DecelerateInterpolator())
     }
 
     private fun fabAddPerson(){

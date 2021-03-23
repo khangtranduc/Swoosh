@@ -23,7 +23,6 @@ class TestAdapter(var convos: List<Convo>, var activity: FragmentActivity) : Rec
         val members = itemView.findViewById<TextView>(R.id.board_members)
 
         fun bind(convo: Convo){
-            
             itemView.setOnClickListener{
                 val action = ChatDirections.gotoChatWindow(Json.encodeToString(convo))
                 activity.findNavController(R.id.nav_host_fragment).navigate(action)
