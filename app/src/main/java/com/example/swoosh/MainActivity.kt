@@ -9,7 +9,11 @@ import android.view.animation.DecelerateInterpolator
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
 import com.example.swoosh.ui.nav.BottomSheet
+import com.example.swoosh.ui.nav.HalfCounterClockwiseRotateSlideAction
+import com.example.swoosh.utils.SandwichState
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.activity_main.*
@@ -20,6 +24,12 @@ class MainActivity : AppCompatActivity(),
     private val bottomSheet: BottomSheet by lazy(LazyThreadSafetyMode.NONE) {
         supportFragmentManager.findFragmentById(R.id.bottom_sheet) as BottomSheet
     }
+    private val appBarConfiguration: AppBarConfiguration by lazy{
+        AppBarConfiguration(
+            setOf(R.id.nav_home, R.id.nav_chat)
+        )
+    }
+    private var id: Int = R.id.nav_home
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,24 +50,15 @@ class MainActivity : AppCompatActivity(),
         }
 
         bottomSheet.behaviour.addBottomSheetCallback(object: BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
+            override fun onStateChanged(bottomDrawer: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_HIDDEN || newState == BottomSheetBehavior.STATE_COLLAPSED){
                     add_board_fab.show()
-                    bottom_up_arrow.animate().rotation(0f)
-                            .setDuration(300)
-                            .setInterpolator(DecelerateInterpolator())
-                    destination_title.animate().alpha(1f)
-                            .setDuration(300)
-                            .setInterpolator(DecelerateInterpolator())
+                    bottomSheet.animateCloseSandwich()
+                    rotateOpen()
                 }
                 else{
                     add_board_fab.hide()
-                    bottom_up_arrow.animate().rotation(180f)
-                            .setDuration(300)
-                            .setInterpolator(DecelerateInterpolator())
-                    destination_title.animate().alpha(0f)
-                            .setDuration(300)
-                            .setInterpolator(DecelerateInterpolator())
+                    if (bottomSheet.sandwichState == SandwichState.CLOSED) rotateClose()
                 }
             }
 
@@ -65,7 +66,27 @@ class MainActivity : AppCompatActivity(),
         })
     }
 
+    override fun onBackPressed() {
+        when{
+            bottomSheet.sandwichState == SandwichState.OPEN -> bottomSheet.animateCloseSandwich()
+            (bottomSheet.behaviour.state != BottomSheetBehavior.STATE_HIDDEN
+                    && bottomSheet.behaviour.state != BottomSheetBehavior.STATE_COLLAPSED)
+                    -> bottomSheet.close()
+            (bottomSheet.behaviour.state == BottomSheetBehavior.STATE_HIDDEN
+                    || bottomSheet.behaviour.state == BottomSheetBehavior.STATE_COLLAPSED)
+                    -> {
+                if (id == R.id.nav_home || id == R.id.logIn){
+                    finishAffinity()
+                }
+                else{
+                    findNavController(R.id.nav_host_fragment).navigateUp(appBarConfiguration)
+                }
+            }
+        }
+    }
+
     override fun onDestinationChanged(controller: NavController, destination: NavDestination, arguments: Bundle?) {
+        id = destination.id
         when (destination.id){
             R.id.nav_home -> {
                 showBottomBar()
@@ -95,6 +116,24 @@ class MainActivity : AppCompatActivity(),
                 Log.d("debug", "Register")
             }
         }
+    }
+
+    fun rotateOpen(){
+        bottom_up_arrow.animate().rotation(0f)
+            .setDuration(300)
+            .setInterpolator(DecelerateInterpolator())
+        destination_title.animate().alpha(1f)
+            .setDuration(300)
+            .setInterpolator(DecelerateInterpolator())
+    }
+
+    fun rotateClose(){
+        bottom_up_arrow.animate().rotation(180f)
+            .setDuration(300)
+            .setInterpolator(DecelerateInterpolator())
+        destination_title.animate().alpha(0f)
+            .setDuration(300)
+            .setInterpolator(DecelerateInterpolator())
     }
 
     private fun fabSend(){

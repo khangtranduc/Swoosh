@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -16,33 +17,44 @@
 
     <FrameLayout
         android:id="@+id/background_container"
-        android:background="@drawable/bottom_sheet_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        android:background="@drawable/bottom_sheet_background"
+        android:elevation="0dp"
+        app:behavior_halfExpandedRatio="0.4"
         app:behavior_hideable="true"
         app:behavior_skipCollapsed="true"
-        app:behavior_halfExpandedRatio="0.4"
-        >
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:src="@drawable/avatar_1"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp"
+            />
+
+        <include layout="@layout/user_info" />
 
         <LinearLayout
             android:id="@+id/foreground_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bottom_sheet_foreground"
+            android:layout_marginTop="24dp"
             android:orientation="vertical"
-            android:layout_marginTop="12dp"
-            android:paddingBottom="32dp">
+            android:paddingBottom="32dp"
+            android:elevation="0dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/sheet_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="24dp"
-                android:paddingBottom="56dp"
                 android:clipToPadding="false"
                 android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                android:paddingTop="24dp"
+                android:paddingBottom="56dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         </LinearLayout>
 

@@ -15,17 +15,22 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/navigation_graph"/>
 
-    <fragment
-        android:id="@+id/bottom_sheet"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.example.swoosh.ui.nav.BottomSheet"
-        />
+        android:fitsSystemWindows="true">
+        <fragment
+            android:id="@+id/bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="com.example.swoosh.ui.nav.BottomSheet"
+            />
+    </FrameLayout>
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/bottom_app_bar_height"
         android:layout_gravity="bottom"
         android:backgroundTint="?attr/colorPrimary"
         app:fabAnimationMode="scale"

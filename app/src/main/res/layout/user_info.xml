@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/user_info_container"
+    android:alpha="0"
+    android:layout_marginTop="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circle_avatar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/avatar_1"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="8dp"
+        />
+
+    <TextView
+        android:id="@+id/name_tv"
+        android:textColor="?attr/colorOnPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lyndys Thornton"
+        android:fontFamily="@font/poppins_bold"
+        android:layout_toRightOf="@id/circle_avatar"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="12dp"
+        android:textSize="24dp"
+        />
+
+    <TextView
+        android:id="@+id/age_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Age: 21"
+        android:textColor="?attr/colorOnPrimary"
+        android:fontFamily="@font/nunito_semibold"
+        android:layout_toRightOf="@id/circle_avatar"
+        android:layout_below="@id/name_tv"
+        android:layout_marginStart="12dp"
+        android:textSize="22dp"
+        />
+
+    <TextView
+        android:id="@+id/from_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="From: Greece"
+        android:textColor="?attr/colorOnPrimary"
+        android:fontFamily="@font/nunito_semibold"
+        android:layout_toRightOf="@id/circle_avatar"
+        android:layout_below="@id/age_tv"
+        android:layout_marginStart="12dp"
+        android:textSize="22dp"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:layout_toRightOf="@id/circle_avatar"
+        android:layout_below="@id/from_tv"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="32dp"
+        android:text="Log Out"
+        android:textAllCaps="false"
+        android:fontFamily="@font/nunito_bold"
+        android:background="@drawable/button_type_1"
+        android:foreground="@drawable/logout_ripple"
+        />
+
+</RelativeLayout>
