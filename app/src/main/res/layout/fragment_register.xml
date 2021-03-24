@@ -21,7 +21,7 @@
         android:id="@+id/register_name_et"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:inputType="textEmailAddress"
+        android:inputType="textAutoComplete"
         android:ems="10"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
@@ -29,7 +29,7 @@
         android:layout_marginTop="60dp"
         android:fontFamily="@font/nunito"
         android:background="@drawable/selection_highlight"
-        android:hint="@string/email_hint"
+        android:hint="Name"
         android:drawableStart="@drawable/person_drawable"
         android:drawablePadding="12dp"
         />

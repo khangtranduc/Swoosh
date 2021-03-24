@@ -34,7 +34,7 @@ class Home : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         home_recycler.apply {
-            adapter = TestAdapter(boards)
+            adapter = TestAdapter(boards, requireActivity())
             layoutManager = LinearLayoutManager(requireContext())
         }
     }

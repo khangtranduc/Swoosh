@@ -14,6 +14,7 @@ import android.widget.FrameLayout
 import com.example.swoosh.MainActivity
 import com.example.swoosh.R
 import com.example.swoosh.data.model.DrawerItem
+import com.example.swoosh.ui.base.UserEditDialog
 import com.example.swoosh.utils.SandwichState
 import com.example.swoosh.utils.themeColor
 import com.example.swoosh.utils.themeInterpolator
@@ -82,6 +83,10 @@ class BottomSheet : Fragment() {
 
         profile_image.setOnClickListener{
             animateOpenSandwich()
+        }
+
+        user_edit_btn.setOnClickListener{
+            UserEditDialog().show(childFragmentManager, UserEditDialog.TAG)
         }
     }
 

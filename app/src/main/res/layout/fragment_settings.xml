@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".ui.base.Settings">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/settings_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.Toolbar"
+            />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:text="Dark Mode"
+            android:textSize="24dp"
+            android:fontFamily="@font/nunito"
+            android:textColor="?attr/colorOnBackground"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="12dp"
+            />
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/dark_mode_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="8dp"
+            android:layout_centerVertical="true"
+            android:scaleY=".85"
+            android:scaleX=".85"
+            />
+    </RelativeLayout>
+
+</LinearLayout>

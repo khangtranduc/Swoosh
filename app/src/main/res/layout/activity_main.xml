@@ -40,70 +40,93 @@
         app:hideOnScroll="true"
         app:layout_scrollFlags="scroll|enterAlways">
 
-        <LinearLayout
-            android:id="@+id/expand_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="4dp"
-            android:layout_marginBottom="4dp"
-            android:foreground="@drawable/expand_ripple_foreground"
-            >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/bottom_up_arrow"
+            <LinearLayout
+                android:id="@+id/expand_btn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_up"
-                />
-
-            <TextView
-                android:id="@+id/destination_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Boards"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:fontFamily="@font/nunito_bold"
-                android:textColor="@color/white"
-                />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/chat_et_container"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:visibility="gone"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="4dp"
-            android:layout_marginBottom="4dp"
-            >
-
-            <ImageView
-                android:id="@+id/add_media"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_baseline_add_circle_outline_24"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="6dp"
+                android:layout_height="48dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="4dp"
+                android:layout_marginBottom="4dp"
                 android:foreground="@drawable/expand_ripple_foreground"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                >
+
+                <ImageView
+                    android:id="@+id/bottom_up_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_up"
+                    />
+
+                <TextView
+                    android:id="@+id/destination_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Boards"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/nunito_bold"
+                    android:textColor="@color/white"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/chat_et_container"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="4dp"
+                android:layout_marginBottom="4dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/add_media"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_baseline_add_circle_outline_24"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="6dp"
+                    android:clickable="true"
+                    android:foreground="@drawable/expand_ripple_foreground"
+                    />
+
+                <EditText
+                    android:id="@+id/chat_et"
+                    android:layout_width="200dp"
+                    android:layout_height="36dp"
+                    android:background="@drawable/chat_selection_highlight"
+                    android:inputType="textAutoComplete"
+                    android:fontFamily="@font/nunito"
+                    android:paddingStart="12dp"
+                    android:hint="Text Message..."
+                    />
+
+            </LinearLayout>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/dynamic_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_search_24"
+                android:layout_alignParentEnd="true"
+                android:paddingEnd="16dp"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:tag="@drawable/ic_baseline_search_24"
                 />
 
-            <EditText
-                android:id="@+id/chat_et"
-                android:layout_width="200dp"
-                android:layout_height="36dp"
-                android:background="@drawable/chat_selection_highlight"
-                android:inputType="textAutoComplete"
-                android:fontFamily="@font/nunito"
-                android:paddingStart="12dp"
-                android:hint="Text Message..."
-                />
-
-        </LinearLayout>
+        </RelativeLayout>
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
