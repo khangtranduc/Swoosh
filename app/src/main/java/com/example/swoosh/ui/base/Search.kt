@@ -19,9 +19,9 @@ import kotlinx.android.synthetic.main.fragment_settings.*
 class Search : Fragment() {
 
     private val boards = arrayListOf<Board>(
-            Board("ja", arrayListOf()),
-            Board("an", arrayListOf()),
-            Board("ha", arrayListOf())
+            Board("ja", arrayListOf(), arrayListOf()),
+            Board("an", arrayListOf(), arrayListOf()),
+            Board("ha", arrayListOf(), arrayListOf())
     )
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

@@ -13,13 +13,13 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class Home : Fragment() {
 
     private val boards = arrayListOf<Board>(
-            Board("ja", arrayListOf()),
-            Board("pe", arrayListOf()),
-            Board("an", arrayListOf()),
-            Board("pi", arrayListOf()),
-            Board("le", arrayListOf()),
-            Board("fr", arrayListOf()),
-            Board("ha", arrayListOf())
+            Board("ja", arrayListOf(), arrayListOf()),
+            Board("pe", arrayListOf(), arrayListOf()),
+            Board("an", arrayListOf(), arrayListOf()),
+            Board("pi", arrayListOf(), arrayListOf()),
+            Board("le", arrayListOf(), arrayListOf()),
+            Board("fr", arrayListOf(), arrayListOf()),
+            Board("ha", arrayListOf(), arrayListOf())
     )
 
     override fun onCreateView(

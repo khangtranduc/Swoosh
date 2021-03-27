@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="190dp"
+    android:layout_height="wrap_content"
+    android:elevation="3dp"
+    android:layout_gravity="bottom|right"
+    android:id="@+id/fab_add_sheet"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="76dp"
+    app:cardCornerRadius="12dp">
+
+    <LinearLayout
+        android:layout_margin="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add an Item"
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/nunito_bold"
+            android:textColor="?attr/colorOnBackground"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Todolist"
+            android:fontFamily="@font/nunito_semibold"
+            android:textColor="?attr/colorOnBackground"
+            android:drawableStart="@drawable/ic_baseline_playlist_add_24"
+            android:gravity="center_vertical"
+            android:drawablePadding="8dp"
+            android:layout_marginBottom="8dp"
+            android:foreground="@drawable/expand_ripple_foreground"
+            android:layout_marginStart="4dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Note Collection"
+            android:fontFamily="@font/nunito_semibold"
+            android:textColor="?attr/colorOnBackground"
+            android:drawableStart="@drawable/ic_baseline_note_add_24"
+            android:drawablePadding="8dp"
+            android:foreground="@drawable/expand_ripple_foreground"
+            android:layout_marginStart="4dp"
+            />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

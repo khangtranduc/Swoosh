@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -26,6 +27,11 @@
             android:name="com.example.swoosh.ui.nav.BottomSheet"
             />
     </FrameLayout>
+
+    <include
+        android:visibility="invisible"
+        layout="@layout/fab_add_sheet"
+        />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"

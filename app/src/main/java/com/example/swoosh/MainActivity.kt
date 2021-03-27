@@ -1,24 +1,25 @@
 package com.example.swoosh
 
-import android.content.Context
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
-import android.view.inputmethod.InputMethodManager
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
+import androidx.transition.TransitionManager
 import com.example.swoosh.ui.nav.BottomSheet
-import com.example.swoosh.ui.nav.HalfCounterClockwiseRotateSlideAction
 import com.example.swoosh.utils.SandwichState
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.transition.MaterialContainerTransform
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fab_add_sheet.*
 import kotlinx.android.synthetic.main.fragment_search.*
 
 class MainActivity : AppCompatActivity(), 
@@ -53,6 +54,10 @@ class MainActivity : AppCompatActivity(),
 
         add_media.setOnClickListener{
 
+        }
+
+        add_board_fab.setOnClickListener{
+            dynamicFabToggle()
         }
 
         dynamic_button.setOnClickListener{
@@ -142,6 +147,11 @@ class MainActivity : AppCompatActivity(),
                 bottomSheet.close()
                 Log.d("debug", "Settings")
             }
+            R.id.nav_board_view -> {
+                fabCreateBoardItem()
+                dynamic_button.visibility = View.GONE
+                Log.d("debug", "BoardView")
+            }
         }
     }
 
@@ -168,6 +178,25 @@ class MainActivity : AppCompatActivity(),
         when(drawable){
             R.drawable.ic_baseline_settings_24 -> {settingsAction()}
             R.drawable.ic_baseline_search_24 -> {searchAction()}
+        }
+    }
+
+    private fun dynamicFabToggle(){
+        when(id){
+            R.id.nav_board_view -> {
+                val views = listOf<View>(add_board_fab, fab_add_sheet).sortedBy { !it.isVisible }
+
+                val shareMenuTransform = MaterialContainerTransform().apply {
+                    startView = views.first()
+                    endView = views.last()
+                    scrimColor = Color.TRANSPARENT
+                    duration = 500
+
+                }
+                TransitionManager.beginDelayedTransition(coordinator_container, shareMenuTransform)
+                views.first().isVisible = false
+                views.last().isVisible = true
+            }
         }
     }
 
@@ -207,6 +236,11 @@ class MainActivity : AppCompatActivity(),
         expand_btn.animate().alpha(1f)
                 .setDuration(300)
                 .setInterpolator(DecelerateInterpolator())
+    }
+
+    private fun fabCreateBoardItem(){
+        bottom_app_bar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
+        add_board_fab.setImageResource(R.drawable.ic_baseline_add_24)
     }
 
     private fun fabAddPerson(){

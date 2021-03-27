@@ -12,6 +12,13 @@ data class Todolist(
     data class Todo(
         var name: String,
         var due: String,
-        var priority: Priority
+        var priority: Priority,
+        var subtasks: ArrayList<SubTask>
+    )
+
+    //TODO: this can be added later
+    @Serializable
+    data class SubTask(
+        var name: String
     )
 }
