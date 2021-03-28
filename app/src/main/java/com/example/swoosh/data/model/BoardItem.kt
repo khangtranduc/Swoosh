@@ -1,4 +1,10 @@
 package com.example.swoosh.data.model
 
-interface BoardItem {
+import kotlinx.serialization.Polymorphic
+import kotlinx.serialization.Serializable
+
+@Polymorphic
+@Serializable
+abstract class BoardItem() {
+    abstract var name: String
 }

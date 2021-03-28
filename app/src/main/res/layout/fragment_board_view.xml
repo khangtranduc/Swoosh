@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:fitsSystemWindows="true"
     tools:context=".ui.board_view.BoardView">
 
@@ -20,7 +21,6 @@
             />
 
     </com.google.android.material.appbar.AppBarLayout>
-
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/board_content_viewpager"

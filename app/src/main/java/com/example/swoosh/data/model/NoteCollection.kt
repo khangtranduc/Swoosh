@@ -1,12 +1,14 @@
 package com.example.swoosh.data.model
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
+@SerialName("NoteCollection")
 data class NoteCollection(
-    var title: String,
+    override var name: String,
     var notes: ArrayList<Note>
-) : BoardItem{
+) : BoardItem() {
     @Serializable
     data class Note(
         var title: String,

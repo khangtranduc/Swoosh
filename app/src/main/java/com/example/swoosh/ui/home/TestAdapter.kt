@@ -10,6 +10,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swoosh.R
 import com.example.swoosh.data.model.Board
+import com.example.swoosh.utils.PolySeri
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -23,7 +24,7 @@ class TestAdapter(var boards: List<Board>, var activity: FragmentActivity) : Rec
         fun bind(board: Board){
 
             itemView.setOnClickListener{
-                val action = HomeDirections.gotoBoardView(Json.encodeToString(board))
+                val action = HomeDirections.gotoBoardView(PolySeri.json.encodeToString(board))
                 activity.findNavController(R.id.nav_host_fragment).navigate(action)
             }
 

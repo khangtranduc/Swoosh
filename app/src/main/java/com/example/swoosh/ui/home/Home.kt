@@ -8,12 +8,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.swoosh.R
 import com.example.swoosh.data.model.Board
+import com.example.swoosh.data.model.NoteCollection
+import com.example.swoosh.data.model.Todolist
 import kotlinx.android.synthetic.main.fragment_home.*
 
 class Home : Fragment() {
 
-    private val boards = arrayListOf<Board>(
-            Board("ja", arrayListOf(), arrayListOf()),
+
+    private val boards = arrayListOf(
+            Board("ja", arrayListOf(), arrayListOf(
+                    Todolist("Android Project", arrayListOf()),
+                    NoteCollection("Comfy Reading", arrayListOf())
+            )),
             Board("pe", arrayListOf(), arrayListOf()),
             Board("an", arrayListOf(), arrayListOf()),
             Board("pi", arrayListOf(), arrayListOf()),

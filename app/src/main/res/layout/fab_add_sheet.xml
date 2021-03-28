@@ -1,59 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="190dp"
-    android:layout_height="wrap_content"
-    android:elevation="3dp"
-    android:layout_gravity="bottom|right"
-    android:id="@+id/fab_add_sheet"
-    android:layout_marginEnd="16dp"
-    android:layout_marginBottom="76dp"
-    app:cardCornerRadius="12dp">
+    >
 
-    <LinearLayout
-        android:layout_margin="12dp"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add an Item"
-            android:textSize="20sp"
-            android:layout_marginBottom="8dp"
-            android:fontFamily="@font/nunito_bold"
-            android:textColor="?attr/colorOnBackground"
-            />
-
-        <TextView
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add Todolist"
-            android:fontFamily="@font/nunito_semibold"
-            android:textColor="?attr/colorOnBackground"
-            android:drawableStart="@drawable/ic_baseline_playlist_add_24"
-            android:gravity="center_vertical"
-            android:drawablePadding="8dp"
-            android:layout_marginBottom="8dp"
-            android:foreground="@drawable/expand_ripple_foreground"
-            android:layout_marginStart="4dp"
+            android:layout_height="match_parent"
+            android:id="@+id/add_sheet_scrim"
+            android:visibility="gone"
+            android:background="?attr/scrimBackground"
             />
 
-        <TextView
-            android:layout_width="match_parent"
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="215dp"
             android:layout_height="wrap_content"
-            android:text="Add Note Collection"
-            android:fontFamily="@font/nunito_semibold"
-            android:textColor="?attr/colorOnBackground"
-            android:drawableStart="@drawable/ic_baseline_note_add_24"
-            android:drawablePadding="8dp"
-            android:foreground="@drawable/expand_ripple_foreground"
-            android:layout_marginStart="4dp"
-            />
+            android:elevation="5dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
+            android:layout_marginBottom="76dp"
+            android:id="@+id/fab_add_card"
+            app:cardCornerRadius="12dp">
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_margin="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
 
-</com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add an Item"
+                    android:textSize="20sp"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="@font/nunito_bold"
+                    android:textColor="?attr/colorOnBackground"
+                    />
+
+                <TextView
+                    android:id="@+id/add_todolist_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add Todolist"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:textColor="?attr/colorOnBackground"
+                    android:drawableStart="@drawable/ic_baseline_playlist_add_24"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:foreground="@drawable/expand_ripple_foreground"
+                    android:paddingStart="12dp"
+                    android:paddingVertical="4dp"
+                    android:background="@drawable/text_view_button_bg"
+                    />
+
+                <TextView
+                    android:id="@+id/add_notes_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add Note Collection"
+                    android:fontFamily="@font/nunito_semibold"
+                    android:textColor="?attr/colorOnBackground"
+                    android:drawableStart="@drawable/ic_baseline_note_add_24"
+                    android:drawablePadding="8dp"
+                    android:foreground="@drawable/expand_ripple_foreground"
+                    android:paddingStart="12dp"
+                    android:paddingVertical="4dp"
+                    android:background="@drawable/text_view_button_bg"
+                    />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

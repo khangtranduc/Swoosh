@@ -29,7 +29,6 @@
     </FrameLayout>
 
     <include
-        android:visibility="invisible"
         layout="@layout/fab_add_sheet"
         />
 

@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.swoosh.R
+import com.example.swoosh.data.model.Todolist
+import kotlinx.android.synthetic.main.fragment_todolist.*
 
-class TodolistFragment : Fragment() {
+class TodolistFragment(private val todolist: Todolist) : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

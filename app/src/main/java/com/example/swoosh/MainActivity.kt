@@ -60,10 +60,21 @@ class MainActivity : AppCompatActivity(),
             dynamicFabToggle()
         }
 
+        add_sheet_scrim.setOnClickListener{
+            sheetToFab()
+        }
+
+        add_todolist_btn.setOnClickListener{
+
+        }
+
+        add_notes_btn.setOnClickListener{
+
+        }
+
         dynamic_button.setOnClickListener{
             dynamicOnCLick(dynamic_button.tag as Int)
         }
-
         bottomSheet.behaviour.addBottomSheetCallback(object: BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomDrawer: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_HIDDEN || newState == BottomSheetBehavior.STATE_COLLAPSED){
@@ -149,6 +160,7 @@ class MainActivity : AppCompatActivity(),
             }
             R.id.nav_board_view -> {
                 fabCreateBoardItem()
+                bottom_app_bar.animate().translationY(200f)
                 dynamic_button.visibility = View.GONE
                 Log.d("debug", "BoardView")
             }
@@ -184,20 +196,39 @@ class MainActivity : AppCompatActivity(),
     private fun dynamicFabToggle(){
         when(id){
             R.id.nav_board_view -> {
-                val views = listOf<View>(add_board_fab, fab_add_sheet).sortedBy { !it.isVisible }
-
-                val shareMenuTransform = MaterialContainerTransform().apply {
-                    startView = views.first()
-                    endView = views.last()
-                    scrimColor = Color.TRANSPARENT
-                    duration = 500
-
-                }
-                TransitionManager.beginDelayedTransition(coordinator_container, shareMenuTransform)
-                views.first().isVisible = false
-                views.last().isVisible = true
+                fabToSheet()
             }
         }
+    }
+
+    private fun sheetToFab(){
+        add_board_fab.show()
+        showBottomBar()
+        val transition = MaterialContainerTransform().apply {
+            startView = fab_add_card
+            endView = add_board_fab
+            duration = 300
+            addTarget(add_board_fab)
+            scrimColor = Color.TRANSPARENT
+        }
+        TransitionManager.beginDelayedTransition(coordinator_container, transition)
+        fab_add_card.visibility = View.GONE
+        add_sheet_scrim.visibility = View.GONE
+    }
+
+    private fun fabToSheet(){
+        performHideBottomBar()
+        val transition = MaterialContainerTransform().apply {
+            startView = add_board_fab
+            endView = fab_add_card
+            duration = 300
+            addTarget(fab_add_card)
+            scrimColor = Color.TRANSPARENT
+        }
+        TransitionManager.beginDelayedTransition(coordinator_container, transition)
+        add_board_fab.hide()
+        fab_add_card.visibility = View.VISIBLE
+        add_sheet_scrim.visibility = View.VISIBLE
     }
 
     private fun dynamicReplaceIcon(drawable: Int){
