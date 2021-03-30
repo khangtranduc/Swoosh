@@ -21,6 +21,45 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <LinearLayout
+        android:layout_marginTop="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/name_tv_container"
+        android:layout_toRightOf="@id/circle_avatar">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email: "
+            android:textColor="?attr/colorOnBackground"
+            android:fontFamily="@font/nunito"
+            android:layout_toRightOf="@id/circle_avatar"
+            android:layout_below="@id/name_tv_container"
+            android:layout_marginStart="12dp"
+            android:textSize="24sp"
+            />
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="verylongemailnameherefortestofthethingyouknow69420blazeit@gmail.gaming.edu.nushigh.sg.com.vn.to.tv"
+                android:textColor="?attr/colorOnBackground"
+                android:fontFamily="@font/nunito"
+                android:layout_toRightOf="@id/circle_avatar"
+                android:layout_below="@id/name_tv_container"
+                android:layout_marginStart="12dp"
+                android:paddingEnd="24dp"
+                android:textSize="24sp"
+                android:scrollbars="none"
+                />
+        </HorizontalScrollView>
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -30,7 +69,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="Dark Mode"
-            android:textSize="24dp"
+            android:textSize="24sp"
             android:fontFamily="@font/nunito"
             android:textColor="?attr/colorOnBackground"
             android:layout_marginTop="8dp"

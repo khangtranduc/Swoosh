@@ -60,6 +60,13 @@
         android:id="@+id/action_global_settings"
         app:destination="@+id/nav_settings"
         />
+    <action
+        android:id="@+id/action_global_login"
+        app:destination="@+id/logIn"
+        app:popUpTo="@navigation/navigation_graph"
+        app:popUpToInclusive="true"
+        app:launchSingleTop="true"
+        />
     <fragment
         android:id="@+id/nav_chat_window"
         android:name="com.example.swoosh.ui.chat.ChatWindow"

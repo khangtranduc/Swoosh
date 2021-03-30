@@ -34,14 +34,14 @@
             android:layout_height="wrap_content"
             android:text="Lyndys Thornton"
             android:fontFamily="@font/poppins_bold"
-            android:textSize="24dp"
+            android:textSize="22sp"
             />
 
         <ImageButton
             android:id="@+id/user_edit_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="16dp"
             android:src="@drawable/ic_baseline_edit_24"
             android:background="@android:color/transparent"
             android:tint="?attr/colorOnPrimary"
@@ -59,7 +59,7 @@
         android:layout_toRightOf="@id/circle_avatar"
         android:layout_below="@id/name_tv_container"
         android:layout_marginStart="12dp"
-        android:textSize="22dp"
+        android:textSize="20sp"
         />
 
     <TextView
@@ -72,10 +72,11 @@
         android:layout_toRightOf="@id/circle_avatar"
         android:layout_below="@id/age_tv"
         android:layout_marginStart="12dp"
-        android:textSize="22dp"
+        android:textSize="20sp"
         />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/logout_btn"
         android:layout_width="250dp"
         android:layout_height="48dp"
         android:layout_toRightOf="@id/circle_avatar"

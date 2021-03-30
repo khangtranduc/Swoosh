@@ -84,10 +84,6 @@ class BottomSheet : Fragment() {
         profile_image.setOnClickListener{
             animateOpenSandwich()
         }
-
-        user_edit_btn.setOnClickListener{
-            UserEditDialog().show(childFragmentManager, UserEditDialog.TAG)
-        }
     }
 
     fun toggle(){

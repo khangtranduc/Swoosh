@@ -13,14 +13,20 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.transition.TransitionManager
+import com.example.swoosh.ui.base.UserEditDialog
 import com.example.swoosh.ui.nav.BottomSheet
 import com.example.swoosh.utils.SandwichState
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.transition.MaterialContainerTransform
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fab_add_sheet.*
 import kotlinx.android.synthetic.main.fragment_search.*
+import kotlinx.android.synthetic.main.user_info.*
 
 class MainActivity : AppCompatActivity(), 
         NavController.OnDestinationChangedListener{
@@ -47,6 +53,32 @@ class MainActivity : AppCompatActivity(),
         //setup dynamic button
         dynamicReplaceIcon(R.drawable.ic_baseline_search_24)
 
+        //connect buttons with functions
+        setOnClicks()
+
+        //set up bottom sheet
+        bottomSheet.behaviour.addBottomSheetCallback(object: BottomSheetBehavior.BottomSheetCallback() {
+            override fun onStateChanged(bottomDrawer: View, newState: Int) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN || newState == BottomSheetBehavior.STATE_COLLAPSED){
+                    if (id != R.id.nav_settings && id != R.id.logIn){
+                        add_board_fab.show()
+                    }
+                    dynamicReplaceIcon(R.drawable.ic_baseline_search_24)
+                    bottomSheet.animateCloseSandwich()
+                    rotateOpen()
+                }
+                else{
+                    add_board_fab.hide()
+                    dynamicReplaceIcon(R.drawable.ic_baseline_settings_24)
+                    if (bottomSheet.sandwichState == SandwichState.CLOSED) rotateClose()
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+        })
+    }
+
+    private fun setOnClicks(){
         expand_btn.setOnClickListener{
             Log.d("debug", "expand_btn clicked")
             bottomSheet.toggle()
@@ -75,25 +107,15 @@ class MainActivity : AppCompatActivity(),
         dynamic_button.setOnClickListener{
             dynamicOnCLick(dynamic_button.tag as Int)
         }
-        bottomSheet.behaviour.addBottomSheetCallback(object: BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomDrawer: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_HIDDEN || newState == BottomSheetBehavior.STATE_COLLAPSED){
-                    if (id != R.id.nav_settings){
-                        add_board_fab.show()
-                    }
-                    dynamicReplaceIcon(R.drawable.ic_baseline_search_24)
-                    bottomSheet.animateCloseSandwich()
-                    rotateOpen()
-                }
-                else{
-                    add_board_fab.hide()
-                    dynamicReplaceIcon(R.drawable.ic_baseline_settings_24)
-                    if (bottomSheet.sandwichState == SandwichState.CLOSED) rotateClose()
-                }
-            }
 
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-        })
+        logout_btn.setOnClickListener{
+            Firebase.auth.signOut()
+            findNavController(R.id.nav_host_fragment).navigate(NavigationGraphDirections.actionGlobalLogin())
+        }
+
+        user_edit_btn.setOnClickListener{
+            UserEditDialog().show(supportFragmentManager, UserEditDialog.TAG)
+        }
     }
 
     override fun onBackPressed() {
@@ -143,6 +165,7 @@ class MainActivity : AppCompatActivity(),
             }
             R.id.logIn -> {
                 hideBottomBar()
+                bottomSheet.close()
                 Log.d("debug", "LogIn")
             }
             R.id.register -> {
@@ -176,6 +199,31 @@ class MainActivity : AppCompatActivity(),
             .setInterpolator(DecelerateInterpolator())
     }
 
+    fun setUpBottomBarUser(user: FirebaseUser){
+        Firebase.database.reference.child("users")
+                .child(user.email.toString().substringBefore("@"))
+                .get().addOnSuccessListener {
+
+                    Log.d("debug", (name_tv == null).toString())
+
+                    name_tv.text = it.child("name").value as String
+
+                    if (it.child("age").value == null){
+                        age_tv.text = "Age: N/A"
+                    }
+                    else{
+                        age_tv.text = "Age: ${it.child("age").value}"
+                    }
+
+                    if (it.child("from").value == null){
+                        from_tv.text = "From: N/A"
+                    }
+                    else{
+                        from_tv.text = "From: ${it.child("from").value}"
+                    }
+                }
+    }
+
     fun rotateClose(){
         bottom_up_arrow.animate().rotation(180f)
             .setDuration(300)
@@ -203,7 +251,6 @@ class MainActivity : AppCompatActivity(),
 
     private fun sheetToFab(){
         add_board_fab.show()
-        showBottomBar()
         val transition = MaterialContainerTransform().apply {
             startView = fab_add_card
             endView = add_board_fab
@@ -217,7 +264,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun fabToSheet(){
-        performHideBottomBar()
         val transition = MaterialContainerTransform().apply {
             startView = add_board_fab
             endView = fab_add_card

@@ -50,22 +50,23 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     // Glide
-    implementation "com.github.bumptech.glide:glide:4.11.0"
+    implementation "com.github.bumptech.glide:glide:4.12.0"
 
     //Serialization
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
 
+    //firebase auth
+    implementation 'com.google.firebase:firebase-auth-ktx'
+
     //firebase realtime database
     implementation 'com.google.firebase:firebase-database-ktx'
+    implementation 'com.google.firebase:firebase-storage-ktx'
 
     // Google Sign In SDK
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
 
     // Firebase SDK
     implementation platform('com.google.firebase:firebase-bom:26.4.0')
-    implementation 'com.google.firebase:firebase-database'
-    implementation 'com.google.firebase:firebase-storage'
-    implementation 'com.google.firebase:firebase-auth:20.0.2'
 
     // Firebase UI Library
     implementation 'com.firebaseui:firebase-ui-database:7.1.1'
