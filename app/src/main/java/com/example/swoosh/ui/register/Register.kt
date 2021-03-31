@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.swoosh.R
+import com.example.swoosh.data.model.User
+import com.example.swoosh.data.repository.Repository
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -48,9 +50,7 @@ class Register : Fragment() {
                         user?.sendEmailVerification()?.addOnCompleteListener{
                             if (it.isSuccessful){
                                 Toast.makeText(requireContext(), "Email Verification Sent", Toast.LENGTH_SHORT).show()
-                                Firebase.database.reference.child("users")
-                                        .child(user.email.toString().substringBefore("@"))
-                                        .child("name").setValue(name)
+                                Repository.updateUserParticulars(User(name), user.email.toString())
                                 gotoLogIn()
                             } else{
                                 Toast.makeText(requireContext(), "Email Verification failed to send", Toast.LENGTH_SHORT).show()

@@ -1,6 +1,7 @@
 package com.example.swoosh.ui.base
 
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -18,6 +19,8 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.DialogFragment
 import com.example.swoosh.MainActivity
 import com.example.swoosh.R
+import com.example.swoosh.data.model.User
+import com.example.swoosh.data.repository.Repository
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -25,6 +28,14 @@ import kotlinx.android.synthetic.main.fragment_user_edit_dialog.*
 
 
 class UserEditDialog() : DialogFragment() {
+
+    interface UserEditDialogCallback {
+        fun onDismissListener()
+    }
+
+    private val callback: UserEditDialogCallback by lazy{
+        (requireActivity() as UserEditDialogCallback)
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -46,26 +57,31 @@ class UserEditDialog() : DialogFragment() {
             val age = age_edit_et.text.toString()
             val from = country_edit_et.text.toString()
 
-            val user = Firebase.auth.currentUser
-            user?.let{
-                val userRef = Firebase.database.reference.child("users").child(it.email.toString().substringBefore("@"))
+            val user = User()
+            val repo_user = Repository.user.value
 
-                Log.d("debug", it.email.toString().substringBefore("@"))
-
-                if (!TextUtils.isEmpty(name)){
-                    userRef.child("name").setValue(name)
-                }
-
-                if (!TextUtils.isEmpty(age)){
-                    userRef.child("age").setValue(age)
-                }
-
-                if (!TextUtils.isEmpty(from)){
-                    userRef.child("from").setValue(from)
-                }
-
-                (requireActivity() as MainActivity).setUpBottomBarUser(it)
+            if (!TextUtils.isEmpty(name)){
+                user.name = name
             }
+            else{
+                repo_user?.let { user.name = it.name }
+            }
+
+            if (!TextUtils.isEmpty(age)){
+                user.age = age.toLong()
+            }
+            else{
+                repo_user?.let { user.age = it.age }
+            }
+
+            if (!TextUtils.isEmpty(from)){
+                user.from = from
+            }
+            else{
+                repo_user?.let { user.from = it.from }
+            }
+
+            Firebase.auth.currentUser?.let { Repository.updateUserParticulars(user, it.email.toString()) }
 
             dismiss()
         }

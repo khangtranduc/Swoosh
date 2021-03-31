@@ -7,12 +7,16 @@ import android.util.Log
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.transition.TransitionManager
+import com.example.swoosh.data.model.User
+import com.example.swoosh.data.repository.Repository
 import com.example.swoosh.ui.base.UserEditDialog
 import com.example.swoosh.ui.nav.BottomSheet
 import com.example.swoosh.utils.SandwichState
@@ -55,6 +59,14 @@ class MainActivity : AppCompatActivity(),
 
         //connect buttons with functions
         setOnClicks()
+
+        //set up view model observers
+        Repository.user.observe(this){
+            setUpBottomBarUser(it)
+        }
+
+        //set up current data on start up
+        Firebase.auth.currentUser?.let { Repository.fetchUser(it.email.toString()) }
 
         //set up bottom sheet
         bottomSheet.behaviour.addBottomSheetCallback(object: BottomSheetBehavior.BottomSheetCallback() {
@@ -199,29 +211,25 @@ class MainActivity : AppCompatActivity(),
             .setInterpolator(DecelerateInterpolator())
     }
 
-    fun setUpBottomBarUser(user: FirebaseUser){
-        Firebase.database.reference.child("users")
-                .child(user.email.toString().substringBefore("@"))
-                .get().addOnSuccessListener {
+    private fun setUpBottomBarUser(user: User){
 
-                    Log.d("debug", (name_tv == null).toString())
+        Log.d("debug", user.name)
 
-                    name_tv.text = it.child("name").value as String
+        name_tv.text = user.name
 
-                    if (it.child("age").value == null){
-                        age_tv.text = "Age: N/A"
-                    }
-                    else{
-                        age_tv.text = "Age: ${it.child("age").value}"
-                    }
+        if (user.age == -1L){
+            age_tv.text = "Age: N/A"
+        }
+        else{
+            age_tv.text = "Age: ${user.age}"
+        }
 
-                    if (it.child("from").value == null){
-                        from_tv.text = "From: N/A"
-                    }
-                    else{
-                        from_tv.text = "From: ${it.child("from").value}"
-                    }
-                }
+        if (user.from == ""){
+            from_tv.text = "From: N/A"
+        }
+        else{
+            from_tv.text = "From: ${user.from}"
+        }
     }
 
     fun rotateClose(){

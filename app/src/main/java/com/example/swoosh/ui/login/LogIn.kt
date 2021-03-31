@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.swoosh.MainActivity
 import com.example.swoosh.R
+import com.example.swoosh.data.repository.Repository
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
@@ -55,14 +56,17 @@ class LogIn : Fragment() {
                         if (it.isSuccessful){
                             if (Firebase.auth.currentUser?.isEmailVerified != true){
                                 Snackbar.make(view, "Email is not verified!", Snackbar.LENGTH_SHORT).show()
+                                login_btn.isEnabled = true
                                 Firebase.auth.signOut()
                             }
                             else{
                                 Toast.makeText(requireContext(), "Sign in Success!", Toast.LENGTH_SHORT).show()
+                                Firebase.auth.currentUser?.let { user -> Repository.fetchUser(user.email.toString()) }
                                 logIn()
                             }
                         }
                         else{
+                            login_btn.isEnabled = true
                             Toast.makeText(requireContext(), "Sign in failed: ${it.exception?.message}", Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -74,7 +78,6 @@ class LogIn : Fragment() {
     }
 
     private fun logIn(){
-        Firebase.auth.currentUser?.let{ user -> (requireActivity() as MainActivity).setUpBottomBarUser(user) }
         findNavController().navigate(LogInDirections.gotoHome())
     }
 }
