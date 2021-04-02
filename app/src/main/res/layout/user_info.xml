@@ -17,16 +17,14 @@
         android:layout_marginEnd="8dp"
         />
 
-    <LinearLayout
+    <HorizontalScrollView
         android:id="@+id/name_tv_container"
-        android:layout_width="wrap_content"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_toRightOf="@id/circle_avatar"
         android:layout_marginTop="16dp"
         android:layout_marginStart="12dp"
-        android:gravity="center_vertical"
-        >
+        android:scrollbars="none">
         <TextView
             android:id="@+id/name_tv"
             android:textColor="?attr/colorOnPrimary"
@@ -36,18 +34,20 @@
             android:fontFamily="@font/poppins_bold"
             android:textSize="22sp"
             />
+    </HorizontalScrollView>
 
-        <ImageButton
-            android:id="@+id/user_edit_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/ic_baseline_edit_24"
-            android:background="@android:color/transparent"
-            android:tint="?attr/colorOnPrimary"
-            android:foreground="?android:attr/selectableItemBackground"
-            />
-    </LinearLayout>
+    <ImageButton
+        android:id="@+id/user_edit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/ic_baseline_edit_24"
+        android:background="@android:color/transparent"
+        android:tint="?attr/colorOnPrimary"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:layout_alignRight="@id/logout_btn"
+        android:layout_marginTop="22dp"
+        />
 
     <TextView
         android:id="@+id/age_tv"

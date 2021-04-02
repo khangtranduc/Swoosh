@@ -8,15 +8,15 @@ import com.example.swoosh.ui.notes.NoteFragment
 import com.example.swoosh.ui.todolist.TodolistFragment
 
 object BoardUtils {
-    fun getBoardItemFragments(boardItems: ArrayList<BoardItem>): ArrayList<Fragment>{
+    fun getBoardItemFragments(boardItems: HashMap<String, BoardItem>): ArrayList<Fragment>{
         val returnArray = arrayListOf<Fragment>()
 
-        for (i in boardItems){
-            if (i is Todolist){
-                returnArray.add(TodolistFragment(i))
+        for ((key, value) in boardItems){
+            if (value is Todolist){
+                returnArray.add(TodolistFragment(value))
             }
-            else if (i is NoteCollection){
-                returnArray.add(NoteFragment(i))
+            else if (value is NoteCollection){
+                returnArray.add(NoteFragment(value))
             }
         }
 

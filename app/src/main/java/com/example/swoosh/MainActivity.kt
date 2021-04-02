@@ -6,30 +6,26 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.DecelerateInterpolator
-import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.transition.TransitionManager
 import com.example.swoosh.data.model.User
-import com.example.swoosh.data.repository.Repository
+import com.example.swoosh.data.Repository
+import com.example.swoosh.ui.base.BoardCreationDialog
 import com.example.swoosh.ui.base.UserEditDialog
 import com.example.swoosh.ui.nav.BottomSheet
 import com.example.swoosh.utils.SandwichState
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.transition.MaterialContainerTransform
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fab_add_sheet.*
-import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.android.synthetic.main.user_info.*
 
 class MainActivity : AppCompatActivity(), 
@@ -253,6 +249,9 @@ class MainActivity : AppCompatActivity(),
         when(id){
             R.id.nav_board_view -> {
                 fabToSheet()
+            }
+            R.id.nav_home -> {
+                BoardCreationDialog().show(supportFragmentManager, BoardCreationDialog.TAG)
             }
         }
     }

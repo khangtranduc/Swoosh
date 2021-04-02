@@ -8,15 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
-import com.example.swoosh.MainActivity
 import com.example.swoosh.R
-import com.example.swoosh.data.repository.Repository
+import com.example.swoosh.data.Repository
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_log_in.*
-import org.w3c.dom.Text
 
 class LogIn : Fragment() {
 

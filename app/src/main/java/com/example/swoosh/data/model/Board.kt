@@ -4,13 +4,15 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Board(
-        var name: String,
-        var members: ArrayList<Member>,
-        var items: ArrayList<BoardItem>
+        var name: String = "",
+        var members: ArrayList<Member> = arrayListOf(),
+        var items: HashMap<String, BoardItem> = hashMapOf()
 ) {
     @Serializable
     data class Member(
-            var name: String,
-            var email: String
-    )
+            var email: String = "",
+            var name: String = ""
+    ){
+        fun clone() = Member(email, name)
+    }
 }

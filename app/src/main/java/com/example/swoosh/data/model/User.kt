@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 data class User(
         var name: String = "",
         var age: Long = -1,
-        var from: String = ""
+        var from: String = "",
+        var handle: String = ""
 ) {
 }
