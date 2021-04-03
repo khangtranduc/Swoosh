@@ -6,7 +6,8 @@ import kotlinx.serialization.Serializable
 data class Board(
         var name: String = "",
         var members: ArrayList<Member> = arrayListOf(),
-        var items: HashMap<String, BoardItem> = hashMapOf()
+        var items: HashMap<String, BoardItem> = hashMapOf(),
+        var id: String = ""
 ) {
     @Serializable
     data class Member(

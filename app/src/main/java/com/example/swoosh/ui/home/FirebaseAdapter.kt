@@ -32,7 +32,10 @@ class FirebaseAdapter(options: FirebaseRecyclerOptions<Board>,
                 activity.findNavController(R.id.nav_host_fragment).navigate(action)
             }
 
-            Log.d("debug", "Board received: ${board.name}")
+            itemView.setOnLongClickListener{
+
+                false
+            }
 
             title.text = board.name
             members.text = "${board.members.size} members"

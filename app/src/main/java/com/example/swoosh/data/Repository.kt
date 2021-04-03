@@ -86,6 +86,7 @@ object Repository {
             }
 
             board.members = membersArray
+            board.id = client.key.toString()
 
             Log.d("debug", board.members.toString())
 
