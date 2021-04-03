@@ -12,11 +12,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.swoosh.R
 import com.example.swoosh.data.model.Board
 import com.example.swoosh.data.model.Todolist
-import com.example.swoosh.ui.base.BoardItemCreationDialog
 import com.example.swoosh.ui.todolist.TodolistFragment
 import com.example.swoosh.utils.BoardUtils
 import com.example.swoosh.utils.PolySeri
-import kotlinx.android.synthetic.main.fab_add_sheet.*
 import kotlinx.android.synthetic.main.fragment_board_view.*
 import kotlinx.serialization.decodeFromString
 
@@ -52,11 +50,4 @@ class BoardView : Fragment() {
         board_content_viewpager.adapter = BoardPagerAdapter(childFragmentManager, boardItemsFragments)
     }
 
-    fun pushTodolist(){
-        BoardItemCreationDialog(true, board).show(childFragmentManager, BoardItemCreationDialog.TAG)
-    }
-
-    fun pushNoteCollection(){
-        BoardItemCreationDialog(false, board).show(childFragmentManager, BoardItemCreationDialog.TAG)
-    }
 }

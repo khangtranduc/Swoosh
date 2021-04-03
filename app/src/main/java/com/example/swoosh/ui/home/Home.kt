@@ -23,15 +23,15 @@ class Home : Fragment() {
 
     private val boards = arrayListOf(
             Board("ja", arrayListOf(), hashMapOf(
-                    "Android Project" to Todolist("Android Project"),
-                    "Comfy Reading" to NoteCollection("Comfy Reading")
+                    "Android Project" to Todolist("Android Project", arrayListOf()),
+                    "Comfy Reading" to NoteCollection("Comfy Reading", arrayListOf())
             )),
-            Board("pe"),
-            Board("an"),
-            Board("pi"),
-            Board("le"),
-            Board("fr"),
-            Board("ha")
+            Board("pe", arrayListOf(), hashMapOf()),
+            Board("an", arrayListOf(), hashMapOf()),
+            Board("pi", arrayListOf(), hashMapOf()),
+            Board("le", arrayListOf(), hashMapOf()),
+            Board("fr", arrayListOf(), hashMapOf()),
+            Board("ha", arrayListOf(), hashMapOf())
     )
 
     override fun onCreateView(

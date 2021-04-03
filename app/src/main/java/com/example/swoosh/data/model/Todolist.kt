@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 @SerialName("Todolist")
 data class Todolist(
         override var name: String = "",
-        var todos: HashMap<String, Todo> = hashMapOf()
+        var todos: ArrayList<Todo> = arrayListOf()
 ) : BoardItem() {
     @Serializable
     data class Todo(
