@@ -18,4 +18,10 @@ class TodolistFragment(private val todolist: Todolist) : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_todolist, container, false)
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        todolist_name_tv.text = todolist.name
+    }
 }

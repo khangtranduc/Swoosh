@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.swoosh.R
 import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.Board
+import com.example.swoosh.data.model.FBItem
 import com.example.swoosh.data.model.NoteCollection
 import com.example.swoosh.data.model.Todolist
 import com.firebase.ui.database.FirebaseRecyclerOptions
@@ -23,15 +24,15 @@ class Home : Fragment() {
 
     private val boards = arrayListOf(
             Board("ja", arrayListOf(), hashMapOf(
-                    "Android Project" to Todolist("Android Project", arrayListOf()),
-                    "Comfy Reading" to NoteCollection("Comfy Reading", arrayListOf())
+                    "Android Project" to FBItem("Android Project", "Todolist"),
+                    "Comfy Reading" to FBItem("Comfy Reading", "NoteCollection")
             )),
-            Board("pe", arrayListOf(), hashMapOf()),
-            Board("an", arrayListOf(), hashMapOf()),
-            Board("pi", arrayListOf(), hashMapOf()),
-            Board("le", arrayListOf(), hashMapOf()),
-            Board("fr", arrayListOf(), hashMapOf()),
-            Board("ha", arrayListOf(), hashMapOf())
+            Board("pe"),
+            Board("an"),
+            Board("pi"),
+            Board("le"),
+            Board("fr"),
+            Board("ha")
     )
 
     override fun onCreateView(

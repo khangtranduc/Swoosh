@@ -6,8 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.swoosh.data.model.Board
-import com.example.swoosh.data.model.User
+import com.example.swoosh.data.model.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -47,6 +46,13 @@ object Repository {
 
                     _user.value = temp_user
                 }
+    }
+
+    fun pushBoardItemToBoard(board: Board, item: FBItem){
+        Log.d("debug", "Add $item to ${board.name}")
+
+        Firebase.database.reference.child("boards")
+                .child(board.id).child("items").child(item.name).setValue(item)
     }
 
     fun pushBoardToFirebase(board: Board, membersCSV: String, context: Context){

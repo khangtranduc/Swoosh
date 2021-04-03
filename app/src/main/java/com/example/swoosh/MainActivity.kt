@@ -16,8 +16,10 @@ import com.example.swoosh.data.model.User
 import com.example.swoosh.data.Repository
 import com.example.swoosh.ui.base.BoardCreationDialog
 import com.example.swoosh.ui.base.UserEditDialog
+import com.example.swoosh.ui.board_view.BoardView
 import com.example.swoosh.ui.nav.BottomSheet
 import com.example.swoosh.utils.SandwichState
+import com.example.swoosh.utils.currentNavigationFragment
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.transition.MaterialContainerTransform
@@ -105,11 +107,13 @@ class MainActivity : AppCompatActivity(),
         }
 
         add_todolist_btn.setOnClickListener{
-
+            (supportFragmentManager.currentNavigationFragment as BoardView).pushTodolist()
+            sheetToFab()
         }
 
         add_notes_btn.setOnClickListener{
-
+            (supportFragmentManager.currentNavigationFragment as BoardView).pushNoteCollection()
+            sheetToFab()
         }
 
         dynamic_button.setOnClickListener{

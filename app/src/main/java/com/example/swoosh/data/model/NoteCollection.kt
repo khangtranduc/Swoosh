@@ -6,8 +6,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 @SerialName("NoteCollection")
 data class NoteCollection(
-    override var name: String = "",
-    var notes: ArrayList<Note> = arrayListOf()
+        override var name: String = "",
+        var notes: HashMap<String, Note> = hashMapOf()
 ) : BoardItem() {
     @Serializable
     data class Note(

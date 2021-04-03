@@ -12,6 +12,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.swoosh.R
 import com.example.swoosh.data.model.Board
 import com.example.swoosh.data.model.Todolist
+import com.example.swoosh.ui.base.BoardItemCreationDialog
 import com.example.swoosh.ui.todolist.TodolistFragment
 import com.example.swoosh.utils.BoardUtils
 import com.example.swoosh.utils.PolySeri
@@ -34,7 +35,7 @@ class BoardView : Fragment() {
 
         Log.d("debug", board.items.toString())
 
-        boardItemsFragments = BoardUtils.getBoardItemFragments(board.items)
+        boardItemsFragments = BoardUtils.getBoardItemFragments(board.getActualItems())
 
         return inflater.inflate(R.layout.fragment_board_view, container, false)
     }
@@ -48,6 +49,14 @@ class BoardView : Fragment() {
         Log.d("debug", boardItemsFragments.toString())
 
         board_content_viewpager.adapter = BoardPagerAdapter(childFragmentManager, boardItemsFragments)
+    }
+
+    fun pushTodolist(){
+        BoardItemCreationDialog(true, board).show(childFragmentManager, BoardItemCreationDialog.TAG)
+    }
+
+    fun pushNoteCollection(){
+        BoardItemCreationDialog(false, board).show(childFragmentManager, BoardItemCreationDialog.TAG)
     }
 
 }

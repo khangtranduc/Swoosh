@@ -17,4 +17,7 @@
         <item name="android:homeAsUpIndicator">@drawable/ic_baseline_arrow_back_24</item>
     </style>
     <style name="ThemeOverlay.Toolbar" parent="ThemeOverlay.AppCompat.Dark"/>
+    <style name="SplashScreenTheme" parent = "Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
 </resources>
