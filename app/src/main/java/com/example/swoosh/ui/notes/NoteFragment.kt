@@ -22,4 +22,8 @@ class NoteFragment(private val noteCollection: NoteCollection) : Fragment() {
 
         noteCol_name_tv.text = noteCollection.name
     }
+
+    override fun toString(): String {
+        return noteCollection.name
+    }
 }

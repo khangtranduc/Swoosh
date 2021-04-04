@@ -8,12 +8,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.swoosh.data.model.*
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.collections.HashMap
 
 object Repository {
     private val _user = MutableLiveData<User>()
@@ -48,11 +50,28 @@ object Repository {
                 }
     }
 
+    fun pushToTodolist(todolist: Todolist, todo: Todolist.Todo){
+
+    }
+
+    fun pushToNoteCollection(noteCollection: NoteCollection, note: NoteCollection.Note){
+
+    }
+
     fun pushBoardItemToBoard(board: Board, item: FBItem){
         Log.d("debug", "Add $item to ${board.name}")
 
-        Firebase.database.reference.child("boards")
-                .child(board.id).child("items").child(item.name).setValue(item)
+        Firebase.database.reference.child("itemStore")
+                .child(board.id)
+                .child("items")
+                .child(item.dateCreated.toString()).setValue(item)
+    }
+
+    fun getItemRef(boardId: String): DatabaseReference {
+        return Firebase.database.reference
+                .child("itemStore")
+                .child(boardId)
+                .child("items")
     }
 
     fun pushBoardToFirebase(board: Board, membersCSV: String, context: Context){

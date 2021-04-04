@@ -98,6 +98,11 @@
             android:defaultValue="null"
             app:argType="string"
             />
+        <action
+            android:id="@+id/action_refresh"
+            app:popUpToInclusive="true"
+            app:popUpTo="@navigation/navigation_graph"
+            app:destination="@id/nav_board_view" />
 
     </fragment>
 </navigation>

@@ -1,13 +1,17 @@
 package com.example.swoosh.data.model
 
 import kotlinx.serialization.Serializable
+import java.util.*
 
 @Serializable
 data class FBItem(
         var name: String = "",
         var type: String = "",
-        var containables: HashMap<String, Containable> = hashMapOf()
+        var containables: SortedMap<String, Containable> = sortedMapOf(),
+        var dateCreated: Long = System.currentTimeMillis()
 ) {
+
+
     @Serializable
     data class Containable(
             var name: String = "",

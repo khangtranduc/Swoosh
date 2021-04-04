@@ -10,14 +10,19 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import com.example.swoosh.R
+import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.Board
-import com.example.swoosh.data.model.Todolist
+import com.example.swoosh.data.model.BoardItem
 import com.example.swoosh.ui.base.BoardItemCreationDialog
-import com.example.swoosh.ui.todolist.TodolistFragment
 import com.example.swoosh.utils.BoardUtils
 import com.example.swoosh.utils.PolySeri
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.fragment_board_view.*
 import kotlinx.serialization.decodeFromString
+import java.util.*
+import kotlin.collections.ArrayList
 
 class BoardView : Fragment() {
 
@@ -25,19 +30,34 @@ class BoardView : Fragment() {
     private val board: Board by lazy{
         PolySeri.json.decodeFromString(args.board)
     }
+    private lateinit var viewModel: BoardViewViewModel
     private lateinit var boardItemsFragments: ArrayList<Fragment>
+    private val valueEventListener : ValueEventListener by lazy{
+        object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                viewModel.fetchBoardItems()
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
 
-        Log.d("debug", args.board)
+        viewModel = BoardViewModelFactory(board.id).create(BoardViewViewModel::class.java)
 
-        Log.d("debug", board.items.toString())
+        updateBoardFragments(viewModel.boardItems.value)
 
-        boardItemsFragments = BoardUtils.getBoardItemFragments(board.getActualItems())
+        Repository.getItemRef(board.id).addValueEventListener(valueEventListener)
 
         return inflater.inflate(R.layout.fragment_board_view, container, false)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Repository.getItemRef(board.id).removeEventListener(valueEventListener)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,7 +66,10 @@ class BoardView : Fragment() {
         board_view_toolbar.setupWithNavController(findNavController())
         board_view_toolbar.title = board.name
 
-        Log.d("debug", boardItemsFragments.toString())
+        viewModel.boardItems.observe(viewLifecycleOwner){
+            updateBoardFragments(it)
+            board_content_viewpager.adapter = BoardPagerAdapter(childFragmentManager, boardItemsFragments)
+        }
 
         board_content_viewpager.adapter = BoardPagerAdapter(childFragmentManager, boardItemsFragments)
     }
@@ -57,6 +80,13 @@ class BoardView : Fragment() {
 
     fun pushNoteCollection(){
         BoardItemCreationDialog(false, board).show(childFragmentManager, BoardItemCreationDialog.TAG)
+    }
+
+    private fun updateBoardFragments(boardItems: SortedMap<String, BoardItem>?){
+        boardItemsFragments = boardItems?.let { BoardUtils.getBoardItemFragments(it) }
+                ?: arrayListOf()
+
+        Log.d("debug", "$boardItemsFragments")
     }
 
 }

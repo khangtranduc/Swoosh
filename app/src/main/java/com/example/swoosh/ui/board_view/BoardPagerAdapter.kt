@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.swoosh.ui.todolist.TodolistFragment
 
-class BoardPagerAdapter(fm: FragmentManager, private val fragments: ArrayList<Fragment>): FragmentPagerAdapter(fm, fragments.size) {
+class BoardPagerAdapter(fm: FragmentManager, var fragments: ArrayList<Fragment>): FragmentPagerAdapter(fm, fragments.size) {
     var tabCount: Int = fragments.size
 
     override fun getCount(): Int {

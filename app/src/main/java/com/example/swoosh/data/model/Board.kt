@@ -1,12 +1,14 @@
 package com.example.swoosh.data.model
 
+import android.util.Log
 import kotlinx.serialization.Serializable
+import java.util.*
+import kotlin.collections.ArrayList
 
 @Serializable
 data class Board(
         var name: String = "",
         var members: ArrayList<Member> = arrayListOf(),
-        var items: HashMap<String, FBItem> = hashMapOf(),
         var id: String = ""
 ) {
     @Serializable
@@ -17,13 +19,14 @@ data class Board(
         fun clone() = Member(email, name)
     }
 
-    fun getActualItems() : HashMap<String, BoardItem>{
-        val actualItems = hashMapOf<String, BoardItem>()
+    companion object{
+        fun getActualItems(map: SortedMap<String, FBItem>) : SortedMap<String, BoardItem> {
+            val actualItems = sortedMapOf<String, BoardItem>()
+            for ((key, value) in map){
+                actualItems[key] = FBItem.parseToBoardItem(value)
+            }
 
-        for ((key, value) in items){
-            actualItems[key] = FBItem.parseToBoardItem(value)
+            return actualItems
         }
-
-        return actualItems
     }
 }

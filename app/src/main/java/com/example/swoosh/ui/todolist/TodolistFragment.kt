@@ -24,4 +24,8 @@ class TodolistFragment(private val todolist: Todolist) : Fragment() {
 
         todolist_name_tv.text = todolist.name
     }
+
+    override fun toString(): String {
+        return todolist.name
+    }
 }

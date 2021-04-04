@@ -23,10 +23,7 @@ class Home : Fragment() {
 
 
     private val boards = arrayListOf(
-            Board("ja", arrayListOf(), hashMapOf(
-                    "Android Project" to FBItem("Android Project", "Todolist"),
-                    "Comfy Reading" to FBItem("Comfy Reading", "NoteCollection")
-            )),
+            Board("ja"),
             Board("pe"),
             Board("an"),
             Board("pi"),

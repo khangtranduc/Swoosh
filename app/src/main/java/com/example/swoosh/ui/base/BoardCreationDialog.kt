@@ -34,7 +34,7 @@ class BoardCreationDialog : DialogFragment() {
             val boardName = board_name_et.text.toString()
             val membersCSV = board_members_et.text.toString()
 
-            Repository.pushBoardToFirebase(Board(boardName, arrayListOf(), hashMapOf()), membersCSV, requireContext())
+            Repository.pushBoardToFirebase(Board(boardName), membersCSV, requireContext())
 
             dismiss()
         }

@@ -6,9 +6,11 @@ import com.example.swoosh.data.model.NoteCollection
 import com.example.swoosh.data.model.Todolist
 import com.example.swoosh.ui.notes.NoteFragment
 import com.example.swoosh.ui.todolist.TodolistFragment
+import java.util.*
+import kotlin.collections.ArrayList
 
 object BoardUtils {
-    fun getBoardItemFragments(boardItems: HashMap<String, BoardItem>): ArrayList<Fragment>{
+    fun getBoardItemFragments(boardItems: SortedMap<String, BoardItem>): ArrayList<Fragment>{
         val returnArray = arrayListOf<Fragment>()
 
         for ((key, value) in boardItems){
