@@ -10,12 +10,12 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 object BoardUtils {
-    fun getBoardItemFragments(boardItems: SortedMap<String, BoardItem>): ArrayList<Fragment>{
+    fun getBoardItemFragments(boardItems: SortedMap<String, BoardItem>, boardID: String): ArrayList<Fragment>{
         val returnArray = arrayListOf<Fragment>()
 
         for ((key, value) in boardItems){
             if (value is Todolist){
-                returnArray.add(TodolistFragment(value))
+                returnArray.add(TodolistFragment(value, boardID))
             }
             else if (value is NoteCollection){
                 returnArray.add(NoteFragment(value))

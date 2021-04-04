@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:elevation="1dp"
+    app:cardCornerRadius="5dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginVertical="12dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal">
+
+        <EditText
+            android:id="@+id/todo_name_et"
+            android:layout_width="260dp"
+            android:layout_height="40dp"
+            android:inputType="textAutoComplete"
+            android:ems="10"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="24dp"
+            android:paddingHorizontal="12dp"
+            android:textSize="14sp"
+            android:fontFamily="@font/nunito"
+            android:background="@drawable/selection_highlight"
+            android:hint="Todo Name"
+            />
+
+        <EditText
+            android:id="@+id/due_date_et"
+            android:layout_width="260dp"
+            android:layout_height="40dp"
+            android:inputType="datetime"
+            android:ems="10"
+            android:layout_marginTop="8dp"
+            android:layout_marginHorizontal="24dp"
+            android:paddingHorizontal="12dp"
+            android:textSize="14sp"
+            android:fontFamily="@font/nunito"
+            android:background="@drawable/selection_highlight"
+            android:hint="Due Date"
+            />
+
+        <RadioGroup
+            android:id="@+id/radio_group_todo_creation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:gravity="center">
+            <RadioButton
+                android:id="@+id/p1_btn"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/flag_p1"
+                android:layout_marginHorizontal="16dp"
+                />
+            <RadioButton
+                android:id="@+id/p2_btn"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/flag_p2"
+                android:layout_marginHorizontal="16dp"
+                />
+            <RadioButton
+                android:id="@+id/p3_btn"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/flag_p3"
+                android:layout_marginHorizontal="16dp"
+                />
+            <RadioButton
+                android:id="@+id/p4_btn"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:button="@android:color/transparent"
+                android:background="@drawable/flag_p4"
+                android:layout_marginHorizontal="16dp"
+                android:checked="true"
+                />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/create_todo_btn"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingVertical="4dp"
+            android:background="@drawable/button_type_1"
+            android:text="Create"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:fontFamily="@font/nunito_bold"
+            />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

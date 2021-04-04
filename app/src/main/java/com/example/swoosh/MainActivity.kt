@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import android.widget.AbsListView
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
+import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionManager
 import com.example.swoosh.data.model.User
 import com.example.swoosh.data.Repository
@@ -32,7 +35,7 @@ import kotlinx.android.synthetic.main.fab_add_sheet.*
 import kotlinx.android.synthetic.main.user_info.*
 
 class MainActivity : AppCompatActivity(), 
-        NavController.OnDestinationChangedListener{
+        NavController.OnDestinationChangedListener {
 
     private val bottomSheet: BottomSheet by lazy(LazyThreadSafetyMode.NONE) {
         supportFragmentManager.findFragmentById(R.id.bottom_sheet) as BottomSheet
@@ -342,6 +345,14 @@ class MainActivity : AppCompatActivity(),
     private fun fabAdd(){
         bottom_app_bar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
         add_board_fab.setImageResource(R.drawable.ic_baseline_add_24)
+    }
+
+    fun hideBottomBarOnly(){
+        bottom_app_bar.animate().translationY(200f).setDuration(250).setInterpolator(AccelerateInterpolator())
+    }
+
+    fun showBottomBarOnly(){
+        bottom_app_bar.animate().translationY(0f).setDuration(250).setInterpolator(DecelerateInterpolator())
     }
 
     private fun showBottomBar(){

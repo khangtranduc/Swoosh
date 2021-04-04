@@ -5,11 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.swoosh.R
+import com.example.swoosh.data.model.FBItem
 import com.example.swoosh.data.model.Todolist
+import com.example.swoosh.ui.base.TodoCreationDialog
+import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.firebase.ui.database.SnapshotParser
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_todolist.*
 
-class TodolistFragment(private val todolist: Todolist) : Fragment() {
+class TodolistFragment(private val todolist: Todolist, private val boardID: String) : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,6 +31,29 @@ class TodolistFragment(private val todolist: Todolist) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         todolist_name_tv.text = todolist.name
+
+        val queryRef = Firebase.database.reference.child("itemStore")
+                .child(boardID).child(todolist.dateCreated.toString()).child("containables")
+
+        val options = FirebaseRecyclerOptions.Builder<Todolist.Todo>()
+                .setLifecycleOwner(viewLifecycleOwner)
+                .setQuery(queryRef){
+                    Todolist.Todo().apply {
+                        name = it.child("name").value as String
+                        due = it.child("date").value as String
+                        priority = it.child("details").value as String
+                    }
+                }
+                .build()
+
+        todo_recycler.apply {
+            adapter = FirebaseAdapter(options, requireActivity())
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+
+        add_todo_btn.setOnClickListener{
+            TodoCreationDialog(todolist, boardID).show(childFragmentManager, TodoCreationDialog.TAG)
+        }
     }
 
     override fun toString(): String {

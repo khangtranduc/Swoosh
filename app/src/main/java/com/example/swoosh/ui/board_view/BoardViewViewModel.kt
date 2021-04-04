@@ -24,7 +24,6 @@ class BoardViewViewModel(private val boardID: String) : ViewModel() {
         Firebase.database.reference
                 .child("itemStore")
                 .child(boardID)
-                .child("items")
                 .get().addOnSuccessListener {
                     val to = object: GenericTypeIndicator<Map<String, FBItem>>(){}
 

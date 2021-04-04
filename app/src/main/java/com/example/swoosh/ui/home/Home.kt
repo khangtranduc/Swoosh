@@ -13,6 +13,7 @@ import com.example.swoosh.data.model.Board
 import com.example.swoosh.data.model.FBItem
 import com.example.swoosh.data.model.NoteCollection
 import com.example.swoosh.data.model.Todolist
+import com.example.swoosh.ui.base.ScrollListener
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
@@ -57,6 +58,7 @@ class Home : Fragment() {
         home_recycler.apply {
             adapter = FirebaseAdapter(options, requireActivity())
             layoutManager = LinearLayoutManager(requireContext())
+            addOnScrollListener(ScrollListener(requireActivity()))
         }
     }
 }

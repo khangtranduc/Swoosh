@@ -2,12 +2,14 @@ package com.example.swoosh.data.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.util.*
 
 @Serializable
 @SerialName("NoteCollection")
 data class NoteCollection(
         override var name: String = "",
-        var notes: HashMap<String, Note> = hashMapOf()
+        var notes: HashMap<String, Note> = hashMapOf(),
+        var dateCreated: Long = 0L
 ) : BoardItem() {
     @Serializable
     data class Note(

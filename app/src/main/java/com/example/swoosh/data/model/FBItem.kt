@@ -7,7 +7,7 @@ import java.util.*
 data class FBItem(
         var name: String = "",
         var type: String = "",
-        var containables: SortedMap<String, Containable> = sortedMapOf(),
+        var containables: HashMap<String, Containable> = hashMapOf(),
         var dateCreated: Long = System.currentTimeMillis()
 ) {
 
@@ -60,11 +60,13 @@ data class FBItem(
 
                 if (boardItem is Todolist) {
                     type = "Todolist"
+                    dateCreated = boardItem.dateCreated
                     for ((key, value) in boardItem.todos) {
                         containables[key] = Containable.parseToContainable(value)
                     }
                 } else if (boardItem is NoteCollection) {
                     type = "NoteCollection"
+                    dateCreated = boardItem.dateCreated
                     for ((key, value) in boardItem.notes) {
                         containables[key] = Containable.parseToContainable(value)
                     }
@@ -79,6 +81,7 @@ data class FBItem(
                     for ((key, value) in fbitem.containables){
                         todos[key] = Containable.parseToTodo(value)
                     }
+                    dateCreated = fbitem.dateCreated
                 }
             }
             else{

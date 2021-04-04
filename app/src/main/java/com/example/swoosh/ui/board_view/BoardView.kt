@@ -83,7 +83,7 @@ class BoardView : Fragment() {
     }
 
     private fun updateBoardFragments(boardItems: SortedMap<String, BoardItem>?){
-        boardItemsFragments = boardItems?.let { BoardUtils.getBoardItemFragments(it) }
+        boardItemsFragments = boardItems?.let { BoardUtils.getBoardItemFragments(it, board.id) }
                 ?: arrayListOf()
 
         Log.d("debug", "$boardItemsFragments")

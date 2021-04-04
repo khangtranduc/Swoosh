@@ -50,12 +50,28 @@ object Repository {
                 }
     }
 
-    fun pushToTodolist(todolist: Todolist, todo: Todolist.Todo){
+    fun pushToFBItem(item: FBItem, containable: FBItem.Containable, boardID: String){
+        Log.d("debug", "Add ${containable.name} to ${item.name}")
 
+        Firebase.database.reference.child("itemStore")
+                .child(boardID).child(item.dateCreated.toString())
+                .child("containables").child(getContainableTag(item, containable))
+                .setValue(containable)
     }
 
-    fun pushToNoteCollection(noteCollection: NoteCollection, note: NoteCollection.Note){
-
+    private fun getContainableTag(item: FBItem, containable: FBItem.Containable) : String{
+        return when (item.type) {
+            "Todolist" -> {
+                "${containable.details}_${containable.name}"
+            }
+            "NoteCollection" -> {
+                //TODO: do something else here
+                containable.name
+            }
+            else -> {
+                ""
+            }
+        }
     }
 
     fun pushBoardItemToBoard(board: Board, item: FBItem){
@@ -63,7 +79,6 @@ object Repository {
 
         Firebase.database.reference.child("itemStore")
                 .child(board.id)
-                .child("items")
                 .child(item.dateCreated.toString()).setValue(item)
     }
 

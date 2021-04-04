@@ -42,8 +42,7 @@
         app:fabAlignmentMode="center"
         app:fabCradleRoundedCornerRadius="32dp"
         app:fabCradleMargin="8dp"
-        app:hideOnScroll="true"
-        app:layout_scrollFlags="scroll|enterAlways">
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"

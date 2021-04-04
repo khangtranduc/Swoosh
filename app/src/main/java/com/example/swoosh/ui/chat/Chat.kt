@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.swoosh.R
 import com.example.swoosh.data.model.Convo
+import com.example.swoosh.ui.base.ScrollListener
 import kotlinx.android.synthetic.main.fragment_chat.*
 
 class Chat : Fragment() {
@@ -29,6 +30,7 @@ class Chat : Fragment() {
         convo_recycler.apply {
             adapter = TestAdapter(convos, requireActivity())
             layoutManager = LinearLayoutManager(requireContext())
+            addOnScrollListener(ScrollListener(requireActivity()))
         }
     }
 }
