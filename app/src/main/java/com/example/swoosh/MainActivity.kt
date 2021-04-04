@@ -22,6 +22,7 @@ import com.example.swoosh.utils.SandwichState
 import com.example.swoosh.utils.currentNavigationFragment
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
@@ -267,6 +268,7 @@ class MainActivity : AppCompatActivity(),
             endView = add_board_fab
             duration = 300
             addTarget(add_board_fab)
+            setPathMotion(MaterialArcMotion())
             scrimColor = Color.TRANSPARENT
         }
         TransitionManager.beginDelayedTransition(coordinator_container, transition)
@@ -280,6 +282,7 @@ class MainActivity : AppCompatActivity(),
             endView = fab_add_card
             duration = 300
             addTarget(fab_add_card)
+            setPathMotion(MaterialArcMotion())
             scrimColor = Color.TRANSPARENT
         }
         TransitionManager.beginDelayedTransition(coordinator_container, transition)
