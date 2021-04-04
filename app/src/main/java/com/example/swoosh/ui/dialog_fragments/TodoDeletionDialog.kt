@@ -46,6 +46,10 @@ class TodoDeletionDialog(
         }
     }
 
+    override fun getTheme(): Int {
+        return R.style.CustomBottomSheetDialog
+    }
+
     companion object{
         val TAG = "bottom_dialog_todo_deletion"
     }

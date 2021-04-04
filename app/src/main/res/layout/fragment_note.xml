@@ -8,7 +8,7 @@
     >
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="500dp"
         android:layout_margin="8dp"
         android:elevation="2dp"
         app:cardCornerRadius="8dp"
@@ -25,9 +25,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Comfy Reading"
-                android:layout_marginVertical="24dp"
+                android:layout_marginTop="24dp"
                 android:fontFamily="@font/poppins_bold"
                 android:textSize="26sp"
+                android:textColor="?attr/colorOnBackground"
+                />
+
+            <TextView
+                android:id="@+id/noteCol_date_created_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date Created: 11/09/2011"
+                android:layout_marginBottom="24dp"
+                android:fontFamily="@font/nunito_semibold"
+                android:textSize="16sp"
+                android:alpha="0.6"
                 android:textColor="?attr/colorOnBackground"
                 />
 

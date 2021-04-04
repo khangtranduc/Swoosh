@@ -18,6 +18,7 @@ import com.example.swoosh.data.model.Board
 import com.example.swoosh.data.model.FBItem
 import com.example.swoosh.data.model.Todolist
 import com.example.swoosh.ui.dialog_fragments.TodoDeletionDialog
+import com.example.swoosh.ui.dialog_fragments.TodoDetailsDialog
 import com.example.swoosh.utils.PolySeri
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
@@ -35,6 +36,10 @@ class FirebaseAdapter(options: FirebaseRecyclerOptions<Todolist.Todo>,
         val checkBox = itemView.findViewById<CheckBox>(R.id.check_btn)
 
         fun bind(todo: Todolist.Todo){
+            itemView.setOnClickListener {
+                TodoDetailsDialog(todo, todolist, boardID).show(activity.supportFragmentManager, TodoDetailsDialog.TAG)
+            }
+
             itemView.setOnLongClickListener{
                 TodoDeletionDialog(todo, todolist, boardID).show(activity.supportFragmentManager, TodoDeletionDialog.TAG)
                 false

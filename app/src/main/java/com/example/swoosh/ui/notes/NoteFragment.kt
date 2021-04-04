@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import com.example.swoosh.R
 import com.example.swoosh.data.model.NoteCollection
 import kotlinx.android.synthetic.main.fragment_note.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NoteFragment(private val noteCollection: NoteCollection) : Fragment() {
 
@@ -21,6 +23,9 @@ class NoteFragment(private val noteCollection: NoteCollection) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         noteCol_name_tv.text = noteCollection.name
+        val date = Date(noteCollection.dateCreated)
+        val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
+        noteCol_date_created_tv.text = "Date Created: ${simpleDateFormat.format(date)}"
     }
 
     override fun toString(): String {

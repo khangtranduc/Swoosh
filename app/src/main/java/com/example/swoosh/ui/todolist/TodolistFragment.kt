@@ -13,6 +13,8 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_todolist.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class TodolistFragment(private val todolist: Todolist, private val boardID: String) : Fragment() {
 
@@ -28,6 +30,9 @@ class TodolistFragment(private val todolist: Todolist, private val boardID: Stri
         super.onViewCreated(view, savedInstanceState)
 
         todolist_name_tv.text = todolist.name
+        val date = Date(todolist.dateCreated)
+        val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
+        todolist_date_created_tv.text = "Date Created: ${simpleDateFormat.format(date)}"
 
         val queryRef = Firebase.database.reference.child("itemStore")
                 .child(boardID).child(todolist.dateCreated.toString()).child("containables")

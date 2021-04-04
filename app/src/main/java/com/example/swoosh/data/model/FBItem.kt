@@ -89,6 +89,7 @@ data class FBItem(
                     for ((key, value) in fbitem.containables){
                         notes[key] = Containable.parseToNote(value)
                     }
+                    dateCreated = fbitem.dateCreated
                 }
             }
         }

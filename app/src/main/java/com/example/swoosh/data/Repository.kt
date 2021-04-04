@@ -59,6 +59,16 @@ object Repository {
                 .setValue(containable)
     }
 
+    fun updateFBItem(item: FBItem, containableOld: FBItem.Containable, containableNew: FBItem.Containable, boardID: String){
+        Log.d("debug", "Update ${containableOld.name} to ${containableNew.name} in ${item.name}")
+
+        Log.d("debug", containableOld.details)
+
+        deleteFBItem(item, containableOld, boardID)
+
+        pushToFBItem(item, containableNew, boardID)
+    }
+
     fun deleteFBItem(item: FBItem, containable: FBItem.Containable, boardID: String){
         Log.d("debug", "Remove ${containable.name} from ${item.name}")
 
@@ -95,7 +105,6 @@ object Repository {
         return Firebase.database.reference
                 .child("itemStore")
                 .child(boardId)
-                .child("items")
     }
 
     fun pushBoardToFirebase(board: Board, membersCSV: String, context: Context){
