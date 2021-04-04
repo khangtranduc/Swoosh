@@ -9,7 +9,7 @@ import java.util.*
 data class NoteCollection(
         override var name: String = "",
         var notes: HashMap<String, Note> = hashMapOf(),
-        var dateCreated: Long = 0L
+        override var dateCreated: Long = 0L
 ) : BoardItem() {
     @Serializable
     data class Note(

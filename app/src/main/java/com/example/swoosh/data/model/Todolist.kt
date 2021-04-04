@@ -11,7 +11,7 @@ import java.util.*
 data class Todolist(
         override var name: String = "",
         var todos: HashMap<String, Todo> = hashMapOf(),
-        var dateCreated: Long = 0L
+        override var dateCreated: Long = 0L
 ) : BoardItem() {
     @Serializable
     data class Todo(

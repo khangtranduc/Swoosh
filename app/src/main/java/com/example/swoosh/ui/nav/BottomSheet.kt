@@ -1,7 +1,5 @@
 package com.example.swoosh.ui.nav
 
-import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,25 +9,16 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
 import android.widget.FrameLayout
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.example.swoosh.MainActivity
-import com.example.swoosh.NavigationGraphDirections
 import com.example.swoosh.R
 import com.example.swoosh.data.model.DrawerItem
-import com.example.swoosh.ui.base.UserEditDialog
 import com.example.swoosh.utils.SandwichState
 import com.example.swoosh.utils.themeColor
-import com.example.swoosh.utils.themeInterpolator
 import com.google.android.material.animation.AnimationUtils.DECELERATE_INTERPOLATOR
-import com.google.android.material.animation.AnimationUtils.lerp
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.shape.MaterialShapeDrawable
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_bottom_sheet.*
 import kotlinx.android.synthetic.main.user_info.*
-import kotlin.math.abs
 
 class BottomSheet : Fragment() {
 

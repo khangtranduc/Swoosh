@@ -1,4 +1,4 @@
-package com.example.swoosh.ui.base
+package com.example.swoosh.ui.dialog_fragments
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable

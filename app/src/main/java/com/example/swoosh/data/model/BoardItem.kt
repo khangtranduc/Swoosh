@@ -7,4 +7,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 abstract class BoardItem() {
     abstract var name: String
+    abstract var dateCreated: Long
 }

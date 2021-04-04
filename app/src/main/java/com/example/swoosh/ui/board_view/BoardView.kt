@@ -13,7 +13,7 @@ import com.example.swoosh.R
 import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.Board
 import com.example.swoosh.data.model.BoardItem
-import com.example.swoosh.ui.base.BoardItemCreationDialog
+import com.example.swoosh.ui.dialog_fragments.BoardItemCreationDialog
 import com.example.swoosh.utils.BoardUtils
 import com.example.swoosh.utils.PolySeri
 import com.google.firebase.database.DataSnapshot

@@ -57,16 +57,15 @@ data class FBItem(
         fun parseToFBItem(boardItem: BoardItem) : FBItem{
             return FBItem().apply{
                 name = boardItem.name
+                dateCreated = boardItem.dateCreated
 
                 if (boardItem is Todolist) {
                     type = "Todolist"
-                    dateCreated = boardItem.dateCreated
                     for ((key, value) in boardItem.todos) {
                         containables[key] = Containable.parseToContainable(value)
                     }
                 } else if (boardItem is NoteCollection) {
                     type = "NoteCollection"
-                    dateCreated = boardItem.dateCreated
                     for ((key, value) in boardItem.notes) {
                         containables[key] = Containable.parseToContainable(value)
                     }

@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.swoosh.R
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_settings.*
 
 class Settings : Fragment() {
@@ -19,6 +21,8 @@ class Settings : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        Firebase.auth.currentUser?.let { email_settings_tv.text = it.email.toString() }
 
         settings_toolbar.setupWithNavController(findNavController())
     }

@@ -45,6 +45,7 @@
             android:layout_gravity="center_vertical"
             >
             <TextView
+                android:id="@+id/email_settings_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="verylongemailnameherefortestofthethingyouknow69420blazeit@gmail.gaming.edu.nushigh.sg.com.vn.to.tv"

@@ -7,12 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.swoosh.R
-import com.example.swoosh.data.model.FBItem
 import com.example.swoosh.data.model.Todolist
-import com.example.swoosh.ui.base.TodoCreationDialog
+import com.example.swoosh.ui.dialog_fragments.TodoCreationDialog
 import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.firebase.ui.database.SnapshotParser
-import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_todolist.*
@@ -47,7 +44,7 @@ class TodolistFragment(private val todolist: Todolist, private val boardID: Stri
                 .build()
 
         todo_recycler.apply {
-            adapter = FirebaseAdapter(options, requireActivity())
+            adapter = FirebaseAdapter(options, todolist, boardID, requireActivity())
             layoutManager = LinearLayoutManager(requireContext())
         }
 

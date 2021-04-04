@@ -59,6 +59,15 @@ object Repository {
                 .setValue(containable)
     }
 
+    fun deleteFBItem(item: FBItem, containable: FBItem.Containable, boardID: String){
+        Log.d("debug", "Remove ${containable.name} from ${item.name}")
+
+        Firebase.database.reference.child("itemStore")
+                .child(boardID).child(item.dateCreated.toString())
+                .child("containables").child(getContainableTag(item, containable))
+                .removeValue()
+    }
+
     private fun getContainableTag(item: FBItem, containable: FBItem.Containable) : String{
         return when (item.type) {
             "Todolist" -> {
