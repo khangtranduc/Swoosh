@@ -84,8 +84,7 @@ object Repository {
                 "${containable.details}_${containable.name}"
             }
             "NoteCollection" -> {
-                //TODO: do something else here
-                containable.name
+                containable.date
             }
             else -> {
                 ""

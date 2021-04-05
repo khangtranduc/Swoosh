@@ -48,8 +48,6 @@ class BoardView : Fragment() {
 
         viewModel = BoardViewModelFactory(board.id).create(BoardViewViewModel::class.java)
 
-        updateBoardFragments(viewModel.boardItems.value)
-
         Repository.getItemRef(board.id).addValueEventListener(valueEventListener)
 
         return inflater.inflate(R.layout.fragment_board_view, container, false)
@@ -66,12 +64,9 @@ class BoardView : Fragment() {
         board_view_toolbar.setupWithNavController(findNavController())
         board_view_toolbar.title = board.name
 
-        viewModel.boardItems.observe(viewLifecycleOwner){
+        viewModel.boardItems.observe(viewLifecycleOwner) {
             updateBoardFragments(it)
-            board_content_viewpager.adapter = BoardPagerAdapter(childFragmentManager, boardItemsFragments)
         }
-
-        board_content_viewpager.adapter = BoardPagerAdapter(childFragmentManager, boardItemsFragments)
     }
 
     fun pushTodolist(){
@@ -86,7 +81,9 @@ class BoardView : Fragment() {
         boardItemsFragments = boardItems?.let { BoardUtils.getBoardItemFragments(it, board.id) }
                 ?: arrayListOf()
 
-        Log.d("debug", "$boardItemsFragments")
+        board_content_viewpager.adapter = BoardPagerAdapter(childFragmentManager, boardItemsFragments)
+
+        Log.d("debug", "updateBoardFragments: $boardItemsFragments")
     }
 
 }

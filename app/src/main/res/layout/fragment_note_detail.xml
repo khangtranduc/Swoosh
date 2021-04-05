@@ -64,6 +64,7 @@
 
 
                 <TextView
+                    android:id="@+id/note_details_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="The Fall Of '76. The engoodening of No Man's Sky"
@@ -73,6 +74,7 @@
                     />
 
                 <TextView
+                    android:id="@+id/note_details_date_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="May 21, 2021"
@@ -84,7 +86,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/note_content_tv"
+                    android:id="@+id/note_details_content_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nunito"

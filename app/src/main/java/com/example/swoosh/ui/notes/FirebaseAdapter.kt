@@ -42,12 +42,12 @@ class FirebaseAdapter(options: FirebaseRecyclerOptions<NoteCollection.Note>,
                 activity.findNavController(R.id.nav_host_fragment).navigate(NavigationGraphDirections.actionGlobalNoteDetail(
                         Json.encodeToString(note),
                         Json.encodeToString(noteCollection),
-                        Json.encodeToString(boardID)
+                        boardID
                 ))
             }
 
             title.text = note.title
-            dateEdited.text = note.dateEdited
+            dateEdited.text = note.getDateStr()
         }
     }
 

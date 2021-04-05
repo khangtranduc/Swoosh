@@ -69,10 +69,10 @@
         />
     <action
         android:id="@+id/action_global_noteCreation"
-        app:destination="@id/noteCreationFragment" />
+        app:destination="@id/nav_note_creation" />
     <action
         android:id="@+id/action_global_noteDetail"
-        app:destination="@id/noteDetail" />
+        app:destination="@id/nav_note_detail" />
     <fragment
         android:id="@+id/nav_chat_window"
         android:name="com.example.swoosh.ui.chat.ChatWindow"
@@ -112,7 +112,7 @@
 
     </fragment>
     <fragment
-        android:id="@+id/noteDetail"
+        android:id="@+id/nav_note_detail"
         android:name="com.example.swoosh.ui.notes.NoteDetail"
         android:label="fragment_note_detail"
         tools:layout="@layout/fragment_note_detail">
@@ -132,10 +132,10 @@
             app:argType="string"/>
         <action
             android:id="@+id/gotoEdit"
-            app:destination="@id/noteCreationFragment" />
+            app:destination="@id/nav_note_creation" />
     </fragment>
     <fragment
-        android:id="@+id/noteCreationFragment"
+        android:id="@+id/nav_note_creation"
         android:name="com.example.swoosh.ui.notes.NoteCreationFragment"
         android:label="NoteCreationFragment">
         <argument
@@ -151,5 +151,9 @@
             android:name="note"
             android:defaultValue="null"
             app:argType="string"/>
+        <argument
+            android:name="asEdit"
+            android:defaultValue="false"
+            app:argType="boolean"/>
     </fragment>
 </navigation>

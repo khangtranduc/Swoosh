@@ -197,8 +197,17 @@ class MainActivity : AppCompatActivity(),
             R.id.nav_board_view -> {
                 fabCreateBoardItem()
                 bottom_app_bar.animate().translationY(200f)
+                add_board_fab.show()
                 dynamic_button.visibility = View.GONE
                 Log.d("debug", "BoardView")
+            }
+            R.id.nav_note_creation -> {
+                add_board_fab.hide()
+                Log.d("debug", "NoteCreation")
+            }
+            R.id.nav_note_detail -> {
+                add_board_fab.hide()
+                Log.d("debug", "NoteDetail")
             }
         }
     }
