@@ -67,6 +67,12 @@
         app:popUpToInclusive="true"
         app:launchSingleTop="true"
         />
+    <action
+        android:id="@+id/action_global_noteCreation"
+        app:destination="@id/noteCreationFragment" />
+    <action
+        android:id="@+id/action_global_noteDetail"
+        app:destination="@id/noteDetail" />
     <fragment
         android:id="@+id/nav_chat_window"
         android:name="com.example.swoosh.ui.chat.ChatWindow"
@@ -104,5 +110,46 @@
             app:popUpTo="@navigation/navigation_graph"
             app:destination="@id/nav_board_view" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/noteDetail"
+        android:name="com.example.swoosh.ui.notes.NoteDetail"
+        android:label="fragment_note_detail"
+        tools:layout="@layout/fragment_note_detail">
+        <argument
+            android:name="note"
+            android:defaultValue="null"
+            app:argType="string"
+            />
+        <argument
+            android:name="noteCollection"
+            android:defaultValue="null"
+            app:argType="string"
+            />
+        <argument
+            android:name="boardID"
+            android:defaultValue="null"
+            app:argType="string"/>
+        <action
+            android:id="@+id/gotoEdit"
+            app:destination="@id/noteCreationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/noteCreationFragment"
+        android:name="com.example.swoosh.ui.notes.NoteCreationFragment"
+        android:label="NoteCreationFragment">
+        <argument
+            android:name="noteCollection"
+            android:defaultValue="null"
+            app:argType="string"
+            />
+        <argument
+            android:name="boardID"
+            android:defaultValue="null"
+            app:argType="string"/>
+        <argument
+            android:name="note"
+            android:defaultValue="null"
+            app:argType="string"/>
     </fragment>
 </navigation>

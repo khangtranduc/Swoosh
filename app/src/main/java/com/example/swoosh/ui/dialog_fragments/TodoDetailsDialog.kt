@@ -30,6 +30,7 @@ class TodoDetailsDialog(
         todo_name_et.setText(todo.name)
         due_date_et.setText(todo.due)
         create_todo_btn.text = "Edit"
+        radio_group_todo_creation.check(Todolist.pStringToID(todo.priority))
 
         create_todo_btn.setOnClickListener{
             val todoNew = Todolist.Todo().apply {

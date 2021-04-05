@@ -38,6 +38,15 @@ data class Todolist(
             }
         }
 
+        fun pStringToID(pString: String): Int{
+            return when(pString){
+                "p1" -> R.id.p1_btn
+                "p2" -> R.id.p2_btn
+                "p3" -> R.id.p3_btn
+                else -> R.id.p4_btn
+            }
+        }
+
         fun parsePriority(pString: String) : Int{
             return when (pString){
                 "p1" -> android.R.color.holo_red_dark

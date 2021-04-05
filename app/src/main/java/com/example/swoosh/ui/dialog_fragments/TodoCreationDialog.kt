@@ -3,10 +3,12 @@ package com.example.swoosh.ui.dialog_fragments
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.swoosh.R
 import com.example.swoosh.data.Repository
@@ -42,6 +44,11 @@ class TodoCreationDialog(
             val dueDate = due_date_et.text.toString()
             val selectedID = radio_group_todo_creation.checkedRadioButtonId
             val priority = Todolist.parsePriority(selectedID)
+
+            if (TextUtils.isEmpty(todoName) || TextUtils.isEmpty(dueDate)){
+                Toast.makeText(requireContext(), "Empty Fields!", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             val todo = Todolist.Todo(todoName, dueDate, priority)
 

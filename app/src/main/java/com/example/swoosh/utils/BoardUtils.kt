@@ -18,7 +18,7 @@ object BoardUtils {
                 returnArray.add(TodolistFragment(value, boardID))
             }
             else if (value is NoteCollection){
-                returnArray.add(NoteFragment(value))
+                returnArray.add(NoteFragment(value, boardID))
             }
         }
 

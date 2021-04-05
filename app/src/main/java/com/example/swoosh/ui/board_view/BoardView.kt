@@ -26,7 +26,7 @@ import kotlin.collections.ArrayList
 
 class BoardView : Fragment() {
 
-    val args: BoardViewArgs by navArgs()
+    private val args: BoardViewArgs by navArgs()
     private val board: Board by lazy{
         PolySeri.json.decodeFromString(args.board)
     }
