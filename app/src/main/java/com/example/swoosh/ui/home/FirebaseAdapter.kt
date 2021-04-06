@@ -11,6 +11,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swoosh.R
 import com.example.swoosh.data.model.Board
+import com.example.swoosh.ui.dialog_fragments.BoardActionDialog
 import com.example.swoosh.utils.PolySeri
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
@@ -33,7 +34,7 @@ class FirebaseAdapter(options: FirebaseRecyclerOptions<Board>,
             }
 
             itemView.setOnLongClickListener{
-
+                BoardActionDialog(board).show(activity.supportFragmentManager, BoardActionDialog.TAG)
                 false
             }
 

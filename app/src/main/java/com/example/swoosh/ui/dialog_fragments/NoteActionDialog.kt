@@ -9,14 +9,14 @@ import com.example.swoosh.R
 import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.FBItem
 import com.example.swoosh.data.model.NoteCollection
-import com.example.swoosh.ui.base.RoundedBottomDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.note_action_dialog.*
 
 class NoteActionDialog(
         private val note: NoteCollection.Note,
         private val noteCollection: NoteCollection,
         private val boardID: String
-) : RoundedBottomDialog() {
+) : BottomSheetDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.note_action_dialog, container, false)
     }

@@ -20,8 +20,6 @@ import com.example.swoosh.data.model.BoardItem
 import com.example.swoosh.data.model.FBItem
 import com.example.swoosh.data.model.NoteCollection
 import com.example.swoosh.data.model.Todolist
-import com.google.android.material.transition.MaterialContainerTransform
-import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.android.synthetic.main.board_item_creation_dialog.*
 import kotlinx.android.synthetic.main.board_item_overflow.*
@@ -36,6 +34,7 @@ class BoardItemOverflowDialog(
         if (dialog != null && dialog?.window != null) {
             dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
+            dialog?.window?.setWindowAnimations(R.style.dialog_animation)
         }
 
         return inflater.inflate(R.layout.board_item_overflow, container, false)

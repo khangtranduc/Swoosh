@@ -122,6 +122,28 @@ object Repository {
                 .child(boardId)
     }
 
+    fun deleteBoard(board: Board){
+        Log.d("debug", "Remove ${board.name} from firebase")
+
+        Firebase.database.reference.child("boards")
+                .child(board.id).removeValue()
+
+        for (i in board.members){
+            Firebase.database.reference.child("users")
+                    .child(getUserDir(i.email)).child("keys").child(board.id).removeValue()
+        }
+
+        Firebase.database.reference.child("itemStore")
+                .child(board.id).removeValue()
+    }
+
+    fun updateBoard(board: Board){
+        Log.d("debug", "Updated ${board.name}")
+
+        Firebase.database.reference.child("boards")
+                .child(board.id).child("name").setValue(board.name)
+    }
+
     fun pushBoardToFirebase(board: Board, membersCSV: String, context: Context){
         val client = Firebase.database.reference
                 .child("boards").push()

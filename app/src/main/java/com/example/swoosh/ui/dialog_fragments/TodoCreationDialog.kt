@@ -28,9 +28,10 @@ class TodoCreationDialog(
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        if (getDialog() != null && getDialog()?.getWindow() != null) {
-            getDialog()?.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
-            getDialog()?.getWindow()?.requestFeature(Window.FEATURE_NO_TITLE);
+        if (dialog != null && dialog?.window != null) {
+            dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
+            dialog?.window?.setWindowAnimations(R.style.dialog_animation)
         }
 
         return inflater.inflate(R.layout.todo_creation_dialog, container, false)

@@ -21,11 +21,6 @@ class TodoActionsDialog(
         private val boardID: String
 ) : BottomSheetDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        if (getDialog() != null && getDialog()?.getWindow() != null) {
-            getDialog()?.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
-            getDialog()?.getWindow()?.requestFeature(Window.FEATURE_NO_TITLE);
-        }
-
         return inflater.inflate(R.layout.todo_action_dialog, container, false)
     }
 
