@@ -12,10 +12,14 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import com.example.swoosh.R
+import com.example.swoosh.data.model.BoardItem
+import com.example.swoosh.data.model.NoteCollection
 import com.example.swoosh.data.model.Todolist
+import com.example.swoosh.ui.base.BoardItemFragment
 import com.example.swoosh.ui.board_view.BoardView
 import com.example.swoosh.ui.dialog_fragments.BoardItemOverflowDialog
 import com.example.swoosh.ui.dialog_fragments.TodoCreationDialog
+import com.example.swoosh.ui.notes.NoteFragment
 import com.example.swoosh.utils.currentNavigationFragment
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.transition.MaterialArcMotion
@@ -29,7 +33,9 @@ import kotlinx.android.synthetic.main.fragment_todolist.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TodolistFragment(private val todolist: Todolist, private val boardID: String) : Fragment() {
+class TodolistFragment(private val todolist: Todolist, private val boardID: String) : BoardItemFragment() {
+
+    override var id: Long = todolist.dateCreated
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,6 +76,15 @@ class TodolistFragment(private val todolist: Todolist, private val boardID: Stri
 
         todolist_overflow_btn.setOnClickListener{
             BoardItemOverflowDialog(todolist, boardID).show(childFragmentManager, BoardItemOverflowDialog.TAG)
+        }
+    }
+
+    override fun theSame(item: BoardItemFragment) : Boolean{
+        return if (item is TodolistFragment){
+            this.todolist == item.todolist
+        }
+        else{
+            false
         }
     }
 

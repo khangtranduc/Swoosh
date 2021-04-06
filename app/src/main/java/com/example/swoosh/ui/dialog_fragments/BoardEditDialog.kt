@@ -21,6 +21,7 @@ class BoardEditDialog(private val board: Board) : DialogFragment() {
         if (dialog != null && dialog?.window != null) {
             dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
+            dialog?.window?.setWindowAnimations(R.style.dialog_animation)
         }
 
         return inflater.inflate(R.layout.board_item_creation_dialog, container, false)

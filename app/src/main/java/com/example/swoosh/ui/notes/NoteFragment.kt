@@ -11,6 +11,7 @@ import com.example.swoosh.NavigationGraphDirections
 import com.example.swoosh.R
 import com.example.swoosh.data.model.NoteCollection
 import com.example.swoosh.data.model.Todolist
+import com.example.swoosh.ui.base.BoardItemFragment
 import com.example.swoosh.ui.board_view.BoardView
 import com.example.swoosh.ui.board_view.BoardViewDirections
 import com.example.swoosh.ui.dialog_fragments.BoardItemOverflowDialog
@@ -26,7 +27,9 @@ import kotlinx.serialization.json.Json
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NoteFragment(private val noteCollection: NoteCollection, private val boardID: String) : Fragment() {
+class NoteFragment(private val noteCollection: NoteCollection, private val boardID: String) : BoardItemFragment() {
+
+    override var id: Long = noteCollection.dateCreated
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -69,6 +72,15 @@ class NoteFragment(private val noteCollection: NoteCollection, private val board
 
         noteCol_overflow_btn.setOnClickListener {
             BoardItemOverflowDialog(noteCollection, boardID).show(childFragmentManager, BoardItemOverflowDialog.TAG)
+        }
+    }
+
+    override fun theSame(item: BoardItemFragment): Boolean {
+        return if (item is NoteFragment){
+            this.noteCollection == item.noteCollection
+        }
+        else{
+            false
         }
     }
 

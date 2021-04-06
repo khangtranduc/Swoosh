@@ -2,6 +2,8 @@ package com.example.swoosh.ui.board_view
 
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,13 +17,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import androidx.transition.TransitionManager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.swoosh.R
 import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.Board
 import com.example.swoosh.data.model.BoardItem
+import com.example.swoosh.ui.base.BoardItemFragment
 import com.example.swoosh.ui.dialog_fragments.BoardItemCreationDialog
 import com.example.swoosh.utils.BoardUtils
 import com.example.swoosh.utils.PolySeri
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -41,13 +46,21 @@ class BoardView : Fragment() {
         PolySeri.json.decodeFromString(args.board)
     }
     private lateinit var viewModel: BoardViewViewModel
-    private lateinit var boardItemsFragments: ArrayList<Fragment>
+    private lateinit var boardItemsFragments: ArrayList<BoardItemFragment>
     private val valueEventListener : ValueEventListener by lazy{
         object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 viewModel.fetchBoardItems()
             }
             override fun onCancelled(error: DatabaseError) {
+            }
+        }
+    }
+
+    private val onPageChangeCallback : ViewPager2.OnPageChangeCallback by lazy{
+        object: ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                viewModel.pagerState = position
             }
         }
     }
@@ -91,7 +104,23 @@ class BoardView : Fragment() {
         boardItemsFragments = boardItems?.let { BoardUtils.getBoardItemFragments(it, board.id) }
                 ?: arrayListOf()
 
-        board_content_viewpager.adapter = BoardPagerAdapter(childFragmentManager, boardItemsFragments)
+        if (board_content_viewpager.adapter != null){
+            (board_content_viewpager.adapter as BoardPagerAdapter).submitList(boardItemsFragments)
+        }
+        else{
+            board_content_viewpager.adapter = BoardPagerAdapter(requireActivity()).apply { submitList(boardItemsFragments) }
+        }
+
+//        board_content_viewpager.adapter?.let {
+//            if (it.itemCount >= viewModel.pagerState && viewModel.pagerState != -1)
+//                board_content_viewpager.currentItem = viewModel.pagerState
+//            else
+//                viewModel.pagerState = 0
+//
+//            board_content_viewpager.registerOnPageChangeCallback(onPageChangeCallback)
+//        }
+
+        TabLayoutMediator(board_view_dot_indicator, board_content_viewpager){_, _ -> }.attach()
 
         Log.d("debug", "updateBoardFragments: $boardItemsFragments")
     }

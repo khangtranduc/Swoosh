@@ -1,5 +1,6 @@
 package com.example.swoosh.ui.board_view
 
+import android.os.Parcelable
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,6 +17,7 @@ import kotlin.collections.HashMap
 
 class BoardViewViewModel(private val boardID: String) : ViewModel() {
     private val _boardItems = MutableLiveData<SortedMap<String, BoardItem>>()
+    var pagerState: Int = -1
 
     val boardItems : LiveData<SortedMap<String, BoardItem>>
         get() = _boardItems

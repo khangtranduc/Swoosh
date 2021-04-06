@@ -30,4 +30,15 @@ data class NoteCollection(
     fun getDateStr(): String{
         return getDateStr(dateCreated, "dd/MM/yyyy")
     }
+
+    override fun equals(other: Any?): Boolean {
+        return if (other is NoteCollection){
+            return (this.name == other.name &&
+                    this.notes == other.notes &&
+                    this.dateCreated == other.dateCreated)
+        }
+        else{
+            super.equals(other)
+        }
+    }
 }
