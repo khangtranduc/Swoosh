@@ -11,7 +11,11 @@ import com.example.swoosh.NavigationGraphDirections
 import com.example.swoosh.R
 import com.example.swoosh.data.model.NoteCollection
 import com.example.swoosh.data.model.Todolist
+import com.example.swoosh.ui.board_view.BoardView
+import com.example.swoosh.ui.board_view.BoardViewDirections
+import com.example.swoosh.ui.dialog_fragments.BoardItemOverflowDialog
 import com.example.swoosh.ui.notes.FirebaseAdapter
+import com.example.swoosh.utils.currentNavigationFragment
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -34,9 +38,7 @@ class NoteFragment(private val noteCollection: NoteCollection, private val board
         super.onViewCreated(view, savedInstanceState)
 
         noteCol_name_tv.text = noteCollection.name
-        val date = Date(noteCollection.dateCreated)
-        val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
-        noteCol_date_created_tv.text = "Date Created: ${simpleDateFormat.format(date)}"
+        noteCol_date_created_tv.text = "Date Created: ${noteCollection.getDateStr()}"
 
         val queryRef = Firebase.database.reference.child("itemStore")
                 .child(boardID).child(noteCollection.dateCreated.toString()).child("containables")
@@ -63,6 +65,10 @@ class NoteFragment(private val noteCollection: NoteCollection, private val board
                     boardID,
                     Json.encodeToString(NoteCollection.Note())
             ))
+        }
+
+        noteCol_overflow_btn.setOnClickListener {
+            BoardItemOverflowDialog(noteCollection, boardID).show(childFragmentManager, BoardItemOverflowDialog.TAG)
         }
     }
 

@@ -1,17 +1,30 @@
 package com.example.swoosh.ui.todolist
 
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.TransitionManager
 import com.example.swoosh.R
 import com.example.swoosh.data.model.Todolist
+import com.example.swoosh.ui.board_view.BoardView
+import com.example.swoosh.ui.dialog_fragments.BoardItemOverflowDialog
 import com.example.swoosh.ui.dialog_fragments.TodoCreationDialog
+import com.example.swoosh.utils.currentNavigationFragment
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.android.material.transition.MaterialArcMotion
+import com.google.android.material.transition.MaterialContainerTransform
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.board_item_overflow.*
+import kotlinx.android.synthetic.main.fab_add_sheet.*
 import kotlinx.android.synthetic.main.fragment_todolist.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -30,9 +43,7 @@ class TodolistFragment(private val todolist: Todolist, private val boardID: Stri
         super.onViewCreated(view, savedInstanceState)
 
         todolist_name_tv.text = todolist.name
-        val date = Date(todolist.dateCreated)
-        val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy")
-        todolist_date_created_tv.text = "Date Created: ${simpleDateFormat.format(date)}"
+        todolist_date_created_tv.text = "Date Created: ${todolist.getDateStr()}"
 
         val queryRef = Firebase.database.reference.child("itemStore")
                 .child(boardID).child(todolist.dateCreated.toString()).child("containables")
@@ -55,6 +66,10 @@ class TodolistFragment(private val todolist: Todolist, private val boardID: Stri
 
         add_todo_btn.setOnClickListener{
             TodoCreationDialog(todolist, boardID).show(childFragmentManager, TodoCreationDialog.TAG)
+        }
+
+        todolist_overflow_btn.setOnClickListener{
+            BoardItemOverflowDialog(todolist, boardID).show(childFragmentManager, BoardItemOverflowDialog.TAG)
         }
     }
 

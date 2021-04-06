@@ -50,6 +50,22 @@ object Repository {
                 }
     }
 
+    fun updateFBItem(item: FBItem, boardID: String){
+        Log.d("debug", "Update ${item.name}")
+
+        Firebase.database.reference.child("itemStore")
+                .child(boardID).child("${item.dateCreated}")
+                .child("name").setValue(item.name)
+    }
+
+    fun deleteFBItem(item: FBItem, boardID: String){
+        Log.d("debug", "Remove ${item.name}")
+
+        Firebase.database.reference.child("itemStore")
+                .child(boardID).child("${item.dateCreated}")
+                .removeValue()
+    }
+
     fun pushToFBItem(item: FBItem, containable: FBItem.Containable, boardID: String){
         Log.d("debug", "Add ${containable.name} to ${item.name}")
 
@@ -59,17 +75,17 @@ object Repository {
                 .setValue(containable)
     }
 
-    fun updateFBItem(item: FBItem, containableOld: FBItem.Containable, containableNew: FBItem.Containable, boardID: String){
+    fun updateToFBItem(item: FBItem, containableOld: FBItem.Containable, containableNew: FBItem.Containable, boardID: String){
         Log.d("debug", "Update ${containableOld.name} to ${containableNew.name} in ${item.name}")
 
         Log.d("debug", containableOld.details)
 
-        deleteFBItem(item, containableOld, boardID)
+        deleteFromFBItem(item, containableOld, boardID)
 
         pushToFBItem(item, containableNew, boardID)
     }
 
-    fun deleteFBItem(item: FBItem, containable: FBItem.Containable, boardID: String){
+    fun deleteFromFBItem(item: FBItem, containable: FBItem.Containable, boardID: String){
         Log.d("debug", "Remove ${containable.name} from ${item.name}")
 
         Firebase.database.reference.child("itemStore")

@@ -1,14 +1,20 @@
 package com.example.swoosh.ui.board_view
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
+import androidx.transition.TransitionManager
 import com.example.swoosh.R
 import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.Board
@@ -16,10 +22,14 @@ import com.example.swoosh.data.model.BoardItem
 import com.example.swoosh.ui.dialog_fragments.BoardItemCreationDialog
 import com.example.swoosh.utils.BoardUtils
 import com.example.swoosh.utils.PolySeri
+import com.google.android.material.transition.MaterialContainerTransform
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.board_item_overflow.*
 import kotlinx.android.synthetic.main.fragment_board_view.*
+import kotlinx.android.synthetic.main.fragment_note.*
+import kotlinx.android.synthetic.main.fragment_todolist.*
 import kotlinx.serialization.decodeFromString
 import java.util.*
 import kotlin.collections.ArrayList

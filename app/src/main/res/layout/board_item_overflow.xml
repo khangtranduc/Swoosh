@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/board_item_edit_container"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    >
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/options_board_item_card"
+        android:elevation="1dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="5dp"
+        >
+
+        <LinearLayout
+            android:layout_width="225dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/nunito_extrabold"
+                android:textAlignment="center"
+                android:text="Item Options"
+                android:textColor="?attr/colorOnBackground"
+                android:textSize="20sp"
+                />
+
+            <TextView
+                android:id="@+id/edit_board_item_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginVertical="12dp"
+                android:foreground="@drawable/expand_ripple_foreground"
+                android:background="@drawable/text_view_button_bg"
+                android:drawablePadding="12dp"
+                android:fontFamily="@font/nunito"
+                android:padding="8dp"
+                android:text="Edit Name"
+                android:textColor="?attr/colorOnBackground"
+                android:textSize="18sp"
+                app:drawableLeftCompat="@drawable/ic_baseline_edit_24" />
+
+            <TextView
+                android:id="@+id/delete_board_item_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginBottom="12dp"
+                android:foreground="@drawable/expand_ripple_foreground"
+                android:background="@drawable/text_view_button_bg"
+                android:drawablePadding="12dp"
+                android:fontFamily="@font/nunito"
+                android:padding="8dp"
+                android:text="Delete Item"
+                android:textColor="?attr/colorOnBackground"
+                android:textSize="18sp"
+                app:drawableLeftCompat="@drawable/ic_baseline_delete_24" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <include layout="@layout/confirm_delete"/>
+
+    <include layout="@layout/board_item_creation_dialog"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

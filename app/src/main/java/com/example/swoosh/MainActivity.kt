@@ -197,7 +197,7 @@ class MainActivity : AppCompatActivity(),
             R.id.nav_board_view -> {
                 fabCreateBoardItem()
                 bottom_app_bar.animate().translationY(200f)
-                add_board_fab.show()
+                if (!add_board_fab.isShown) add_board_fab.show()
                 dynamic_button.visibility = View.GONE
                 Log.d("debug", "BoardView")
             }

@@ -1,8 +1,5 @@
 package com.example.swoosh.ui.todolist
 
-import android.annotation.SuppressLint
-import android.content.res.ColorStateList
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,19 +7,15 @@ import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swoosh.R
 import com.example.swoosh.data.Repository
-import com.example.swoosh.data.model.Board
 import com.example.swoosh.data.model.FBItem
 import com.example.swoosh.data.model.Todolist
-import com.example.swoosh.ui.dialog_fragments.TodoDeletionDialog
-import com.example.swoosh.ui.dialog_fragments.TodoDetailsDialog
-import com.example.swoosh.utils.PolySeri
+import com.example.swoosh.ui.dialog_fragments.TodoActionsDialog
+import com.example.swoosh.ui.dialog_fragments.TodoEditDialog
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
-import kotlinx.serialization.encodeToString
 
 class FirebaseAdapter(options: FirebaseRecyclerOptions<Todolist.Todo>,
                       private val todolist: Todolist,
@@ -37,17 +30,17 @@ class FirebaseAdapter(options: FirebaseRecyclerOptions<Todolist.Todo>,
 
         fun bind(todo: Todolist.Todo){
             itemView.setOnClickListener {
-                TodoDetailsDialog(todo, todolist, boardID).show(activity.supportFragmentManager, TodoDetailsDialog.TAG)
+                TodoEditDialog(todo, todolist, boardID).show(activity.supportFragmentManager, TodoEditDialog.TAG)
             }
 
             itemView.setOnLongClickListener{
-                TodoDeletionDialog(todo, todolist, boardID).show(activity.supportFragmentManager, TodoDeletionDialog.TAG)
+                TodoActionsDialog(todo, todolist, boardID).show(activity.supportFragmentManager, TodoActionsDialog.TAG)
                 false
             }
 
             checkBox.setOnClickListener{
 
-                Repository.deleteFBItem(
+                Repository.deleteFromFBItem(
                         FBItem.parseToFBItem(todolist),
                         FBItem.Containable.parseToContainable(todo),
                         boardID

@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="500dp"
@@ -13,12 +14,23 @@
         android:elevation="2dp"
         app:cardCornerRadius="8dp"
         >
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center_horizontal"
             tools:context=".ui.todolist.TodolistFragment">
+            
+            <ImageView
+                android:id="@+id/todolist_overflow_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_more_vert_24"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/todolist_name_tv"
+                app:layout_constraintBottom_toBottomOf="@id/todolist_name_tv"
+                />
 
             <TextView
                 android:id="@+id/todolist_name_tv"
@@ -29,6 +41,9 @@
                 android:fontFamily="@font/poppins_bold"
                 android:textSize="26sp"
                 android:textColor="?attr/colorOnBackground"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 />
 
             <TextView
@@ -36,20 +51,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Date Created: 11/09/2011"
-                android:layout_marginBottom="24dp"
+                android:paddingBottom="24dp"
                 android:fontFamily="@font/nunito_semibold"
                 android:textSize="16sp"
                 android:alpha="0.6"
                 android:textColor="?attr/colorOnBackground"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/todolist_name_tv"
                 />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/todo_recycler"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/todolist_date_created_tv"
                 />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView

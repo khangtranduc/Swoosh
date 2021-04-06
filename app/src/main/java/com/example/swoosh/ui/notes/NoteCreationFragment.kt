@@ -64,7 +64,7 @@ class NoteCreationFragment : Fragment() {
             val noteNew = NoteCollection.Note(title, content, "${System.currentTimeMillis()}")
 
             if (args.asEdit){
-                Repository.updateFBItem(FBItem.parseToFBItem(noteCollection),
+                Repository.updateToFBItem(FBItem.parseToFBItem(noteCollection),
                         FBItem.Containable.parseToContainable(note),
                         FBItem.Containable.parseToContainable(noteNew),
                         boardID)

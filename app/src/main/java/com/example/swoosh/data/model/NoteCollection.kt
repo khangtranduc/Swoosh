@@ -19,7 +19,15 @@ data class NoteCollection(
         var dateEdited: String = "0"
     ){
         fun getDateStr(): String{
-            return SimpleDateFormat("MMM, dd, yyyy").format(Date(dateEdited.toLong()))
+            return getDateStr(dateEdited.toLong(), "MMM dd, yyyy")
         }
+
+        fun isEmpty() : Boolean{
+            return title == "" && content == "" && dateEdited == "0"
+        }
+    }
+
+    fun getDateStr(): String{
+        return getDateStr(dateCreated, "dd/MM/yyyy")
     }
 }

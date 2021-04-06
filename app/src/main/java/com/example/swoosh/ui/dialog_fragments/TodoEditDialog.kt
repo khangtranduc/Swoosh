@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.todo_card.*
 import kotlinx.android.synthetic.main.todo_creation_dialog.*
 import org.w3c.dom.Text
 
-class TodoDetailsDialog(
+class TodoEditDialog(
         private val todo: Todolist.Todo,
         private val todolist: Todolist,
         private val boardID: String
@@ -49,7 +49,7 @@ class TodoDetailsDialog(
                 priority = Todolist.parsePriority(radio_group_todo_creation.checkedRadioButtonId)
             }
 
-            Repository.updateFBItem(
+            Repository.updateToFBItem(
                     FBItem.parseToFBItem(todolist),
                     FBItem.Containable.parseToContainable(todo),
                     FBItem.Containable.parseToContainable(todoNew),

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.swoosh.R
@@ -32,7 +33,7 @@ class NoteDetail : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
 
-        if (viewModel.note.value == null){
+        if (viewModel.note.value == null || viewModel.note.value?.isEmpty() == true){
             viewModel.updateNote(note)
         }
 
@@ -50,6 +51,7 @@ class NoteDetail : Fragment() {
 
         note_back_btn.setOnClickListener {
             findNavController().navigateUp()
+            viewModel.updateNote(NoteCollection.Note())
         }
 
         note_edit_btn.setOnClickListener {

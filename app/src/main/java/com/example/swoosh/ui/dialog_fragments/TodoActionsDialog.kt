@@ -13,9 +13,9 @@ import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.FBItem
 import com.example.swoosh.data.model.Todolist
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.todo_deletion_dialog.*
+import kotlinx.android.synthetic.main.todo_action_dialog.*
 
-class TodoDeletionDialog(
+class TodoActionsDialog(
         private val todo: Todolist.Todo,
         private val todolist: Todolist,
         private val boardID: String
@@ -26,7 +26,7 @@ class TodoDeletionDialog(
             getDialog()?.getWindow()?.requestFeature(Window.FEATURE_NO_TITLE);
         }
 
-        return inflater.inflate(R.layout.todo_deletion_dialog, container, false)
+        return inflater.inflate(R.layout.todo_action_dialog, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -34,7 +34,7 @@ class TodoDeletionDialog(
 
         delete_todo_btn.setOnClickListener {
 
-            Repository.deleteFBItem(
+            Repository.deleteFromFBItem(
                     FBItem.parseToFBItem(todolist),
                     FBItem.Containable.parseToContainable(todo),
                     boardID

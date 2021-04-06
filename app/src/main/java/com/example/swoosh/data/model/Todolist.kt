@@ -4,6 +4,7 @@ import com.example.swoosh.R
 import kotlinx.android.synthetic.main.todo_creation_dialog.view.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.text.SimpleDateFormat
 import java.util.*
 
 @Serializable
@@ -19,6 +20,10 @@ data class Todolist(
         var due: String = "",
         var priority: String = "p4",
     )
+
+    fun getDateStr(): String{
+        return getDateStr(dateCreated, "dd/MM/yyyy")
+    }
 
     //var subtasks: ArrayList<SubTask> = arrayListOf()
     //TODO: this can be added later
