@@ -11,8 +11,10 @@
         android:id="@+id/on_boarding_dot_indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@id/previous_obpage_btn"
+        android:layout_marginBottom="8dp"
         app:tabRippleColor="@android:color/transparent"
+        app:tabPadding="2dp"
         app:tabBackground="@drawable/tab_selector"
         app:tabGravity="center"
         app:tabIndicatorHeight="0dp"
@@ -22,6 +24,39 @@
         android:id="@+id/on_boarding_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_semibold"
+        android:textColor="?attr/colorOnPrimary"
+        android:background="@drawable/button_type_1"
+        android:text="Previous"
+        android:foreground="@drawable/logout_ripple"
+        android:id="@+id/previous_obpage_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="16dp"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_semibold"
+        android:textColor="?attr/colorOnPrimary"
+        android:background="@drawable/button_type_1"
+        android:foreground="@drawable/logout_ripple"
+        android:text="Next"
+        android:id="@+id/next_obpage_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="16dp"
+        android:textAllCaps="false"
+        android:textSize="16sp"
         />
 
 </RelativeLayout>

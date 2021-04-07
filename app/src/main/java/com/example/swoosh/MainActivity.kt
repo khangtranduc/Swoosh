@@ -1,5 +1,7 @@
 package com.example.swoosh
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -64,6 +66,9 @@ class MainActivity : AppCompatActivity(),
             setUpBottomBarUser(it)
         }
 
+        //set up onboarding
+        setUpOnboarding()
+
         //set up current data on start up
         Firebase.auth.currentUser?.let { Repository.fetchUser(it.email.toString()) }
 
@@ -87,6 +92,17 @@ class MainActivity : AppCompatActivity(),
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
         })
+    }
+
+    private fun setUpOnboarding(){
+        val prefs = getSharedPreferences("onboardingSP", Context.MODE_PRIVATE)
+        val hasOnboarding = prefs.getBoolean("hasOnboarding", false)
+        if (!hasOnboarding){
+            findNavController(R.id.nav_host_fragment).navigate(NavigationGraphDirections.actionGlobalOnBoarding())
+        }
+        else{
+            findNavController(R.id.nav_host_fragment).navigate(NavigationGraphDirections.actionGlobalLogin())
+        }
     }
 
     private fun setOnClicks(){
@@ -208,6 +224,10 @@ class MainActivity : AppCompatActivity(),
             R.id.nav_note_detail -> {
                 add_board_fab.hide()
                 Log.d("debug", "NoteDetail")
+            }
+            R.id.nav_on_boarding -> {
+                hideBottomBar()
+                Log.d("debug", "OnBoarding")
             }
         }
     }
