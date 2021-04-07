@@ -28,30 +28,12 @@ class BoardPagerAdapter(private val activity: FragmentActivity): FragmentStateAd
         return fragments.any{ it.id == itemId}
     }
 
-    override fun onBindViewHolder(holder: FragmentViewHolder, position: Int, payloads: MutableList<Any>) {
-        if (payloads.isNotEmpty()){
-            val tag = "f" + holder.itemId
-            val fragment = activity.supportFragmentManager.findFragmentByTag(tag)
-            if (fragment != null){
-                (fragment as BoardItemFragment).setValue(fragments[position])
-            }
-            else{
-                super.onBindViewHolder(holder, position, payloads)
-            }
-        }
-        else{
-            super.onBindViewHolder(holder, position, payloads)
-        }
-    }
-
     fun submitList(newFragments: List<BoardItemFragment>){
         Log.d("debug", "$fragments $newFragments")
-        val callback = PagerDiffUtil(fragments, newFragments)
-        val diff = DiffUtil.calculateDiff(callback)
         fragments.apply {
             clear()
             addAll(newFragments)
+            notifyDataSetChanged()
         }
-        diff.dispatchUpdatesTo(this)
     }
 }

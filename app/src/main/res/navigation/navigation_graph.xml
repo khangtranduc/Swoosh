@@ -73,6 +73,9 @@
     <action
         android:id="@+id/action_global_noteDetail"
         app:destination="@id/nav_note_detail" />
+    <action
+        android:id="@+id/action_global_onBoarding"
+        app:destination="@id/nav_on_boarding" />
     <fragment
         android:id="@+id/nav_chat_window"
         android:name="com.example.swoosh.ui.chat.ChatWindow"
@@ -156,4 +159,9 @@
             android:defaultValue="false"
             app:argType="boolean"/>
     </fragment>
+    <fragment
+        android:id="@+id/nav_on_boarding"
+        android:name="com.example.swoosh.ui.on_boarding.OnBoarding"
+        android:label="fragment_on_boarding"
+        tools:layout="@layout/fragment_on_boarding" />
 </navigation>
