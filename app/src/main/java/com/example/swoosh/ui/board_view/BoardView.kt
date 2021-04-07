@@ -46,21 +46,12 @@ class BoardView : Fragment() {
         PolySeri.json.decodeFromString(args.board)
     }
     private lateinit var viewModel: BoardViewViewModel
-    private lateinit var boardItemsFragments: ArrayList<BoardItemFragment>
     private val valueEventListener : ValueEventListener by lazy{
         object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 viewModel.fetchBoardItems()
             }
             override fun onCancelled(error: DatabaseError) {
-            }
-        }
-    }
-
-    private val onPageChangeCallback : ViewPager2.OnPageChangeCallback by lazy{
-        object: ViewPager2.OnPageChangeCallback(){
-            override fun onPageSelected(position: Int) {
-                viewModel.pagerState = position
             }
         }
     }
@@ -101,7 +92,7 @@ class BoardView : Fragment() {
     }
 
     private fun updateBoardFragments(boardItems: SortedMap<String, BoardItem>?){
-        boardItemsFragments = boardItems?.let { BoardUtils.getBoardItemFragments(it, board.id) }
+        val boardItemsFragments = boardItems?.let { BoardUtils.getBoardItemFragments(it, board.id) }
                 ?: arrayListOf()
 
         if (board_content_viewpager.adapter != null){
@@ -110,15 +101,6 @@ class BoardView : Fragment() {
         else{
             board_content_viewpager.adapter = BoardPagerAdapter(requireActivity()).apply { submitList(boardItemsFragments) }
         }
-
-//        board_content_viewpager.adapter?.let {
-//            if (it.itemCount >= viewModel.pagerState && viewModel.pagerState != -1)
-//                board_content_viewpager.currentItem = viewModel.pagerState
-//            else
-//                viewModel.pagerState = 0
-//
-//            board_content_viewpager.registerOnPageChangeCallback(onPageChangeCallback)
-//        }
 
         TabLayoutMediator(board_view_dot_indicator, board_content_viewpager){_, _ -> }.attach()
 

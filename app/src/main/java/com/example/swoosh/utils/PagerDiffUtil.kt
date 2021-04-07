@@ -1,5 +1,6 @@
 package com.example.swoosh.utils
 
+import android.util.Log
 import androidx.recyclerview.widget.DiffUtil
 import com.example.swoosh.data.model.BoardItem
 import com.example.swoosh.ui.base.BoardItemFragment
@@ -21,8 +22,13 @@ class PagerDiffUtil(
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        Log.d("debug", "${oldList[oldItemPosition]} ${newList[newItemPosition]}")
+
         return oldList[oldItemPosition].theSame(newList[newItemPosition])
     }
 
+    override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
+        return listOf(PayloadKey.VALUE)
+    }
 
 }

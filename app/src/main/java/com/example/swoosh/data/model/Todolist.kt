@@ -6,6 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashMap
 
 @Serializable
 @SerialName("Todolist")
@@ -60,6 +61,21 @@ data class Todolist(
                 "p4" -> android.R.color.darker_gray
                 else -> android.R.color.holo_green_dark
             }
+        }
+    }
+
+    override fun clone() : BoardItem {
+        return Todolist(name, HashMap(todos), dateCreated)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return if (other is Todolist){
+            this.name == other.name &&
+                    this.todos == other.todos &&
+                    this.dateCreated == other.dateCreated
+        }
+        else{
+            super.equals(other)
         }
     }
 }

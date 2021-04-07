@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.swoosh.NavigationGraphDirections
 import com.example.swoosh.R
+import com.example.swoosh.data.model.BoardItem
 import com.example.swoosh.data.model.NoteCollection
 import com.example.swoosh.data.model.Todolist
 import com.example.swoosh.ui.base.BoardItemFragment
@@ -27,9 +28,9 @@ import kotlinx.serialization.json.Json
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NoteFragment(private val noteCollection: NoteCollection, private val boardID: String) : BoardItemFragment() {
+class NoteFragment(private var noteCollection: NoteCollection, private val boardID: String) : BoardItemFragment() {
 
-    override var id: Long = noteCollection.dateCreated
+    override var id: Long = noteCollection.dateCreated + noteCollection.name.hashCode()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -71,7 +72,7 @@ class NoteFragment(private val noteCollection: NoteCollection, private val board
         }
 
         noteCol_overflow_btn.setOnClickListener {
-            BoardItemOverflowDialog(noteCollection, boardID).show(childFragmentManager, BoardItemOverflowDialog.TAG)
+            BoardItemOverflowDialog(noteCollection.clone(), boardID).show(childFragmentManager, BoardItemOverflowDialog.TAG)
         }
     }
 
@@ -82,6 +83,16 @@ class NoteFragment(private val noteCollection: NoteCollection, private val board
         else{
             false
         }
+    }
+
+    override fun setValue(fragment: BoardItemFragment) {
+        if (fragment is NoteFragment){
+            noteCollection = fragment.noteCollection
+        }
+    }
+
+    override fun clone(): BoardItemFragment {
+        return NoteFragment(noteCollection.clone() as NoteCollection, boardID)
     }
 
     override fun toString(): String {

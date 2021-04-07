@@ -4,6 +4,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.HashMap
 
 @Serializable
 @SerialName("NoteCollection")
@@ -31,9 +32,13 @@ data class NoteCollection(
         return getDateStr(dateCreated, "dd/MM/yyyy")
     }
 
+    override fun clone(): BoardItem {
+        return NoteCollection(name, HashMap(notes), dateCreated)
+    }
+
     override fun equals(other: Any?): Boolean {
         return if (other is NoteCollection){
-            return (this.name == other.name &&
+            (this.name == other.name &&
                     this.notes == other.notes &&
                     this.dateCreated == other.dateCreated)
         }

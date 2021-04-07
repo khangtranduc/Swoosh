@@ -68,12 +68,13 @@ class NoteCreationFragment : Fragment() {
                         FBItem.Containable.parseToContainable(note),
                         FBItem.Containable.parseToContainable(noteNew),
                         boardID)
+                viewModel.updateNote(noteNew)
             }
             else{
                 Repository.pushToFBItem(FBItem.parseToFBItem(noteCollection), FBItem.Containable.parseToContainable(noteNew), boardID)
+                viewModel.updateNote(NoteCollection.Note())
             }
 
-            viewModel.updateNote(noteNew)
             findNavController().navigateUp()
         }
     }

@@ -33,9 +33,9 @@ import kotlinx.android.synthetic.main.fragment_todolist.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class TodolistFragment(private val todolist: Todolist, private val boardID: String) : BoardItemFragment() {
+class TodolistFragment(private var todolist: Todolist, private val boardID: String) : BoardItemFragment() {
 
-    override var id: Long = todolist.dateCreated
+    override var id: Long = todolist.dateCreated + todolist.name.hashCode()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,7 +75,7 @@ class TodolistFragment(private val todolist: Todolist, private val boardID: Stri
         }
 
         todolist_overflow_btn.setOnClickListener{
-            BoardItemOverflowDialog(todolist, boardID).show(childFragmentManager, BoardItemOverflowDialog.TAG)
+            BoardItemOverflowDialog(todolist.clone(), boardID).show(childFragmentManager, BoardItemOverflowDialog.TAG)
         }
     }
 
@@ -86,6 +86,16 @@ class TodolistFragment(private val todolist: Todolist, private val boardID: Stri
         else{
             false
         }
+    }
+
+    override fun setValue(fragment: BoardItemFragment) {
+        if (fragment is TodolistFragment){
+            todolist = fragment.todolist
+        }
+    }
+
+    override fun clone(): BoardItemFragment {
+        return TodolistFragment(todolist.clone() as Todolist, boardID)
     }
 
     override fun toString(): String {

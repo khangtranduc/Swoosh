@@ -17,10 +17,10 @@ object BoardUtils {
 
         for ((key, value) in boardItems){
             if (value is Todolist){
-                returnArray.add(TodolistFragment(value, boardID))
+                returnArray.add(TodolistFragment(value.clone() as Todolist, boardID))
             }
             else if (value is NoteCollection){
-                returnArray.add(NoteFragment(value, boardID))
+                returnArray.add(NoteFragment(value.clone() as NoteCollection, boardID))
             }
         }
 

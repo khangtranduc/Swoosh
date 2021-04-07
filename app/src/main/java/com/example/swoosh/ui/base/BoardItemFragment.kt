@@ -1,11 +1,14 @@
 package com.example.swoosh.ui.base
 
 import androidx.fragment.app.Fragment
+import com.example.swoosh.data.model.BoardItem
 
-open class BoardItemFragment : Fragment() {
-    open var id: Long = 0
+abstract class BoardItemFragment() : Fragment() {
+    abstract var id: Long
 
-    open fun theSame(item: BoardItemFragment) : Boolean{
-        return false
-    }
+    abstract fun theSame(item: BoardItemFragment) : Boolean
+
+    abstract fun setValue(fragment: BoardItemFragment)
+
+    abstract fun clone(): BoardItemFragment
 }

@@ -11,6 +11,8 @@ abstract class BoardItem() {
     abstract var name: String
     abstract var dateCreated: Long
 
+    abstract fun clone() : BoardItem
+
     companion object{
         fun getDateStr(time: Long, format: String): String{
             return SimpleDateFormat(format).format(Date(time))
