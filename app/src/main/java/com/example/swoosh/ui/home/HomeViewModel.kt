@@ -63,6 +63,7 @@ class HomeViewModel() : ViewModel(){
     }
 
     fun clearBoards(){
+        _status.value = Status.LOADING
         _boards.value = arrayListOf()
     }
 }

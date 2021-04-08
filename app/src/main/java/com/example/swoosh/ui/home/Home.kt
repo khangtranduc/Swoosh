@@ -109,10 +109,26 @@ class Home : Fragment() {
 
     private fun updateStatus(status: Status){
         when(status){
-            Status.FAILED -> {}
-            Status.LOADING -> {home_progress_bar.isVisible = true}
-            Status.SUCCESS -> {home_progress_bar.isVisible = false}
-            Status.EMPTY -> {}
+            Status.FAILED -> {
+                home_progress_bar.isVisible = false
+                home_status_failed.visibility = View.VISIBLE
+                home_status_empty.visibility = View.GONE
+            }
+            Status.LOADING -> {
+                home_progress_bar.isVisible = true
+                home_status_failed.visibility = View.GONE
+                home_status_empty.visibility = View.GONE
+            }
+            Status.SUCCESS -> {
+                home_progress_bar.isVisible = false
+                home_status_failed.visibility = View.GONE
+                home_status_empty.visibility = View.GONE
+            }
+            Status.EMPTY -> {
+                home_status_empty.visibility = View.VISIBLE
+                home_progress_bar.isVisible = false
+                home_status_failed.visibility = View.GONE
+            }
         }
     }
 
