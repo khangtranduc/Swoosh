@@ -27,6 +27,7 @@ class HomeViewModel() : ViewModel(){
         get() = _status
 
     fun fetchBoards(){
+        _status.value = Status.LOADING
         Repository.getBoardsRef().get().addOnSuccessListener {
             val toBoards = object: GenericTypeIndicator<Map<String, Board>>(){}
 
