@@ -51,7 +51,6 @@ object Repository {
     }
 
     fun updateFBItem(item: FBItem, boardID: String){
-        Log.d("debug", "Update ${item.name}")
 
         Firebase.database.reference.child("itemStore")
                 .child(boardID).child("${item.dateCreated}")
@@ -59,7 +58,6 @@ object Repository {
     }
 
     fun deleteFBItem(item: FBItem, boardID: String){
-        Log.d("debug", "Remove ${item.name}")
 
         Firebase.database.reference.child("itemStore")
                 .child(boardID).child("${item.dateCreated}")
@@ -67,7 +65,6 @@ object Repository {
     }
 
     fun pushToFBItem(item: FBItem, containable: FBItem.Containable, boardID: String){
-        Log.d("debug", "Add ${containable.name} to ${item.name}")
 
         Firebase.database.reference.child("itemStore")
                 .child(boardID).child(item.dateCreated.toString())
@@ -76,9 +73,6 @@ object Repository {
     }
 
     fun updateToFBItem(item: FBItem, containableOld: FBItem.Containable, containableNew: FBItem.Containable, boardID: String){
-        Log.d("debug", "Update ${containableOld.name} to ${containableNew.name} in ${item.name}")
-
-        Log.d("debug", containableOld.details)
 
         deleteFromFBItem(item, containableOld, boardID)
 
@@ -86,7 +80,6 @@ object Repository {
     }
 
     fun deleteFromFBItem(item: FBItem, containable: FBItem.Containable, boardID: String){
-        Log.d("debug", "Remove ${containable.name} from ${item.name}")
 
         Firebase.database.reference.child("itemStore")
                 .child(boardID).child(item.dateCreated.toString())
@@ -109,11 +102,20 @@ object Repository {
     }
 
     fun pushBoardItemToBoard(board: Board, item: FBItem){
-        Log.d("debug", "Add $item to ${board.name}")
 
         Firebase.database.reference.child("itemStore")
                 .child(board.id)
                 .child(item.dateCreated.toString()).setValue(item)
+    }
+
+    fun getBoardsRef() : DatabaseReference{
+        return Firebase.database.reference.child("boards")
+    }
+
+    fun getKeysRef() : DatabaseReference{
+        return Firebase.database.reference.child("users")
+                .child(getUserDir(Firebase.auth.currentUser?.email.toString()))
+                .child("keys")
     }
 
     fun getItemRef(boardId: String): DatabaseReference {
@@ -123,7 +125,6 @@ object Repository {
     }
 
     fun deleteBoard(board: Board){
-        Log.d("debug", "Remove ${board.name} from firebase")
 
         Firebase.database.reference.child("boards")
                 .child(board.id).removeValue()
@@ -138,7 +139,6 @@ object Repository {
     }
 
     fun updateBoard(board: Board){
-        Log.d("debug", "Updated ${board.name}")
 
         Firebase.database.reference.child("boards")
                 .child(board.id).child("name").setValue(board.name)
@@ -155,8 +155,6 @@ object Repository {
 
         while (reader.hasNext()){
             val email = reader.next().trim()
-
-            Log.d("debug", email)
 
             membersArray.add(Board.Member(email))
         }
@@ -182,8 +180,6 @@ object Repository {
 
             board.members = membersArray
             board.id = client.key.toString()
-
-            Log.d("debug", board.members.toString())
 
             client.setValue(board).addOnSuccessListener {
                 Toast.makeText(context, "Board created successfully", Toast.LENGTH_SHORT).show()

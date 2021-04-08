@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.swoosh.R
 import com.example.swoosh.data.Repository
+import com.example.swoosh.ui.home.HomeViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -17,9 +19,14 @@ import kotlinx.android.synthetic.main.fragment_log_in.*
 
 class LogIn : Fragment() {
 
+    private val homeViewModel: HomeViewModel by activityViewModels()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
+
+        homeViewModel.clearBoards()
+
         return inflater.inflate(R.layout.fragment_log_in, container, false)
     }
 
@@ -75,6 +82,7 @@ class LogIn : Fragment() {
     }
 
     private fun logIn(){
+        homeViewModel.fetchBoards()
         findNavController().navigate(LogInDirections.gotoHome())
     }
 }

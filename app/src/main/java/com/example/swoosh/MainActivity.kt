@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
@@ -20,6 +21,7 @@ import com.example.swoosh.data.Repository
 import com.example.swoosh.ui.dialog_fragments.BoardCreationDialog
 import com.example.swoosh.ui.dialog_fragments.UserEditDialog
 import com.example.swoosh.ui.board_view.BoardView
+import com.example.swoosh.ui.home.HomeViewModel
 import com.example.swoosh.ui.nav.BottomSheet
 import com.example.swoosh.utils.SandwichState
 import com.example.swoosh.utils.currentNavigationFragment
@@ -32,6 +34,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fab_add_sheet.*
 import kotlinx.android.synthetic.main.user_info.*
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), 
         NavController.OnDestinationChangedListener {
@@ -107,7 +110,6 @@ class MainActivity : AppCompatActivity(),
 
     private fun setOnClicks(){
         expand_btn.setOnClickListener{
-            Log.d("debug", "expand_btn clicked")
             bottomSheet.toggle()
         }
 
@@ -152,10 +154,10 @@ class MainActivity : AppCompatActivity(),
             bottomSheet.sandwichState == SandwichState.OPEN -> bottomSheet.animateCloseSandwich()
             (bottomSheet.behaviour.state != BottomSheetBehavior.STATE_HIDDEN
                     && bottomSheet.behaviour.state != BottomSheetBehavior.STATE_COLLAPSED)
-                    -> bottomSheet.close()
+            -> bottomSheet.close()
             (bottomSheet.behaviour.state == BottomSheetBehavior.STATE_HIDDEN
                     || bottomSheet.behaviour.state == BottomSheetBehavior.STATE_COLLAPSED)
-                    -> {
+            -> {
                 if (id == R.id.nav_home || id == R.id.logIn){
                     finishAffinity()
                 }
@@ -178,13 +180,11 @@ class MainActivity : AppCompatActivity(),
                 destination_title.text = "Boards"
                 dynamic_button.visibility = View.VISIBLE
                 fabAdd()
-                Log.d("debug", "Home")
             }
             R.id.nav_chat_window -> {
                 fabSend()
                 showChatET()
                 dynamic_button.visibility = View.GONE
-                Log.d("debug", "Chat Window")
             }
             R.id.nav_chat -> {
                 bottomSheet.close()
@@ -193,44 +193,35 @@ class MainActivity : AppCompatActivity(),
                 fabAddPerson()
                 hideChatET()
                 dynamic_button.visibility = View.VISIBLE
-                Log.d("debug", "Chat")
             }
             R.id.logIn -> {
                 hideBottomBar()
                 bottomSheet.close()
-                Log.d("debug", "LogIn")
             }
             R.id.register -> {
                 hideBottomBar()
-                Log.d("debug", "Register")
             }
             R.id.nav_search -> {
                 performHideBottomBar()
-                Log.d("debug", "Search")
             }
             R.id.nav_settings -> {
                 performHideBottomBar()
                 bottomSheet.close()
-                Log.d("debug", "Settings")
             }
             R.id.nav_board_view -> {
                 fabCreateBoardItem()
                 bottom_app_bar.animate().translationY(200f)
                 if (!add_board_fab.isShown) add_board_fab.show()
                 dynamic_button.visibility = View.GONE
-                Log.d("debug", "BoardView")
             }
             R.id.nav_note_creation -> {
                 add_board_fab.hide()
-                Log.d("debug", "NoteCreation")
             }
             R.id.nav_note_detail -> {
                 add_board_fab.hide()
-                Log.d("debug", "NoteDetail")
             }
             R.id.nav_on_boarding -> {
                 hideBottomBar()
-                Log.d("debug", "OnBoarding")
             }
         }
     }
@@ -245,8 +236,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun setUpBottomBarUser(user: User){
-
-        Log.d("debug", user.name)
 
         name_tv.text = user.name
 
@@ -275,7 +264,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun dynamicOnCLick(drawable: Int){
-        Log.d("debug", "${R.drawable.ic_baseline_search_24} ${R.drawable.ic_baseline_settings_24} $drawable")
         when(drawable){
             R.drawable.ic_baseline_settings_24 -> {settingsAction()}
             R.drawable.ic_baseline_search_24 -> {searchAction()}

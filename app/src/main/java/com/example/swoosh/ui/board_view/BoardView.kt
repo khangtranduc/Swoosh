@@ -138,13 +138,6 @@ class BoardView : Fragment() {
             TabLayoutMediator(board_view_dot_indicator, board_content_viewpager){_, _ -> }.attach()
             board_view_progress_bar.isVisible = false
         }
-
-        //funny debug things
-        Log.d("debug", "updateBoardFragments: ${board_content_viewpager.currentItem} out of ${(board_content_viewpager.adapter?.itemCount ?: 0)}")
-        Log.d("debug", "this fragment is: ${(board_content_viewpager.adapter as BoardPagerAdapter).fragments[board_content_viewpager.currentItem]}")
-        if (board_content_viewpager.currentItem >= 1){
-            Log.d("debug", "previous fragment is: ${(board_content_viewpager.adapter as BoardPagerAdapter).fragments[board_content_viewpager.currentItem - 1]}")
-        }
     }
 
 }

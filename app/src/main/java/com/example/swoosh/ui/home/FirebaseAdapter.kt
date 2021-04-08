@@ -32,8 +32,6 @@ open class FirebaseAdapter(options: FirebaseRecyclerOptions<Board>,
         fun bind(board: Board){
             itemView.transitionName = activity.getString(R.string.board_card_transition_name, board.id)
 
-            Log.d("debug", itemView.transitionName)
-
             itemView.setOnClickListener{
 
                 //add transitions

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.swoosh.R
@@ -23,6 +24,15 @@ class Settings : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         Firebase.auth.currentUser?.let { email_settings_tv.text = it.email.toString() }
+
+        dark_mode_switch.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
+            else{
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
 
         settings_toolbar.setupWithNavController(findNavController())
     }

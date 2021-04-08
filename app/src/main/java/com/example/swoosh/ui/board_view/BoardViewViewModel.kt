@@ -32,8 +32,6 @@ class BoardViewViewModel(private val boardID: String) : ViewModel() {
                     val itemStoreQuery = it.getValue(to)
                     val itemStore = itemStoreQuery?.toSortedMap()
 
-                    Log.d("debug", "${itemStore}")
-
                     itemStore?.let { _boardItems.value = Board.getActualItems(itemStore) }
                 }
     }

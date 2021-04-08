@@ -29,7 +29,6 @@ class BoardPagerAdapter(private val activity: FragmentActivity): FragmentStateAd
     }
 
     fun submitList(newFragments: List<BoardItemFragment>){
-        Log.d("debug", "$fragments $newFragments")
         fragments.apply {
             clear()
             addAll(newFragments)
