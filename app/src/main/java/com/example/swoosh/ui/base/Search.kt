@@ -33,13 +33,22 @@ class Search : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        search_toolbar.setupWithNavController(findNavController())
+        search_up_btn.setOnClickListener{
+            hideSoftKeyboard()
+            findNavController().navigateUp()
+        }
         showSoftKeyboard()
 
         search_recycler.apply{
             adapter = SearchAdapter(boards)
             layoutManager = LinearLayoutManager(requireContext())
         }
+    }
+
+    private fun hideSoftKeyboard(){
+        val imm: InputMethodManager =
+                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     private fun showSoftKeyboard() {

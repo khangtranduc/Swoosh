@@ -8,17 +8,20 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swoosh.R
 import com.example.swoosh.data.model.Board
 import com.example.swoosh.ui.dialog_fragments.BoardActionDialog
 import com.example.swoosh.utils.PolySeri
+import com.example.swoosh.utils.currentNavigationFragment
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.android.material.transition.platform.MaterialElevationScale
 import kotlinx.serialization.encodeToString
 
-class FirebaseAdapter(options: FirebaseRecyclerOptions<Board>,
-                      private val activity: FragmentActivity)
+open class FirebaseAdapter(options: FirebaseRecyclerOptions<Board>,
+                           private val activity: FragmentActivity)
     : FirebaseRecyclerAdapter<Board, FirebaseAdapter.ViewHolder>(options) {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -27,10 +30,24 @@ class FirebaseAdapter(options: FirebaseRecyclerOptions<Board>,
 
         @SuppressLint("SetTextI18n")
         fun bind(board: Board){
+            itemView.transitionName = activity.getString(R.string.board_card_transition_name, board.id)
+
+            Log.d("debug", itemView.transitionName)
 
             itemView.setOnClickListener{
+
+                //add transitions
+                activity.supportFragmentManager.currentNavigationFragment?.exitTransition = com.google.android.material.transition.MaterialElevationScale(false).apply {
+                    duration = activity.baseContext.resources.getInteger(R.integer.motion_duration_long).toLong()
+                }
+                activity.supportFragmentManager.currentNavigationFragment?.reenterTransition = com.google.android.material.transition.MaterialElevationScale(true).apply {
+                    duration = activity.baseContext.resources.getInteger(R.integer.motion_duration_long).toLong()
+                }
+
+                val boardViewTransitionName = activity.getString(R.string.board_view_transition_name)
+                val extras = FragmentNavigatorExtras(itemView to boardViewTransitionName)
                 val action = HomeDirections.gotoBoardView(PolySeri.json.encodeToString(board))
-                activity.findNavController(R.id.nav_host_fragment).navigate(action)
+                activity.findNavController(R.id.nav_host_fragment).navigate(action, extras)
             }
 
             itemView.setOnLongClickListener{

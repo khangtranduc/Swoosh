@@ -15,7 +15,9 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 @SuppressLint("SetTextI18n")
-class TestAdapter(var boards: List<Board>, var activity: FragmentActivity) : RecyclerView.Adapter<TestAdapter.ViewHolder>() {
+class TestAdapter(private val activity: FragmentActivity) : RecyclerView.Adapter<TestAdapter.ViewHolder>() {
+
+    private val boards: ArrayList<Board> = arrayListOf()
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val title = itemView.findViewById<TextView>(R.id.board_title)
@@ -44,5 +46,13 @@ class TestAdapter(var boards: List<Board>, var activity: FragmentActivity) : Rec
 
     override fun getItemCount(): Int {
         return boards.size
+    }
+
+    fun submitList(newBoards: List<Board>){
+        boards.apply {
+            clear()
+            addAll(newBoards)
+            notifyDataSetChanged()
+        }
     }
 }

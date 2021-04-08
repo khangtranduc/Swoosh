@@ -6,15 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.swoosh.R
 import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.Board
-import com.example.swoosh.data.model.FBItem
-import com.example.swoosh.data.model.NoteCollection
-import com.example.swoosh.data.model.Todolist
 import com.example.swoosh.ui.base.ScrollListener
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.android.material.transition.MaterialFadeThrough
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -43,6 +43,14 @@ class Home : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        //return transition
+//        postponeEnterTransition()
+//        view.doOnPreDraw { startPostponedEnterTransition() }
+
+        //setup enter and exit animations
+        enterTransition = MaterialFadeThrough()
+        exitTransition = MaterialFadeThrough()
 
         //set up firebase recycler things
         val keyRef = Firebase.database.reference

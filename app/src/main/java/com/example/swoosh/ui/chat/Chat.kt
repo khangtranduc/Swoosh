@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.swoosh.R
 import com.example.swoosh.data.model.Convo
 import com.example.swoosh.ui.base.ScrollListener
+import com.google.android.material.transition.MaterialFadeThrough
 import kotlinx.android.synthetic.main.fragment_chat.*
 
 class Chat : Fragment() {
@@ -17,6 +18,14 @@ class Chat : Fragment() {
             Convo("Science Project", "gamer69: yes", 100),
             Convo("Projectile Launcher", "gamer420: no", 100)
     )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        enterTransition = MaterialFadeThrough()
+
+        exitTransition = MaterialFadeThrough()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

@@ -159,6 +159,9 @@ class MainActivity : AppCompatActivity(),
                 if (id == R.id.nav_home || id == R.id.logIn){
                     finishAffinity()
                 }
+                else if (id == R.id.nav_board_view){
+                    (supportFragmentManager.currentNavigationFragment as BoardView).navigateUp()
+                }
                 else{
                     findNavController(R.id.nav_host_fragment).navigateUp(appBarConfiguration)
                 }

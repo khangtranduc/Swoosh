@@ -9,10 +9,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
@@ -26,6 +28,7 @@ import com.example.swoosh.ui.base.BoardItemFragment
 import com.example.swoosh.ui.dialog_fragments.BoardItemCreationDialog
 import com.example.swoosh.utils.BoardUtils
 import com.example.swoosh.utils.PolySeri
+import com.example.swoosh.utils.themeColor
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.firebase.database.DataSnapshot
@@ -35,6 +38,8 @@ import kotlinx.android.synthetic.main.board_item_overflow.*
 import kotlinx.android.synthetic.main.fragment_board_view.*
 import kotlinx.android.synthetic.main.fragment_note.*
 import kotlinx.android.synthetic.main.fragment_todolist.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import java.util.*
 import kotlin.collections.ArrayList
@@ -54,6 +59,18 @@ class BoardView : Fragment() {
             override fun onCancelled(error: DatabaseError) {
             }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        sharedElementEnterTransition = MaterialContainerTransform().apply {
+            drawingViewId = R.id.nav_host_fragment
+            duration = requireContext().resources.getInteger(R.integer.motion_duration_long).toLong()
+            scrimColor = Color.TRANSPARENT
+            setAllContainerColors(requireContext().themeColor(R.attr.colorSurface))
+        }
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -78,8 +95,15 @@ class BoardView : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        board_view_toolbar.setupWithNavController(findNavController())
-        board_view_toolbar.title = board.name
+        board_view_up_btn.setOnClickListener{
+            navigateUp()
+        }
+        board_view_title_tv.text = board.name
+
+        lifecycleScope.launch {
+            delay(requireContext().resources.getInteger(R.integer.motion_duration_long).toLong())
+            board_view_appbar.animate().translationY(0f).setDuration(300).setInterpolator(AccelerateDecelerateInterpolator())
+        }
 
         viewModel.boardItems.observe(viewLifecycleOwner) {
             updateBoardFragments(it)
@@ -92,6 +116,14 @@ class BoardView : Fragment() {
 
     fun pushNoteCollection(){
         BoardItemCreationDialog(false, board).show(childFragmentManager, BoardItemCreationDialog.TAG)
+    }
+
+    fun navigateUp(){
+        board_view_appbar.animate().translationY(-200f).setDuration(200).setInterpolator(AccelerateDecelerateInterpolator())
+        lifecycleScope.launch {
+            delay(200)
+            findNavController().navigateUp()
+        }
     }
 
     private fun updateBoardFragments(boardItems: SortedMap<String, BoardItem>?){
