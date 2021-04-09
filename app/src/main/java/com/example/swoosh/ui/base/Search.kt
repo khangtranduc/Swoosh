@@ -4,25 +4,29 @@ import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.swoosh.R
 import com.example.swoosh.data.model.Board
 import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.android.synthetic.main.fragment_settings.*
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 class Search : Fragment() {
 
-    private val boards = arrayListOf<Board>(
-            Board("ja"),
-            Board("an"),
-            Board("ha")
-    )
+//    private val boards = arrayListOf(
+//            Board("ja"),
+//            Board("an"),
+//            Board("ha")
+//    )
+
+    private val args: SearchArgs by navArgs()
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -40,7 +44,7 @@ class Search : Fragment() {
         showSoftKeyboard()
 
         search_recycler.apply{
-            adapter = SearchAdapter(boards)
+            adapter = SearchAdapter()
             layoutManager = LinearLayoutManager(requireContext())
         }
     }

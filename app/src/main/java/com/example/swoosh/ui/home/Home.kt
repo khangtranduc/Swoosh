@@ -1,20 +1,28 @@
 package com.example.swoosh.ui.home
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AccelerateInterpolator
+import android.view.inputmethod.InputMethodManager
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.swoosh.NavigationGraphDirections
 import com.example.swoosh.R
 import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.Board
 import com.example.swoosh.ui.base.ScrollListener
+import com.example.swoosh.utils.PolySeri
 import com.example.swoosh.utils.Status
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.transition.MaterialFadeThrough
@@ -26,6 +34,9 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_board_view.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_search.*
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class Home : Fragment() {
 
@@ -76,22 +87,13 @@ class Home : Fragment() {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
-        //setup enter and exit animations
+        //set Transitions
         enterTransition = MaterialFadeThrough()
         exitTransition = MaterialFadeThrough()
 
-        //set up firebase recycler things
-//        val keyRef = Firebase.database.reference
-//                .child("users")
-//                .child(Repository.getUserDir(Firebase.auth.currentUser?.email.toString()))
-//                .child("keys")
-//
-//        val options = FirebaseRecyclerOptions.Builder<Board>()
-//                .setLifecycleOwner(viewLifecycleOwner)
-//                .setIndexedQuery(keyRef, Firebase.database.reference.child("boards"), Board::class.java)
-//                .build()
-//
-//        val firebaseAdapter = FirebaseAdapter(options, requireActivity())
+        home_reload_btn.setOnClickListener{
+            viewModel.fetchBoards()
+        }
 
         home_recycler.apply{
             layoutManager = LinearLayoutManager(requireContext())

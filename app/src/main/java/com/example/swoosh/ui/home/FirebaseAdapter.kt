@@ -19,6 +19,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.transition.platform.MaterialElevationScale
 import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 open class FirebaseAdapter(options: FirebaseRecyclerOptions<Board>,
                            private val activity: FragmentActivity)
@@ -44,7 +45,7 @@ open class FirebaseAdapter(options: FirebaseRecyclerOptions<Board>,
 
                 val boardViewTransitionName = activity.getString(R.string.board_view_transition_name)
                 val extras = FragmentNavigatorExtras(itemView to boardViewTransitionName)
-                val action = HomeDirections.gotoBoardView(PolySeri.json.encodeToString(board))
+                val action = HomeDirections.gotoBoardView(Json.encodeToString(board))
                 activity.findNavController(R.id.nav_host_fragment).navigate(action, extras)
             }
 

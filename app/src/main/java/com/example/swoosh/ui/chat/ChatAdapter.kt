@@ -1,6 +1,7 @@
-package com.example.swoosh.ui.home
+package com.example.swoosh.ui.chat
 
 import android.annotation.SuppressLint
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,29 +11,25 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swoosh.R
-import com.example.swoosh.data.model.Board
-import com.example.swoosh.ui.dialog_fragments.BoardActionDialog
-import com.example.swoosh.utils.PolySeri
+import com.example.swoosh.data.model.Convo
 import com.example.swoosh.utils.currentNavigationFragment
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 @SuppressLint("SetTextI18n")
-class HomeAdapter(private val activity: FragmentActivity) : RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
+class ChatAdapter(private val activity: FragmentActivity) : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
-    private val boards: ArrayList<Board> = arrayListOf()
+    private val convos: ArrayList<Convo> = arrayListOf()
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val title = itemView.findViewById<TextView>(R.id.board_title)
-        val members = itemView.findViewById<TextView>(R.id.board_members)
+        val lastMessage = itemView.findViewById<TextView>(R.id.board_members)
 
-        @SuppressLint("SetTextI18n")
-        fun bind(board: Board){
-            itemView.transitionName = activity.getString(R.string.board_card_transition_name, board.id)
+        fun bind(convo: Convo){
+            itemView.transitionName = convo.name
 
             itemView.setOnClickListener{
 
-                //add transitions
                 activity.supportFragmentManager.currentNavigationFragment?.exitTransition = com.google.android.material.transition.MaterialElevationScale(false).apply {
                     duration = activity.baseContext.resources.getInteger(R.integer.motion_duration_long).toLong()
                 }
@@ -40,19 +37,15 @@ class HomeAdapter(private val activity: FragmentActivity) : RecyclerView.Adapter
                     duration = activity.baseContext.resources.getInteger(R.integer.motion_duration_long).toLong()
                 }
 
-                val boardViewTransitionName = activity.getString(R.string.board_view_transition_name)
-                val extras = FragmentNavigatorExtras(itemView to boardViewTransitionName)
-                val action = HomeDirections.gotoBoardView(Json.encodeToString(board))
+                val chatWindowTransitionName = activity.resources.getString(R.string.chat_window_transition_name)
+                val extras = FragmentNavigatorExtras(itemView to chatWindowTransitionName)
+                val action = ChatDirections.gotoChatWindow(Json.encodeToString(convo))
                 activity.findNavController(R.id.nav_host_fragment).navigate(action, extras)
             }
 
-            itemView.setOnLongClickListener{
-                BoardActionDialog(board).show(activity.supportFragmentManager, BoardActionDialog.TAG)
-                false
-            }
-
-            title.text = board.name
-            members.text = "${board.members.size} members"
+            title.text = convo.name
+            lastMessage.setTypeface(lastMessage.typeface, Typeface.ITALIC)
+            lastMessage.text = convo.lastMessage
         }
     }
 
@@ -62,17 +55,17 @@ class HomeAdapter(private val activity: FragmentActivity) : RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(boards[position])
+        holder.bind(convos[position])
     }
 
     override fun getItemCount(): Int {
-        return boards.size
+        return convos.size
     }
 
-    fun submitList(newBoards: List<Board>){
-        boards.apply {
+    fun submitList(newConvos: List<Convo>){
+        convos.apply {
             clear()
-            addAll(newBoards)
+            addAll(newConvos)
             notifyDataSetChanged()
         }
     }

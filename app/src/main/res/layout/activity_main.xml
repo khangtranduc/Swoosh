@@ -141,4 +141,16 @@
         app:srcCompat="@drawable/ic_baseline_add_24"
         app:layout_anchor="@id/bottom_app_bar"
         android:contentDescription="Add new Board" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_board_fab_fake"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:visibility="invisible"
+        android:layout_marginBottom="17dp"
+        android:layout_marginEnd="32dp"
+        app:srcCompat="@drawable/ic_baseline_add_24"
+        />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

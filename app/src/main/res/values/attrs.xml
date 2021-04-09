@@ -31,4 +31,8 @@
     <!--Custom view themes/styles-->
     <attr name="bottomNavigationDrawerStyle" format="reference" />
     <attr name="bottomNavigationDrawerNavigationViewTheme" format="reference" />
+
+    <!-- Custom App bar themes -->
+    <attr name="appbarColor" format="color"/>
+    <attr name="appbarIcons" format="color"/>
 </resources>

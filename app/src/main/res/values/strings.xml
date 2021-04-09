@@ -11,4 +11,7 @@
     <!-- Board card -->
     <string name="board_card_transition_name">board_card_%1$s</string>
     <string name="board_view_transition_name">board_view</string>
+
+    <!-- Convo cards -->
+    <string name="chat_window_transition_name">chat_window</string>
 </resources>

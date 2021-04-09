@@ -28,6 +28,7 @@ import com.example.swoosh.ui.base.BoardItemFragment
 import com.example.swoosh.ui.dialog_fragments.BoardItemCreationDialog
 import com.example.swoosh.utils.BoardUtils
 import com.example.swoosh.utils.PolySeri
+import com.example.swoosh.utils.Status
 import com.example.swoosh.utils.themeColor
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialContainerTransform
@@ -41,6 +42,7 @@ import kotlinx.android.synthetic.main.fragment_todolist.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -48,7 +50,7 @@ class BoardView : Fragment() {
 
     private val args: BoardViewArgs by navArgs()
     private val board: Board by lazy{
-        PolySeri.json.decodeFromString(args.board)
+        Json.decodeFromString(args.board)
     }
     private lateinit var viewModel: BoardViewViewModel
     private val valueEventListener : ValueEventListener by lazy{
@@ -100,13 +102,49 @@ class BoardView : Fragment() {
         }
         board_view_title_tv.text = board.name
 
-        lifecycleScope.launch {
-            delay(requireContext().resources.getInteger(R.integer.motion_duration_long).toLong())
-            board_view_appbar.animate().translationY(0f).setDuration(300).setInterpolator(AccelerateDecelerateInterpolator())
-        }
+//        lifecycleScope.launch {
+//            delay(requireContext().resources.getInteger(R.integer.motion_duration_long).toLong())
+//            board_view_appbar.animate().translationY(0f).setDuration(300).setInterpolator(AccelerateDecelerateInterpolator())
+//        }
 
         viewModel.boardItems.observe(viewLifecycleOwner) {
             updateBoardFragments(it)
+        }
+
+        viewModel.status.observe(viewLifecycleOwner) {
+            updateStatus(it)
+        }
+
+        board_view_reload_btn.setOnClickListener{
+            viewModel.fetchBoardItems()
+        }
+    }
+
+    fun updateStatus(status: Status){
+        when(status){
+            Status.LOADING -> {
+                board_view_progress_bar.visibility = View.VISIBLE
+                board_view_status_failed.visibility = View.GONE
+                board_view_status_empty.visibility = View.GONE
+            }
+
+            Status.EMPTY -> {
+                board_view_progress_bar.visibility = View.GONE
+                board_view_status_failed.visibility = View.GONE
+                board_view_status_empty.visibility = View.VISIBLE
+            }
+
+            Status.SUCCESS -> {
+                board_view_progress_bar.visibility = View.GONE
+                board_view_status_failed.visibility = View.GONE
+                board_view_status_empty.visibility = View.GONE
+            }
+
+            Status.FAILED -> {
+                board_view_progress_bar.visibility = View.GONE
+                board_view_status_failed.visibility = View.VISIBLE
+                board_view_status_empty.visibility = View.GONE
+            }
         }
     }
 
@@ -119,11 +157,11 @@ class BoardView : Fragment() {
     }
 
     fun navigateUp(){
-        board_view_appbar.animate().translationY(-200f).setDuration(200).setInterpolator(AccelerateDecelerateInterpolator())
-        lifecycleScope.launch {
-            delay(200)
-            findNavController().navigateUp()
-        }
+//        board_view_appbar.animate().translationY(-200f).setDuration(200).setInterpolator(AccelerateDecelerateInterpolator())
+//        lifecycleScope.launch {
+//            delay(200)
+//        }
+        findNavController().navigateUp()
     }
 
     private fun updateBoardFragments(boardItems: SortedMap<String, BoardItem>?){
@@ -136,7 +174,6 @@ class BoardView : Fragment() {
         else{
             board_content_viewpager.adapter = BoardPagerAdapter(requireActivity()).apply { submitList(boardItemsFragments) }
             TabLayoutMediator(board_view_dot_indicator, board_content_viewpager){_, _ -> }.attach()
-            board_view_progress_bar.isVisible = false
         }
     }
 

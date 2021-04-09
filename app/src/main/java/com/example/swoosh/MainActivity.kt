@@ -21,6 +21,8 @@ import com.example.swoosh.data.Repository
 import com.example.swoosh.ui.dialog_fragments.BoardCreationDialog
 import com.example.swoosh.ui.dialog_fragments.UserEditDialog
 import com.example.swoosh.ui.board_view.BoardView
+import com.example.swoosh.ui.chat.Chat
+import com.example.swoosh.ui.home.Home
 import com.example.swoosh.ui.home.HomeViewModel
 import com.example.swoosh.ui.nav.BottomSheet
 import com.example.swoosh.utils.SandwichState
@@ -282,18 +284,18 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun sheetToFab(){
-        add_board_fab.show()
         val transition = MaterialContainerTransform().apply {
             startView = fab_add_card
-            endView = add_board_fab
+            endView = add_board_fab_fake
             duration = 300
-            addTarget(add_board_fab)
+            addTarget(add_board_fab_fake)
             setPathMotion(MaterialArcMotion())
             scrimColor = Color.TRANSPARENT
         }
         TransitionManager.beginDelayedTransition(coordinator_container, transition)
         fab_add_card.visibility = View.GONE
         add_sheet_scrim.visibility = View.GONE
+        add_board_fab.show()
     }
 
     private fun fabToSheet(){
@@ -317,8 +319,8 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun searchAction(){
-        val search = NavigationGraphDirections.actionGlobalSearch()
-        findNavController(R.id.nav_host_fragment).navigate(search)
+        val action = NavigationGraphDirections.actionGlobalSearch()
+        findNavController(R.id.nav_host_fragment).navigate(action)
     }
 
     private fun settingsAction(){

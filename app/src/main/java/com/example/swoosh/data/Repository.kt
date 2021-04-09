@@ -118,6 +118,10 @@ object Repository {
                 .child("keys")
     }
 
+    fun getConvoRef() : DatabaseReference{
+        return Firebase.database.reference.child("convos")
+    }
+
     fun getItemRef(boardId: String): DatabaseReference {
         return Firebase.database.reference
                 .child("itemStore")
@@ -180,6 +184,8 @@ object Repository {
 
             board.members = membersArray
             board.id = client.key.toString()
+
+            getConvoRef().child(board.id).setValue(Convo("${board.name}'s chat", "No messages sent yet"))
 
             client.setValue(board).addOnSuccessListener {
                 Toast.makeText(context, "Board created successfully", Toast.LENGTH_SHORT).show()

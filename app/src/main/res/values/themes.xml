@@ -15,6 +15,9 @@
         <item name="android:windowTranslucentNavigation">true</item>
         <!-- Toolbar things-->
         <item name="android:homeAsUpIndicator">@drawable/ic_baseline_arrow_back_24</item>
+
+        <item name="appbarColor">@color/white</item>
+        <item name="appbarIcons">@color/black</item>
     </style>
 
     <!--Bottom Sheet Themes-->

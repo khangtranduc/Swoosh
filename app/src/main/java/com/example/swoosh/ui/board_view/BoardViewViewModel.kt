@@ -9,30 +9,46 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.swoosh.data.model.Board
 import com.example.swoosh.data.model.BoardItem
 import com.example.swoosh.data.model.FBItem
+import com.example.swoosh.utils.Status
 import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import java.util.*
+import javax.net.ssl.SSLEngineResult
 import kotlin.collections.HashMap
 
 class BoardViewViewModel(private val boardID: String) : ViewModel() {
     private val _boardItems = MutableLiveData<SortedMap<String, BoardItem>>()
-    var pagerState: Int = -1
+    private val _status = MutableLiveData<Status>(Status.LOADING)
 
     val boardItems : LiveData<SortedMap<String, BoardItem>>
         get() = _boardItems
+    val status : LiveData<Status>
+        get() = _status
 
     fun fetchBoardItems(){
+        _status.value = Status.LOADING
         Firebase.database.reference
                 .child("itemStore")
                 .child(boardID)
                 .get().addOnSuccessListener {
-                    val to = object: GenericTypeIndicator<Map<String, FBItem>>(){}
+                    if (it.exists()){
+                        val to = object: GenericTypeIndicator<Map<String, FBItem>>(){}
 
-                    val itemStoreQuery = it.getValue(to)
-                    val itemStore = itemStoreQuery?.toSortedMap()
+                        val itemStoreQuery = it.getValue(to)
+                        val itemStore = itemStoreQuery?.toSortedMap()
 
-                    itemStore?.let { _boardItems.value = Board.getActualItems(itemStore) }
+                        itemStore?.let {
+                            _boardItems.value = Board.getActualItems(itemStore)
+                            _status.value = Status.SUCCESS
+                        }
+                    }
+                    else {
+                        _status.value = Status.EMPTY
+                    }
+                }
+                .addOnFailureListener{
+                    _status.value = Status.FAILED
                 }
     }
 }

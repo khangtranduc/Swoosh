@@ -1,8 +1,6 @@
 package com.example.swoosh.utils
 
-import com.example.swoosh.data.model.BoardItem
-import com.example.swoosh.data.model.NoteCollection
-import com.example.swoosh.data.model.Todolist
+import com.example.swoosh.data.model.*
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic

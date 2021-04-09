@@ -27,7 +27,7 @@ class HomeViewModel() : ViewModel(){
         get() = _status
 
     fun fetchBoards(){
-        _status.value = Status.LOADING
+        _boards.value?.let { if (it.isEmpty()) {_status.value = Status.LOADING } }
         Repository.getBoardsRef().get().addOnSuccessListener {
             val toBoards = object: GenericTypeIndicator<Map<String, Board>>(){}
 
@@ -56,10 +56,10 @@ class HomeViewModel() : ViewModel(){
                     }
                 }
             }.addOnFailureListener{
-                _status.value = Status.FAILED
+                _boards.value?.let { value -> if (value.isEmpty()) {_status.value = Status.FAILED} else {_status.value = Status.SUCCESS } }
             }
         }.addOnFailureListener{
-            _status.value = Status.FAILED
+            _boards.value?.let { value -> if (value.isEmpty()) {_status.value = Status.FAILED} else {_status.value = Status.SUCCESS } }
         }
     }
 
