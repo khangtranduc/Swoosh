@@ -8,6 +8,103 @@
     android:transitionGroup="true"
     tools:context=".ui.chat.Chat">
 
+    <LinearLayout
+        android:id="@+id/chat_status_failed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:alpha="0.6"
+            android:src="@drawable/ic_baseline_sync_disabled_24"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Data Failed to Load"
+            android:fontFamily="@font/nunito_bold"
+            android:textAlignment="center"
+            android:textSize="28sp"
+            android:textColor="?attr/colorOnBackground"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Maybe check your internet connection"
+            android:textAlignment="center"
+            android:fontFamily="@font/nunito"
+            android:layout_marginHorizontal="8dp"
+            android:textSize="18sp"
+            android:alpha="0.6"
+            android:textColor="?attr/colorOnBackground"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/chat_reload_btn"
+            android:layout_width="150dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="16dp"
+            android:text="Reload"
+            android:fontFamily="@font/nunito_bold"
+            android:textColor="?attr/colorOnPrimary"
+            android:background="@drawable/button_type_1"
+            android:textAllCaps="false"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/chat_status_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:alpha="0.6"
+            android:src="@drawable/ic_baseline_turned_in_not_24"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You have no boards!"
+            android:fontFamily="@font/nunito_bold"
+            android:textAlignment="center"
+            android:textSize="28sp"
+            android:textColor="?attr/colorOnBackground"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Press the (+) icon at the bottom to create a new board!"
+            android:layout_marginHorizontal="8dp"
+            android:textAlignment="center"
+            android:fontFamily="@font/nunito"
+            android:textSize="18sp"
+            android:alpha="0.6"
+            android:textColor="?attr/colorOnBackground"
+            />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/chat_progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/convo_recycler"
         android:layout_width="match_parent"

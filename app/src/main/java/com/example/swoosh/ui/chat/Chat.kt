@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.swoosh.R
@@ -13,6 +14,7 @@ import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.Convo
 import com.example.swoosh.ui.base.ScrollListener
 import com.example.swoosh.ui.home.HomeAdapter
+import com.example.swoosh.utils.Status
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -69,9 +71,38 @@ class Chat : Fragment() {
             updateUI(it)
         }
 
+        viewModel.status.observe(viewLifecycleOwner){
+            updateStatus(it)
+        }
+
         convo_recycler.apply {
             layoutManager = LinearLayoutManager(requireContext())
             addOnScrollListener(ScrollListener(requireActivity()))
+        }
+    }
+
+    private fun updateStatus(status: Status){
+        when(status){
+            Status.FAILED -> {
+                chat_progress_bar.isVisible = false
+                chat_status_failed.visibility = View.VISIBLE
+                chat_status_empty.visibility = View.GONE
+            }
+            Status.LOADING -> {
+                chat_progress_bar.isVisible = true
+                chat_status_failed.visibility = View.GONE
+                chat_status_empty.visibility = View.GONE
+            }
+            Status.SUCCESS -> {
+                chat_progress_bar.isVisible = false
+                chat_status_failed.visibility = View.GONE
+                chat_status_empty.visibility = View.GONE
+            }
+            Status.EMPTY -> {
+                chat_status_empty.visibility = View.VISIBLE
+                chat_progress_bar.isVisible = false
+                chat_status_failed.visibility = View.GONE
+            }
         }
     }
 
