@@ -113,6 +113,7 @@
                     android:inputType="textAutoComplete"
                     android:fontFamily="@font/nunito"
                     android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
                     android:hint="Text Message..."
                     />
 

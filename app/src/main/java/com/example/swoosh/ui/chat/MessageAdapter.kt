@@ -14,7 +14,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import de.hdodenhof.circleimageview.CircleImageView
 
-class MessageAdapter(options: FirebaseRecyclerOptions<Message>) : FirebaseRecyclerAdapter<Message, MessageAdapter.ViewHolder>(options) {
+open class MessageAdapter(options: FirebaseRecyclerOptions<Message>) : FirebaseRecyclerAdapter<Message, MessageAdapter.ViewHolder>(options) {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val in_container = itemView.findViewById<ConstraintLayout>(R.id.in_message_container)
         val in_image = itemView.findViewById<CircleImageView>(R.id.in_message_img)

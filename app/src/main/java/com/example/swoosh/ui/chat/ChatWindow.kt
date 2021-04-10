@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.swoosh.R
 import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.Convo
@@ -65,10 +66,13 @@ class ChatWindow : Fragment() {
                 .build()
 
         message_recycler.apply {
-            adapter = MessageAdapter(options)
+            adapter = object: MessageAdapter(options){
+                override fun onDataChanged() {
+                    message_recycler.scrollToPosition(itemCount)
+                }
+            }
             layoutManager = LinearLayoutManager(requireContext()).apply{
                 stackFromEnd = true
-                reverseLayout = false
             }
         }
     }
