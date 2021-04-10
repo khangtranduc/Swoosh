@@ -37,8 +37,9 @@
 
             <TextView
                 android:id="@+id/board_members"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
                 android:layout_marginStart="15dp"
                 android:text="Secondary Text"
                 android:textSize="16sp"

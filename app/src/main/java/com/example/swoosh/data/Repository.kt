@@ -162,6 +162,7 @@ object Repository {
                 .child("convoStore")
                 .child(convoID)
                 .push().setValue(message)
+        getConvoRef().child(convoID).child("lastMessage").setValue("${message.sender}: ${message.message}")
     }
 
     fun pushBoardToFirebase(board: Board, membersCSV: String, context: Context){
@@ -201,7 +202,9 @@ object Repository {
             board.members = membersArray
             board.id = client.key.toString()
 
-            getConvoRef().child(board.id).setValue(Convo(board.id, "${board.name}'s chat", "No messages sent yet"))
+            if (board.members.size > 1){
+                getConvoRef().child(board.id).setValue(Convo(board.id, "${board.name}'s chat", "No messages sent yet"))
+            }
 
             client.setValue(board).addOnSuccessListener {
                 Toast.makeText(context, "Board created successfully", Toast.LENGTH_SHORT).show()

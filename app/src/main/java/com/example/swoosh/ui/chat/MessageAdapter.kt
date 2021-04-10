@@ -27,7 +27,6 @@ open class MessageAdapter(options: FirebaseRecyclerOptions<Message>) : FirebaseR
         val out_timeStamp = itemView.findViewById<TextView>(R.id.out_time_stamp_tv)
 
         fun bind(message: Message){
-            Log.d("debug", message.message)
             if (Repository.fromCurrentUser(message)){
                 in_container.visibility = View.GONE
                 out_container.visibility = View.VISIBLE
