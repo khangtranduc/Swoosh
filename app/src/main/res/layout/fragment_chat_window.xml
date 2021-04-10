@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     android:transitionName="@string/chat_window_transition_name"
     tools:context=".ui.chat.ChatWindow">
 
@@ -22,7 +23,7 @@
             android:theme="@style/ThemeOverlay.Toolbar">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 >
                 <ImageButton
                     android:id="@+id/chat_window_up_btn"
@@ -48,5 +49,15 @@
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/message_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fitsSystemWindows="true"
+        android:paddingTop="2dp"
+        android:layout_marginBottom="96dp"
+        />
 
 </LinearLayout>

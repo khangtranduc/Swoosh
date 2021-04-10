@@ -35,4 +35,7 @@
     <!-- Custom App bar themes -->
     <attr name="appbarColor" format="color"/>
     <attr name="appbarIcons" format="color"/>
+
+    <!--Chat stuff-->
+    <attr name="in_background" format="color"/>
 </resources>

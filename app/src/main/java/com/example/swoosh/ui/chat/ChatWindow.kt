@@ -11,10 +11,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.swoosh.R
+import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.Convo
+import com.example.swoosh.data.model.Message
 import com.example.swoosh.utils.themeColor
+import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.transition.MaterialContainerTransform
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_board_view.*
 import kotlinx.android.synthetic.main.fragment_chat_window.*
 import kotlinx.coroutines.delay
@@ -54,10 +59,22 @@ class ChatWindow : Fragment() {
         }
         chat_window_title_tv.text = convo.name
 
-//        lifecycleScope.launch {
-//            delay(requireContext().resources.getInteger(R.integer.motion_duration_long).toLong())
-//            chat_app_bar.animate().translationY(0f).setDuration(300).setInterpolator(AccelerateDecelerateInterpolator())
-//        }
+        val options = FirebaseRecyclerOptions.Builder<Message>()
+                .setLifecycleOwner(viewLifecycleOwner)
+                .setQuery(Repository.getConvoStoreQuery(convo.id), Message::class.java)
+                .build()
+
+        message_recycler.apply {
+            adapter = MessageAdapter(options)
+            layoutManager = LinearLayoutManager(requireContext()).apply{
+                stackFromEnd = true
+                reverseLayout = false
+            }
+        }
+    }
+
+    fun getConvoId() : String{
+        return convo.id
     }
 
     private fun navigateUp(){

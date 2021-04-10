@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.swoosh.data.model.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.Query
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.GlobalScope
@@ -72,6 +73,10 @@ object Repository {
                 .setValue(containable)
     }
 
+    fun fromCurrentUser(message: Message) : Boolean{
+        return Firebase.auth.currentUser?.let { message.senderEmail == it.email } ?: false
+    }
+
     fun updateToFBItem(item: FBItem, containableOld: FBItem.Containable, containableNew: FBItem.Containable, boardID: String){
 
         deleteFromFBItem(item, containableOld, boardID)
@@ -128,6 +133,10 @@ object Repository {
                 .child(boardId)
     }
 
+    fun getConvoStoreQuery(convoID: String) : Query{
+        return Firebase.database.reference.child("convoStore").child(convoID).limitToLast(50)
+    }
+
     fun deleteBoard(board: Board){
 
         Firebase.database.reference.child("boards")
@@ -146,6 +155,13 @@ object Repository {
 
         Firebase.database.reference.child("boards")
                 .child(board.id).child("name").setValue(board.name)
+    }
+
+    fun pushMessageToFirebase(message: Message, convoID: String){
+        Firebase.database.reference
+                .child("convoStore")
+                .child(convoID)
+                .push().setValue(message)
     }
 
     fun pushBoardToFirebase(board: Board, membersCSV: String, context: Context){
@@ -185,7 +201,7 @@ object Repository {
             board.members = membersArray
             board.id = client.key.toString()
 
-            getConvoRef().child(board.id).setValue(Convo("${board.name}'s chat", "No messages sent yet"))
+            getConvoRef().child(board.id).setValue(Convo(board.id, "${board.name}'s chat", "No messages sent yet"))
 
             client.setValue(board).addOnSuccessListener {
                 Toast.makeText(context, "Board created successfully", Toast.LENGTH_SHORT).show()

@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
@@ -18,10 +19,13 @@ import androidx.navigation.ui.navigateUp
 import androidx.transition.TransitionManager
 import com.example.swoosh.data.model.User
 import com.example.swoosh.data.Repository
+import com.example.swoosh.data.model.Message
 import com.example.swoosh.ui.dialog_fragments.BoardCreationDialog
 import com.example.swoosh.ui.dialog_fragments.UserEditDialog
 import com.example.swoosh.ui.board_view.BoardView
 import com.example.swoosh.ui.chat.Chat
+import com.example.swoosh.ui.chat.ChatWindow
+import com.example.swoosh.ui.chat.ChatWindowArgs
 import com.example.swoosh.ui.home.Home
 import com.example.swoosh.ui.home.HomeViewModel
 import com.example.swoosh.ui.nav.BottomSheet
@@ -279,6 +283,24 @@ class MainActivity : AppCompatActivity(),
             }
             R.id.nav_home -> {
                 BoardCreationDialog().show(supportFragmentManager, BoardCreationDialog.TAG)
+            }
+            R.id.nav_chat_window -> {
+                val convoID = (supportFragmentManager.currentNavigationFragment as ChatWindow).getConvoId()
+                sendMessage(convoID)
+            }
+        }
+    }
+
+    private fun sendMessage(convoID: String){
+        val mes = chat_et.text.toString()
+
+        if (!TextUtils.isEmpty(mes)){
+            Repository.user.value?.let {
+                val message = Message(
+                        Firebase.auth.currentUser?.email.toString(),
+                        it.name, mes, System.currentTimeMillis())
+                Repository.pushMessageToFirebase(message, convoID)
+                chat_et.setText("")
             }
         }
     }

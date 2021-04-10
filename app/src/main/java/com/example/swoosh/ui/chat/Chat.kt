@@ -25,8 +25,8 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class Chat : Fragment() {
 
     private val convos = arrayListOf(
-            Convo("Science Project", "gamer69: yes", 100),
-            Convo("Projectile Launcher", "gamer420: no", 100)
+            Convo("", "Science Project", "gamer69: yes", 100),
+            Convo("","Projectile Launcher", "gamer420: no", 100)
     )
 
     private val viewModel: ChatViewModel by activityViewModels()
