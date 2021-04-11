@@ -232,6 +232,10 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
+    fun emptyChatET(){
+        chat_et.setText("")
+    }
+
     fun rotateOpen(){
         bottom_up_arrow.animate().rotation(0f)
             .setDuration(300)

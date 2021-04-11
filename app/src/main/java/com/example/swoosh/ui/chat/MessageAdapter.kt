@@ -1,20 +1,23 @@
 package com.example.swoosh.ui.chat
 
+import android.graphics.Typeface
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swoosh.R
 import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.Message
+import com.example.swoosh.ui.dialog_fragments.MessageDeleteDialog
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import de.hdodenhof.circleimageview.CircleImageView
 
-open class MessageAdapter(options: FirebaseRecyclerOptions<Message>) : FirebaseRecyclerAdapter<Message, MessageAdapter.ViewHolder>(options) {
+open class MessageAdapter(options: FirebaseRecyclerOptions<Message>, private val activity: FragmentActivity, private val convoID: String) : FirebaseRecyclerAdapter<Message, MessageAdapter.ViewHolder>(options) {
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val in_container = itemView.findViewById<ConstraintLayout>(R.id.in_message_container)
         val in_image = itemView.findViewById<CircleImageView>(R.id.in_message_img)
@@ -27,13 +30,24 @@ open class MessageAdapter(options: FirebaseRecyclerOptions<Message>) : FirebaseR
         val out_timeStamp = itemView.findViewById<TextView>(R.id.out_time_stamp_tv)
 
         fun bind(message: Message){
+
             if (Repository.fromCurrentUser(message)){
                 in_container.visibility = View.GONE
                 out_container.visibility = View.VISIBLE
 
                 //TODO: implement out_image
 
-                out_message.text = message.message
+                if (message.message == message.id){
+                    out_message.setTypeface(out_message.typeface, Typeface.ITALIC)
+                    out_message.text = "message deleted "
+                }
+                else{
+                    out_message.text = message.message
+                    itemView.setOnLongClickListener {
+                        MessageDeleteDialog(message.id, convoID, message.sender).show(activity.supportFragmentManager, MessageDeleteDialog.TAG)
+                        false
+                    }
+                }
                 out_timeStamp.text = message.getTimeStampString()
             }
             else {
@@ -42,7 +56,13 @@ open class MessageAdapter(options: FirebaseRecyclerOptions<Message>) : FirebaseR
 
                 //TODO: implement in_image
 
-                in_message.text = message.message
+                if (message.message == message.id){
+                    in_message.setTypeface(out_message.typeface, Typeface.ITALIC)
+                    in_message.text = "message deleted "
+                }
+                else{
+                    in_message.text = message.message
+                }
                 in_timeStamp.text = message.getTimeStampString()
             }
         }

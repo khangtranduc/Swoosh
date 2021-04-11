@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.swoosh.MainActivity
 import com.example.swoosh.R
 import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.Convo
@@ -67,7 +68,7 @@ class ChatWindow : Fragment() {
                 .build()
 
         message_recycler.apply {
-            adapter = object: MessageAdapter(options){
+            adapter = object: MessageAdapter(options, requireActivity(), convo.id){
                 override fun onDataChanged() {
                     message_recycler.layoutManager?.smoothScrollToPosition(message_recycler, null, itemCount)
                 }
@@ -83,6 +84,7 @@ class ChatWindow : Fragment() {
     }
 
     private fun navigateUp(){
+        (requireActivity() as MainActivity).emptyChatET()
         findNavController().navigateUp()
     }
 }

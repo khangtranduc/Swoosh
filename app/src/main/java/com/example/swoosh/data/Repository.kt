@@ -158,11 +158,23 @@ object Repository {
     }
 
     fun pushMessageToFirebase(message: Message, convoID: String){
+        val client = Firebase.database.reference
+                .child("convoStore")
+                .child(convoID)
+                .push()
+
+        message.id = client.key.toString()
+
+        client.setValue(message)
+        getConvoRef().child(convoID).child("lastMessage").setValue("${message.sender}: ${message.message}")
+    }
+
+    fun deleteMessageFromFirebase(messageID: String, convoID: String, sender: String){
         Firebase.database.reference
                 .child("convoStore")
                 .child(convoID)
-                .push().setValue(message)
-        getConvoRef().child(convoID).child("lastMessage").setValue("${message.sender}: ${message.message}")
+                .child(messageID).child("message").setValue(messageID)
+        getConvoRef().child(convoID).child("lastMessage").setValue("${sender}: message deleted")
     }
 
     fun pushBoardToFirebase(board: Board, membersCSV: String, context: Context){

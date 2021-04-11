@@ -20,7 +20,8 @@ data class Message(
         var senderEmail: String = "",
         var sender: String = "",
         var message: String = "",
-        var timeStamp: Long = 0
+        var timeStamp: Long = 0,
+        var id: String = ""
 ){
     @SuppressLint("SimpleDateFormat")
     fun getTimeStampString(): String{
