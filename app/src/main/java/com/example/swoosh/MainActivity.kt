@@ -36,6 +36,7 @@ import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
@@ -364,6 +365,10 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun settingsAction(){
+        supportFragmentManager.currentNavigationFragment?.let {
+            it.exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
+            it.reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        }
         val settings = NavigationGraphDirections.actionGlobalSettings()
         findNavController(R.id.nav_host_fragment).navigate(settings)
     }
