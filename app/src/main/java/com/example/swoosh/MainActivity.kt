@@ -38,8 +38,10 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.fab_add_sheet.*
 import kotlinx.android.synthetic.main.user_info.*
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), 
@@ -356,7 +358,10 @@ class MainActivity : AppCompatActivity(),
 
     private fun fabSend(){
         bottom_app_bar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
-        add_board_fab.setImageResource(R.drawable.ic_baseline_send_24)
+        lifecycleScope.launch {
+            delay(300)
+            add_board_fab.setImageResource(R.drawable.ic_baseline_send_24)
+        }
     }
 
     private fun showChatET(){
@@ -384,7 +389,10 @@ class MainActivity : AppCompatActivity(),
 
     private fun fabAddPerson(){
         bottom_app_bar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
-        add_board_fab.setImageResource(R.drawable.ic_baseline_person_add_alt_1_24)
+        lifecycleScope.launch {
+            delay(300)
+            add_board_fab.setImageResource(R.drawable.ic_baseline_person_add_alt_1_24)
+        }
     }
 
     private fun fabAdd(){

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.swoosh.NavigationGraphDirections
@@ -19,6 +20,7 @@ import com.example.swoosh.ui.dialog_fragments.BoardItemOverflowDialog
 import com.example.swoosh.ui.notes.FirebaseAdapter
 import com.example.swoosh.utils.currentNavigationFragment
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_note.*
@@ -31,6 +33,13 @@ import java.util.*
 class NoteFragment(private var noteCollection: NoteCollection, private val boardID: String) : BoardItemFragment() {
 
     override var id: Long = noteCollection.dateCreated + noteCollection.name.hashCode()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

@@ -15,6 +15,7 @@ import com.example.swoosh.R
 import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.FBItem
 import com.example.swoosh.data.model.NoteCollection
+import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.android.synthetic.main.fragment_note_creation.*
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -32,6 +33,13 @@ class NoteCreationFragment : Fragment() {
         args.boardID
     }
     private val viewModel: NoteViewModel by activityViewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

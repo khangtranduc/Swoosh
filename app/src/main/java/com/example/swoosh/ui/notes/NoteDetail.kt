@@ -1,5 +1,6 @@
 package com.example.swoosh.ui.notes
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,6 +13,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.swoosh.R
 import com.example.swoosh.data.model.NoteCollection
+import com.example.swoosh.utils.themeColor
+import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.android.synthetic.main.fragment_note_detail.*
 import kotlinx.android.synthetic.main.note_card.*
 import kotlinx.serialization.decodeFromString
@@ -43,6 +47,10 @@ class NoteDetail : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //set default anims
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+
         viewModel.note.observe(viewLifecycleOwner){
             updateNoteUI(it)
         }
@@ -55,6 +63,8 @@ class NoteDetail : Fragment() {
         }
 
         note_edit_btn.setOnClickListener {
+            exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
             findNavController().navigate(NoteDetailDirections.gotoEdit(args.noteCollection, args.boardID, args.note, true))
         }
     }

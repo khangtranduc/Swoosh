@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swoosh.NavigationGraphDirections
 import com.example.swoosh.R
@@ -13,6 +14,7 @@ import com.example.swoosh.data.model.NoteCollection
 import com.example.swoosh.ui.dialog_fragments.NoteActionDialog
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 

@@ -14,4 +14,7 @@
 
     <!-- Convo cards -->
     <string name="chat_window_transition_name">chat_window</string>
+
+    <!-- Note Details -->
+    <string name="note_detail_transition_name">note_detail</string>
 </resources>
