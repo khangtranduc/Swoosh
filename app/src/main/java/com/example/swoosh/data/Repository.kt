@@ -1,6 +1,7 @@
 package com.example.swoosh.data
 
 import android.content.Context
+import android.net.Uri
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
@@ -12,6 +13,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.Query
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -24,8 +27,24 @@ object Repository {
     val user: LiveData<User>
         get() = _user
 
+    const val IMAGE_REQUEST = 10
+
     fun getUserDir(email: String) : String{
         return "${email.substringBefore("@")}_${email.substringBefore(".").substringAfter("@")}_${email.substringAfter(".")}"
+    }
+
+    fun putUserImageInStorage(uri: Uri, context: Context){
+        Firebase.storage.reference.child("userImage/${getUserDir(Firebase.auth.currentUser?.email.toString())}").putFile(uri)
+            .addOnSuccessListener {
+                Toast.makeText(context, "Image Uploaded Successfully", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener{
+                Toast.makeText(context, "Image Failed to Upload", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    fun getUserImageRef(email: String) : StorageReference{
+        return Firebase.storage.reference.child("userImage/${getUserDir(email)}")
     }
 
     fun updateUserParticulars(user: User, email: String){
@@ -42,12 +61,19 @@ object Repository {
         Firebase.database.reference
                 .child("users").child("${email.substringBefore("@")}_${email.substringBefore(".").substringAfter("@")}_${email.substringAfter(".")}")
                 .get().addOnSuccessListener {
-                    val temp_user = User()
-                    temp_user.name = it.child("name").value as String
-                    temp_user.age = it.child("age").value as Long
-                    temp_user.from = it.child("from").value as String
+                    val temp_user = User().apply {
+                        name = it.child("name").value as String
+                        age = it.child("age").value as Long
+                        from = it.child("from").value as String
+                    }
 
-                    _user.value = temp_user
+                    getUserImageRef(email).downloadUrl.addOnSuccessListener {
+                        temp_user.uri = it
+
+                        _user.value = temp_user
+                    }.addOnFailureListener {
+                        _user.value = temp_user
+                    }
                 }
     }
 

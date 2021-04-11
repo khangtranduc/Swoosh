@@ -2,31 +2,24 @@ package com.example.swoosh.ui.chat
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.swoosh.MainActivity
 import com.example.swoosh.R
 import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.Convo
 import com.example.swoosh.data.model.Message
+import com.example.swoosh.ui.base.UserUriViewModel
 import com.example.swoosh.utils.themeColor
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.transition.MaterialContainerTransform
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_board_view.*
 import kotlinx.android.synthetic.main.fragment_chat_window.*
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
@@ -36,6 +29,7 @@ class ChatWindow : Fragment() {
     private val convo: Convo by lazy {
         Json.decodeFromString(args.convo)
     }
+    private val viewModel: UserUriViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +62,7 @@ class ChatWindow : Fragment() {
                 .build()
 
         message_recycler.apply {
-            adapter = object: MessageAdapter(options, requireActivity(), convo.id){
+            adapter = object: MessageAdapter(options, requireActivity(), convo.id, viewModel){
                 override fun onDataChanged() {
                     message_recycler.layoutManager?.smoothScrollToPosition(message_recycler, null, itemCount)
                 }

@@ -15,11 +15,31 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/avatar_1"
-            />
+            android:id="@+id/edit_image_btn"
+            android:clickable="true"
+            app:cardCornerRadius="100dp"
+            >
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_preview"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/avatar_1"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:text="Edit"
+                android:textAlignment="center"
+                android:fontFamily="@font/nunito_semibold"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="10sp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:background="@color/reply_black_900_alpha_060"
+                />
+        </com.google.android.material.card.MaterialCardView>
 
         <EditText
             android:id="@+id/name_edit_et"

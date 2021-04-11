@@ -17,6 +17,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.transition.TransitionManager
+import com.bumptech.glide.Glide
 import com.example.swoosh.data.model.User
 import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.Message
@@ -40,6 +41,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.fab_add_sheet.*
+import kotlinx.android.synthetic.main.fragment_bottom_sheet.*
 import kotlinx.android.synthetic.main.user_info.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -264,6 +266,16 @@ class MainActivity : AppCompatActivity(),
         else{
             from_tv.text = "From: ${user.from}"
         }
+
+        Glide.with(this)
+            .load(user.uri)
+            .placeholder(R.drawable.avatar_1)
+            .into(profile_image)
+
+        Glide.with(this)
+            .load(user.uri)
+            .placeholder(R.drawable.avatar_1)
+            .into(circle_avatar)
     }
 
     fun rotateClose(){
