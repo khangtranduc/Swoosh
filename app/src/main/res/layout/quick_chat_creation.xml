@@ -15,34 +15,8 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:id="@+id/edit_image_btn"
-            android:clickable="true"
-            app:cardCornerRadius="100dp"
-            >
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_preview"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/ic_launcher_background"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="16dp"
-                android:text="Edit"
-                android:textAlignment="center"
-                android:fontFamily="@font/nunito_semibold"
-                android:textColor="?attr/colorOnPrimary"
-                android:textSize="10sp"
-                android:layout_gravity="bottom|center_horizontal"
-                android:background="@color/reply_black_900_alpha_060"
-                />
-        </com.google.android.material.card.MaterialCardView>
-
         <EditText
-            android:id="@+id/name_edit_et"
+            android:id="@+id/quick_chat_name_et"
             android:layout_width="260dp"
             android:layout_height="40dp"
             android:inputType="textAutoComplete"
@@ -53,14 +27,14 @@
             android:textSize="14sp"
             android:fontFamily="@font/nunito"
             android:background="@drawable/selection_highlight"
-            android:hint="Name (e.g Lyndys Thornton)"
+            android:hint="Quick Chat Name"
             />
 
         <EditText
-            android:id="@+id/age_edit_et"
+            android:id="@+id/quick_chat_members_et"
             android:layout_width="260dp"
             android:layout_height="40dp"
-            android:inputType="number"
+            android:inputType="textEmailAddress"
             android:ems="10"
             android:layout_marginTop="8dp"
             android:layout_marginHorizontal="24dp"
@@ -68,32 +42,17 @@
             android:textSize="14sp"
             android:fontFamily="@font/nunito"
             android:background="@drawable/selection_highlight"
-            android:hint="Age (e.g. 21)"
-            />
-
-        <EditText
-            android:id="@+id/country_edit_et"
-            android:layout_width="260dp"
-            android:layout_height="40dp"
-            android:inputType="textAutoComplete"
-            android:ems="10"
-            android:layout_marginTop="8dp"
-            android:layout_marginHorizontal="24dp"
-            android:paddingHorizontal="12dp"
-            android:textSize="14sp"
-            android:fontFamily="@font/nunito"
-            android:background="@drawable/selection_highlight"
-            android:hint="Country (e.g. Greece)"
+            android:hint="johansson@gmail.com, etc..."
             />
 
         <Button
-            android:id="@+id/edit_btn"
+            android:id="@+id/create_quick_chat_btn"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:paddingVertical="4dp"
             android:background="@drawable/button_type_1"
-            android:text="Edit"
+            android:text="Create"
             android:textSize="16sp"
             android:textAllCaps="false"
             android:fontFamily="@font/nunito_bold"

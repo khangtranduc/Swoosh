@@ -10,10 +10,11 @@ import java.util.*
 @SerialName("Convo")
 data class Convo(
         var id: String = "",
-        var name: String = "",
+        override var name: String = "",
         var lastMessage: String = "",
-        var timeStamp: Long = 0
-){}
+        var timeStamp: Long = 0,
+        var lastSenderEmail: String = ""
+) : SearchItem(){}
 
 @Serializable
 data class Message(

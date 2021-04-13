@@ -27,10 +27,12 @@ import com.example.swoosh.ui.board_view.BoardView
 import com.example.swoosh.ui.chat.Chat
 import com.example.swoosh.ui.chat.ChatWindow
 import com.example.swoosh.ui.chat.ChatWindowArgs
+import com.example.swoosh.ui.dialog_fragments.QuickChatCreationDialog
 import com.example.swoosh.ui.home.Home
 import com.example.swoosh.ui.home.HomeViewModel
 import com.example.swoosh.ui.nav.BottomSheet
 import com.example.swoosh.utils.SandwichState
+import com.example.swoosh.utils.Status
 import com.example.swoosh.utils.currentNavigationFragment
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -75,7 +77,7 @@ class MainActivity : AppCompatActivity(),
         //connect buttons with functions
         setOnClicks()
 
-        //set up view model observers
+        //set up view model observers for bottom bar
         Repository.user.observe(this){
             setUpBottomBarUser(it)
         }
@@ -122,6 +124,12 @@ class MainActivity : AppCompatActivity(),
     private fun setOnClicks(){
         expand_btn.setOnClickListener{
             bottomSheet.toggle()
+            if (Repository.user.value == null){
+                reload_user_btn.visibility = View.VISIBLE
+                age_tv.visibility = View.INVISIBLE
+                user_edit_btn.visibility = View.GONE
+                from_tv.visibility = View.INVISIBLE
+            }
         }
 
         add_media.setOnClickListener{
@@ -158,6 +166,10 @@ class MainActivity : AppCompatActivity(),
         user_edit_btn.setOnClickListener{
             UserEditDialog().show(supportFragmentManager, UserEditDialog.TAG)
         }
+
+        reload_user_btn.setOnClickListener{
+            Firebase.auth.currentUser?.let { Repository.fetchUser(it.email.toString()) }
+        }
     }
 
     override fun onBackPressed() {
@@ -187,6 +199,7 @@ class MainActivity : AppCompatActivity(),
         when (destination.id){
             R.id.nav_home -> {
                 showBottomBar()
+                hideChatET()
                 bottomSheet.close()
                 destination_title.text = "Boards"
                 dynamic_button.visibility = View.VISIBLE
@@ -195,6 +208,7 @@ class MainActivity : AppCompatActivity(),
             R.id.nav_chat_window -> {
                 fabSend()
                 showChatET()
+                showBottomBar()
                 dynamic_button.visibility = View.GONE
             }
             R.id.nav_chat -> {
@@ -252,6 +266,11 @@ class MainActivity : AppCompatActivity(),
 
     private fun setUpBottomBarUser(user: User){
 
+        age_tv.visibility = View.VISIBLE
+        from_tv.visibility = View.VISIBLE
+        reload_user_btn.visibility = View.GONE
+        user_edit_btn.visibility = View.VISIBLE
+
         name_tv.text = user.name
 
         if (user.age == -1L){
@@ -270,12 +289,12 @@ class MainActivity : AppCompatActivity(),
 
         Glide.with(this)
             .load(user.uri)
-            .placeholder(R.drawable.avatar_1)
+            .placeholder(R.drawable.ic_launcher_background)
             .into(profile_image)
 
         Glide.with(this)
             .load(user.uri)
-            .placeholder(R.drawable.avatar_1)
+            .placeholder(R.drawable.ic_launcher_background)
             .into(circle_avatar)
     }
 
@@ -306,6 +325,9 @@ class MainActivity : AppCompatActivity(),
             R.id.nav_chat_window -> {
                 val convoID = (supportFragmentManager.currentNavigationFragment as ChatWindow).getConvoId()
                 sendMessage(convoID)
+            }
+            R.id.nav_chat -> {
+                QuickChatCreationDialog().show(supportFragmentManager, QuickChatCreationDialog.TAG)
             }
         }
     }
@@ -360,6 +382,10 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun searchAction(){
+        supportFragmentManager.currentNavigationFragment?.let {
+            it.exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
+            it.reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
+        }
         val action = NavigationGraphDirections.actionGlobalSearch()
         findNavController(R.id.nav_host_fragment).navigate(action)
     }

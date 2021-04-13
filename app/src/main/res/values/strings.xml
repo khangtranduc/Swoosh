@@ -17,4 +17,7 @@
 
     <!-- Note Details -->
     <string name="note_detail_transition_name">note_detail</string>
+
+    <!-- Anonymous Board -->
+    <string name="anonymous_board">vMuPuQxKaj4VeDb5HMnohkA6h4XMPc9ExTDn9Z6T</string>
 </resources>

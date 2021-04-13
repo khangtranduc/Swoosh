@@ -7,39 +7,40 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import com.example.swoosh.R
 import com.example.swoosh.data.Repository
-import com.example.swoosh.data.model.Board
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.database.core.Repo
-import kotlinx.android.synthetic.main.board_action_dialog.*
+import kotlinx.android.synthetic.main.message_deletion_dialog.*
 
-class BoardActionDialog(private val board: Board) : BottomSheetDialogFragment() {
+class ConvoDeletionDialog(private val convoID: String) : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (dialog != null && dialog?.window != null) {
             dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
+            dialog?.window?.setWindowAnimations(R.style.dialog_animation)
         }
 
-        return inflater.inflate(R.layout.board_action_dialog, container, false)
+        return inflater.inflate(R.layout.message_deletion_dialog, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        edit_board_btn.setOnClickListener {
-            BoardEditDialog(board).show(requireActivity().supportFragmentManager, BoardEditDialog.TAG)
+        deletion_prompt_tv.text = "Delete Chat?"
+
+        message_delete_btn.setOnClickListener {
+            Repository.deleteConvo(convoID)
             dismiss()
         }
 
-        delete_board_btn.setOnClickListener {
-            BoardDeletionDialog(board).show(requireActivity().supportFragmentManager, BoardDeletionDialog.TAG)
+        cancel_delete_message_btn.setOnClickListener {
             dismiss()
         }
     }
 
     companion object{
-        val TAG = "board_action_dialog"
+        val TAG = "convo_deletion_dialog"
     }
 }

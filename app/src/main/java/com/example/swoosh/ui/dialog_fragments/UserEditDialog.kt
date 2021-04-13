@@ -51,7 +51,7 @@ class UserEditDialog() : DialogFragment() {
 
         Glide.with(requireContext())
             .load(Repository.user.value?.uri)
-            .placeholder(R.drawable.avatar_1)
+            .placeholder(R.drawable.ic_launcher_background)
             .into(profile_preview)
 
         edit_image_btn.setOnClickListener {
@@ -114,7 +114,7 @@ class UserEditDialog() : DialogFragment() {
 
                 Glide.with(requireContext())
                         .load(uri)
-                        .placeholder(R.drawable.avatar_1)
+                        .placeholder(R.drawable.ic_launcher_background)
                         .into(profile_preview)
             }
         }

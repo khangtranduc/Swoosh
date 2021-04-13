@@ -7,9 +7,13 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.swoosh.MainApplication
+import com.example.swoosh.R
 import com.example.swoosh.data.model.*
+import com.example.swoosh.utils.Status
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.Query
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -28,6 +32,7 @@ object Repository {
         get() = _user
 
     const val IMAGE_REQUEST = 10
+    const val SPEECH_INPUT = 69
 
     fun getUserDir(email: String) : String{
         return "${email.substringBefore("@")}_${email.substringBefore(".").substringAfter("@")}_${email.substringAfter(".")}"
@@ -55,6 +60,37 @@ object Repository {
         userRef.child("age").setValue(user.age)
         userRef.child("name").setValue(user.name)
         userRef.child("from").setValue(user.from)
+
+        //update thing from chat
+        updateConvoAftNameChange(user.name)
+    }
+
+    private fun updateConvoAftNameChange(newName: String){
+        getKeysRef().get().addOnSuccessListener {
+            val to = object: GenericTypeIndicator<Map<String, Boolean>>(){}
+
+            val keys = it.getValue(to)
+            keys?.let { keys ->
+                for ((key, value) in keys){
+                    if (value){
+                        getConvoRef().child(key).get().addOnSuccessListener { snapshot ->
+                            val convo = snapshot.getValue(Convo::class.java)
+
+                            convo?.let {
+                                if (convo.lastSenderEmail == Firebase.auth.currentUser?.email){
+                                    getConvoRef().child(key).child("lastMessage")
+                                            .setValue("$newName:${convo.lastMessage.substringAfter(":")}")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun addQuickChat(email: String){
+
     }
 
     fun fetchUser(email: String){
@@ -168,6 +204,11 @@ object Repository {
         Firebase.database.reference.child("boards")
                 .child(board.id).removeValue()
 
+        getConvoRef().child(board.id).removeValue()
+
+        Firebase.database.reference.child("convoStore")
+                .child(board.id).removeValue()
+
         for (i in board.members){
             Firebase.database.reference.child("users")
                     .child(getUserDir(i.email)).child("keys").child(board.id).removeValue()
@@ -177,10 +218,20 @@ object Repository {
                 .child(board.id).removeValue()
     }
 
+    fun updateConvo(convo: Convo){
+        getConvoRef().child(convo.id).child("name").setValue(convo.name)
+    }
+
+    fun deleteConvo(convoID: String){
+        getConvoRef().child(convoID).removeValue()
+    }
+
     fun updateBoard(board: Board){
 
         Firebase.database.reference.child("boards")
                 .child(board.id).child("name").setValue(board.name)
+
+        getConvoRef().child(board.id).child("name").setValue("${board.name}'s chat")
     }
 
     fun pushMessageToFirebase(message: Message, convoID: String){
@@ -192,6 +243,7 @@ object Repository {
         message.id = client.key.toString()
 
         client.setValue(message)
+        getConvoRef().child(convoID).child("lastSenderEmail").setValue(message.senderEmail)
         getConvoRef().child(convoID).child("lastMessage").setValue("${message.sender}: ${message.message}")
     }
 
@@ -201,6 +253,49 @@ object Repository {
                 .child(convoID)
                 .child(messageID).child("message").setValue(messageID)
         getConvoRef().child(convoID).child("lastMessage").setValue("${sender}: message deleted")
+    }
+
+    fun pushQuickChatToFirebase(convo: Convo, membersCSV: String, context: Context){
+        val client = getConvoRef().push()
+
+        val reader = Scanner(membersCSV)
+        reader.useDelimiter(",")
+
+        val membersArray = arrayListOf<Board.Member>()
+
+        while (reader.hasNext()){
+            val email = reader.next().trim()
+
+            membersArray.add(Board.Member(email))
+        }
+
+        Firebase.auth.currentUser?.let {
+            membersArray.add(Board.Member(it.email.toString()))
+        }
+
+        val usersRef = Firebase.database.reference.child("users")
+
+        val mem_copy = membersArray.map { it.clone() }
+
+        usersRef.get().addOnSuccessListener{
+            for (i in mem_copy) {
+                val userDir = "${i.email.substringBefore("@")}_${i.email.substringBefore(".").substringAfter("@")}_${i.email.substringAfter(".")}"
+                if (it.hasChild(userDir)) {
+                    usersRef.child(userDir).child("keys").child(client.key.toString()).setValue(true)
+                } else {
+                    membersArray.remove(i)
+                }
+            }
+
+            convo.id = client.key.toString()
+            convo.lastMessage = "No messages sent yet"
+
+            client.setValue(convo).addOnSuccessListener {
+                Toast.makeText(context, "Convo created successfully", Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener{
+                Toast.makeText(context, "Convo failed to create", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     fun pushBoardToFirebase(board: Board, membersCSV: String, context: Context){
@@ -232,7 +327,6 @@ object Repository {
                 if (it.hasChild(userDir)) {
                     usersRef.child(userDir).child("keys").child(client.key.toString()).setValue(true)
                 } else {
-                    Log.d("debug", "this is removed supossedly ${i.email}")
                     membersArray.remove(i)
                 }
             }

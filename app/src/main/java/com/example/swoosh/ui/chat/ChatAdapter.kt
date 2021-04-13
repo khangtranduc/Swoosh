@@ -5,13 +5,16 @@ import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swoosh.R
+import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.Convo
+import com.example.swoosh.ui.dialog_fragments.QuickChatActionDialog
 import com.example.swoosh.utils.currentNavigationFragment
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -24,6 +27,7 @@ class ChatAdapter(private val activity: FragmentActivity) : RecyclerView.Adapter
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val title = itemView.findViewById<TextView>(R.id.board_title)
         val lastMessage = itemView.findViewById<TextView>(R.id.board_members)
+        val quick_chat_icon = itemView.findViewById<ImageView>(R.id.quick_chat_icon)
 
         fun bind(convo: Convo){
             itemView.transitionName = convo.name
@@ -46,6 +50,16 @@ class ChatAdapter(private val activity: FragmentActivity) : RecyclerView.Adapter
             title.text = convo.name
             lastMessage.setTypeface(lastMessage.typeface, Typeface.ITALIC)
             lastMessage.text = convo.lastMessage
+
+            if (convo.name.substringAfter(":") == activity.resources.getString(R.string.anonymous_board)){
+                quick_chat_icon.visibility = View.VISIBLE
+                title.text = convo.name.substringBefore(":")
+
+                itemView.setOnLongClickListener {
+                    QuickChatActionDialog(convo).show(activity.supportFragmentManager, QuickChatActionDialog.TAG)
+                    false
+                }
+            }
         }
     }
 

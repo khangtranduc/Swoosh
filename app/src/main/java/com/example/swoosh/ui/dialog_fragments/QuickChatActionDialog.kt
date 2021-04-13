@@ -7,15 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import com.example.swoosh.R
-import com.example.swoosh.data.Repository
-import com.example.swoosh.data.model.Board
+import com.example.swoosh.data.model.Convo
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.firebase.database.core.Repo
 import kotlinx.android.synthetic.main.board_action_dialog.*
 
-class BoardActionDialog(private val board: Board) : BottomSheetDialogFragment() {
+class QuickChatActionDialog(private val convo: Convo) : BottomSheetDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (dialog != null && dialog?.window != null) {
             dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -29,17 +27,17 @@ class BoardActionDialog(private val board: Board) : BottomSheetDialogFragment() 
         super.onViewCreated(view, savedInstanceState)
 
         edit_board_btn.setOnClickListener {
-            BoardEditDialog(board).show(requireActivity().supportFragmentManager, BoardEditDialog.TAG)
+            ConvoEditDialog(convo).show(requireActivity().supportFragmentManager, ConvoEditDialog.TAG)
             dismiss()
         }
 
         delete_board_btn.setOnClickListener {
-            BoardDeletionDialog(board).show(requireActivity().supportFragmentManager, BoardDeletionDialog.TAG)
+            ConvoDeletionDialog(convo.id).show(requireActivity().supportFragmentManager, ConvoDeletionDialog.TAG)
             dismiss()
         }
     }
 
     companion object{
-        val TAG = "board_action_dialog"
+        val TAG = "quick_chat_action_dialog"
     }
 }

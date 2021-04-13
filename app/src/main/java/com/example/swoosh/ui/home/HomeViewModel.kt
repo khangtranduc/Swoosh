@@ -17,7 +17,7 @@ import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class HomeViewModel() : ViewModel(){
+class HomeViewModel : ViewModel(){
     private val _boards = MutableLiveData<ArrayList<Board>>()
     private val _status = MutableLiveData(Status.LOADING)
 
@@ -34,32 +34,39 @@ class HomeViewModel() : ViewModel(){
             val boardsQuery = it.getValue(toBoards)
 
             Repository.getKeysRef().get().addOnSuccessListener { keysSnapshot ->
-                val toKeys = object: GenericTypeIndicator<Map<String, Boolean>>(){}
+                if (!keysSnapshot.exists()){
+                    _status.value = Status.EMPTY
+                }
+                else{
+                    val toKeys = object: GenericTypeIndicator<Map<String, Boolean>>(){}
 
-                val keysQuery = keysSnapshot.getValue(toKeys)
-                val keys = keysQuery?.toSortedMap()
+                    val keysQuery = keysSnapshot.getValue(toKeys)
+                    val keys = keysQuery?.toSortedMap()
 
-                if (keys != null && boardsQuery != null){
-                    val returnArray = arrayListOf<Board>()
-                    for ((key, value) in keys){
-                        if (value){
-                            boardsQuery[key]?.let { it1 -> returnArray.add(it1) }
+                    if (keys != null && boardsQuery != null){
+                        val returnArray = arrayListOf<Board>()
+                        for ((key, value) in keys){
+                            if (value){
+                                boardsQuery[key]?.let { it1 -> returnArray.add(it1) }
+                            }
                         }
-                    }
 
-                    _boards.value = returnArray
-                    if (returnArray.isNotEmpty()){
-                        _status.value = Status.SUCCESS
-                    }
-                    else{
-                        _status.value = Status.EMPTY
+                        _boards.value = returnArray
+                        if (returnArray.isNotEmpty()){
+                            _status.value = Status.SUCCESS
+                        }
+                        else{
+                            _status.value = Status.EMPTY
+                        }
                     }
                 }
             }.addOnFailureListener{
                 _boards.value?.let { value -> if (value.isEmpty()) {_status.value = Status.FAILED} else {_status.value = Status.SUCCESS } }
+                if (_boards.value == null) {_status.value = Status.FAILED}
             }
         }.addOnFailureListener{
             _boards.value?.let { value -> if (value.isEmpty()) {_status.value = Status.FAILED} else {_status.value = Status.SUCCESS } }
+            if (_boards.value == null) {_status.value = Status.FAILED}
         }
     }
 

@@ -1,6 +1,7 @@
 package com.example.swoosh.ui.chat
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -29,32 +30,44 @@ class ChatViewModel : ViewModel(){
             val convosQuery = it.getValue(toConvos)
 
             Repository.getKeysRef().get().addOnSuccessListener { keysSnapshot ->
-                val toKeys = object: GenericTypeIndicator<Map<String, Boolean>>(){}
+                if (!keysSnapshot.exists()){
+                    _status.value = Status.EMPTY
+                }
+                else{
+                    val toKeys = object: GenericTypeIndicator<Map<String, Boolean>>(){}
 
-                val keysQuery = keysSnapshot.getValue(toKeys)
-                val keys = keysQuery?.toSortedMap()
+                    val keysQuery = keysSnapshot.getValue(toKeys)
+                    val keys = keysQuery?.toSortedMap()
 
-                if (keys != null && convosQuery != null){
-                    val returnArray = arrayListOf<Convo>()
-                    for ((key, value) in keys){
-                        if (value){
-                            convosQuery[key]?.let { it1 -> returnArray.add(it1) }
+                    if (keys != null && convosQuery != null){
+                        val returnArray = arrayListOf<Convo>()
+                        for ((key, value) in keys){
+                            if (value){
+                                convosQuery[key]?.let { it1 -> returnArray.add(it1) }
+                            }
                         }
-                    }
 
-                    _convos.value = returnArray
-                    if (returnArray.isNotEmpty()){
-                        _status.value = Status.SUCCESS
-                    }
-                    else{
-                        _status.value = Status.EMPTY
+                        _convos.value = returnArray
+                        if (returnArray.isNotEmpty()){
+                            _status.value = Status.SUCCESS
+                        }
+                        else{
+                            _status.value = Status.EMPTY
+                        }
                     }
                 }
             }.addOnFailureListener{
                 _convos.value?.let { value -> if (value.isEmpty()) {_status.value = Status.FAILED} else {_status.value = Status.SUCCESS } }
+                if (_convos.value == null) {_status.value = Status.FAILED}
             }
         }.addOnFailureListener{
             _convos.value?.let { value -> if (value.isEmpty()) {_status.value = Status.FAILED} else {_status.value = Status.SUCCESS } }
+            if (_convos.value == null) {_status.value = Status.FAILED}
         }
+    }
+
+    fun clearChat(){
+        _status.value = Status.LOADING
+        _convos.value = arrayListOf()
     }
 }

@@ -16,9 +16,11 @@ import com.example.swoosh.ui.base.ScrollListener
 import com.example.swoosh.ui.home.HomeAdapter
 import com.example.swoosh.utils.Status
 import com.google.android.material.transition.MaterialFadeThrough
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_chat.*
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -73,6 +75,11 @@ class Chat : Fragment() {
 
         viewModel.status.observe(viewLifecycleOwner){
             updateStatus(it)
+        }
+
+        chat_reload_btn.setOnClickListener{
+            viewModel.fetchConvos()
+            Repository.fetchUser(Firebase.auth.currentUser?.email.toString())
         }
 
         convo_recycler.apply {

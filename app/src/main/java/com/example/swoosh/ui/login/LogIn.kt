@@ -11,8 +11,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.swoosh.R
 import com.example.swoosh.data.Repository
+import com.example.swoosh.ui.chat.ChatViewModel
 import com.example.swoosh.ui.home.HomeViewModel
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_log_in.*
@@ -20,12 +22,22 @@ import kotlinx.android.synthetic.main.fragment_log_in.*
 class LogIn : Fragment() {
 
     private val homeViewModel: HomeViewModel by activityViewModels()
+    private val chatViewModel: ChatViewModel by activityViewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
 
         homeViewModel.clearBoards()
+        chatViewModel.clearChat()
 
         return inflater.inflate(R.layout.fragment_log_in, container, false)
     }
@@ -83,6 +95,7 @@ class LogIn : Fragment() {
 
     private fun logIn(){
         homeViewModel.fetchBoards()
+        chatViewModel.fetchConvos()
         findNavController().navigate(LogInDirections.gotoHome())
     }
 }

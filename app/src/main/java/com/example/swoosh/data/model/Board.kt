@@ -9,10 +9,10 @@ import kotlin.collections.ArrayList
 @Serializable
 @SerialName("Board")
 data class Board(
-        var name: String = "",
+        override var name: String = "",
         var members: ArrayList<Member> = arrayListOf(),
         var id: String = ""
-) {
+) : SearchItem(){
     @Serializable
     data class Member(
             var email: String = "",

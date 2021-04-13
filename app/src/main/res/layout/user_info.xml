@@ -11,7 +11,7 @@
         android:id="@+id/circle_avatar"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/avatar_1"
+        android:src="@drawable/ic_launcher_background"
         android:layout_marginTop="12dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="8dp"
@@ -30,7 +30,7 @@
             android:textColor="?attr/colorOnPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lyndys Thornton"
+            android:text="Nobody"
             android:fontFamily="@font/poppins_bold"
             android:textSize="22sp"
             />
@@ -49,11 +49,27 @@
         android:layout_marginTop="22dp"
         />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/reload_user_btn"
+        android:layout_width="250dp"
+        android:layout_height="48dp"
+        android:layout_toRightOf="@id/circle_avatar"
+        android:layout_below="@id/name_tv_container"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="24dp"
+        android:visibility="gone"
+        android:text="Reload"
+        android:textAllCaps="false"
+        android:fontFamily="@font/nunito_bold"
+        android:background="@drawable/button_type_1"
+        android:foreground="@drawable/logout_ripple"
+        />
+
     <TextView
         android:id="@+id/age_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Age: 21"
+        android:text="Age: N/A"
         android:textColor="?attr/colorOnPrimary"
         android:fontFamily="@font/nunito_semibold"
         android:layout_toRightOf="@id/circle_avatar"
@@ -66,7 +82,7 @@
         android:id="@+id/from_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="From: Greece"
+        android:text="From: N/A"
         android:textColor="?attr/colorOnPrimary"
         android:fontFamily="@font/nunito_semibold"
         android:layout_toRightOf="@id/circle_avatar"

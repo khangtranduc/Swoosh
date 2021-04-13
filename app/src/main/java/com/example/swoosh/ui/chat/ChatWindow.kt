@@ -2,6 +2,7 @@ package com.example.swoosh.ui.chat
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -54,7 +55,12 @@ class ChatWindow : Fragment() {
         chat_window_up_btn.setOnClickListener {
             navigateUp()
         }
-        chat_window_title_tv.text = convo.name
+        if (convo.name.substringAfter(":") == resources.getString(R.string.anonymous_board)){
+            chat_window_title_tv.text = convo.name.substringBefore(":")
+        }
+        else{
+            chat_window_title_tv.text = convo.name
+        }
 
         val options = FirebaseRecyclerOptions.Builder<Message>()
                 .setLifecycleOwner(viewLifecycleOwner)

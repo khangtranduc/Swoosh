@@ -2,6 +2,7 @@ package com.example.swoosh.ui.chat
 
 import android.graphics.Typeface
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +47,7 @@ open class MessageAdapter(options: FirebaseRecyclerOptions<Message>,
 
                 Glide.with(activity)
                     .load(Repository.user.value?.uri)
-                    .placeholder(R.drawable.avatar_1)
+                    .placeholder(R.drawable.ic_launcher_background)
                     .into(out_image)
 
                 if (message.message == message.id){
@@ -70,14 +71,14 @@ open class MessageAdapter(options: FirebaseRecyclerOptions<Message>,
 
                     Glide.with(activity)
                         .load(activityViewModel.otherUsersImageUri[message.senderEmail])
-                        .placeholder(R.drawable.avatar_1)
+                        .placeholder(R.drawable.ic_launcher_background)
                         .into(in_image)
                 }
                 else{
                     Repository.getUserImageRef(message.senderEmail).downloadUrl.addOnSuccessListener {
                         Glide.with(activity)
                             .load(it)
-                            .placeholder(R.drawable.avatar_1)
+                            .placeholder(R.drawable.ic_launcher_background)
                             .into(in_image)
 
                         activityViewModel.otherUsersImageUri[message.senderEmail] = it

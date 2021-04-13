@@ -22,6 +22,7 @@ import com.example.swoosh.R
 import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.Board
 import com.example.swoosh.ui.base.ScrollListener
+import com.example.swoosh.ui.chat.ChatViewModel
 import com.example.swoosh.utils.PolySeri
 import com.example.swoosh.utils.Status
 import com.firebase.ui.database.FirebaseRecyclerOptions
@@ -52,6 +53,7 @@ class Home : Fragment() {
 //    )
 
     private val viewModel: HomeViewModel by activityViewModels()
+    private val chatViewModel: ChatViewModel by activityViewModels()
     private val valueEventListener : ValueEventListener by lazy{
         object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -77,6 +79,10 @@ class Home : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
+        //fetch chats for search
+        chatViewModel.fetchConvos()
+
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
@@ -93,6 +99,7 @@ class Home : Fragment() {
 
         home_reload_btn.setOnClickListener{
             viewModel.fetchBoards()
+            Repository.fetchUser(Firebase.auth.currentUser?.email.toString())
         }
 
         home_recycler.apply{
