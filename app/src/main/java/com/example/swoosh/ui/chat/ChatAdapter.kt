@@ -60,6 +60,9 @@ class ChatAdapter(private val activity: FragmentActivity) : RecyclerView.Adapter
                     false
                 }
             }
+            else{
+                quick_chat_icon.visibility = View.INVISIBLE
+            }
         }
     }
 

@@ -149,7 +149,7 @@ class BoardView : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
         }
         add_member_button.setOnClickListener {
-            AddMemberDialog(board.id, requireContext()).show(childFragmentManager, AddMemberDialog.TAG)
+            AddMemberDialog(board, requireContext()).show(childFragmentManager, AddMemberDialog.TAG)
         }
     }
 
@@ -210,7 +210,7 @@ class BoardView : Fragment() {
     }
 
     private fun updateMembers(members: HashMap<String, Board.Member>){
-        members_overflow_recycler.adapter = MemberAdapter(board.id).apply { submitList(members) }
+        members_overflow_recycler.adapter = MemberAdapter(board.id, requireActivity().baseContext).apply { submitList(members) }
     }
 
     private fun updateBoardFragments(boardItems: SortedMap<String, BoardItem>?){

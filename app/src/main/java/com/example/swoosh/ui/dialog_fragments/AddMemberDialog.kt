@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.board_creation_dialog.*
 import kotlinx.android.synthetic.main.board_item_creation_dialog.*
 
 class AddMemberDialog (
-        private val boardID: String,
+        private val board: Board,
         private val boardViewContext: Context
         ): DialogFragment() {
     override fun onCreateView(
@@ -53,7 +53,7 @@ class AddMemberDialog (
 
             val member = Board.Member(email)
 
-            Repository.addMemberToBoard(boardID, member, boardViewContext)
+            Repository.addMemberToBoard(board, member, boardViewContext)
 
             dismiss()
         }

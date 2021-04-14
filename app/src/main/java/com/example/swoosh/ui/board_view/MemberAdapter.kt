@@ -1,10 +1,12 @@
 package com.example.swoosh.ui.board_view
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.swoosh.R
 import com.example.swoosh.data.Repository
@@ -13,7 +15,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import java.util.zip.Inflater
 
-class MemberAdapter(private val boardID: String) : RecyclerView.Adapter<MemberAdapter.ViewHolder>() {
+class MemberAdapter(private val boardID: String, private val context: Context) : RecyclerView.Adapter<MemberAdapter.ViewHolder>() {
 
     private val members = arrayListOf<Board.Member>()
 
@@ -31,7 +33,7 @@ class MemberAdapter(private val boardID: String) : RecyclerView.Adapter<MemberAd
             }
             else{
                 removeBtn.setOnClickListener {
-                    Repository.removeMemberFromBoard(boardID, member.email)
+                    Repository.removeMemberFromBoard(boardID, member.email, members.size, context)
                 }
             }
         }

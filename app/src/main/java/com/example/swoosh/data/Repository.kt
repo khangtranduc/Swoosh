@@ -200,10 +200,7 @@ object Repository {
         Firebase.database.reference.child("boards")
                 .child(board.id).removeValue()
 
-        getConvoRef().child(board.id).removeValue()
-
-        Firebase.database.reference.child("convoStore")
-                .child(board.id).removeValue()
+        deleteConvo(board.id)
 
         for ((key, value) in board.members){
             Firebase.database.reference.child("users")
@@ -220,6 +217,9 @@ object Repository {
 
     fun deleteConvo(convoID: String){
         getConvoRef().child(convoID).removeValue()
+
+        Firebase.database.reference.child("convoStore")
+                .child(convoID).removeValue()
     }
 
     fun updateBoard(board: Board){
@@ -251,11 +251,17 @@ object Repository {
         getConvoRef().child(convoID).child("lastMessage").setValue("${sender}: message deleted")
     }
 
-    fun removeMemberFromBoard(boardID: String, email: String){
+    fun removeMemberFromBoard(boardID: String, email: String, remainingMembers: Int, context: Context){
         getBoardsRef().child(boardID).child("members")
                 .child(getUserDir(email)).removeValue()
         Firebase.database.reference.child("users")
                 .child(getUserDir(email)).child("keys").child(boardID).removeValue()
+                .addOnSuccessListener {
+                    Toast.makeText(context, "Member removed succesfully", Toast.LENGTH_SHORT).show()
+                }
+        if (remainingMembers <= 2){
+            deleteConvo(boardID)
+        }
     }
 
     fun pushQuickChatToFirebase(convo: Convo, membersCSV: String, context: Context){
@@ -305,24 +311,22 @@ object Repository {
         return Firebase.database.reference.child("users")
     }
 
-    fun addMemberToBoard(boardID: String, member: Board.Member, context: Context){
+    fun addMemberToBoard(board: Board, member: Board.Member, context: Context){
         if (member.email == Firebase.auth.currentUser?.email){
             Toast.makeText(context, "You can't add yourself", Toast.LENGTH_SHORT).show()
             return
         }
-        try{
-            getUserRef().child(getUserDir(member.email))
-                    .get().addOnSuccessListener {
-                        member.name = it.child("name").value as String
-                        getBoardsRef().child(boardID).child("members")
-                                .child(getUserDir(member.email)).setValue(member)
-                        getUserRef().child(getUserDir(member.email)).child("keys")
-                                .child(boardID).setValue(true)
-                        Toast.makeText(context, "Member added sucessfully", Toast.LENGTH_SHORT).show()
-                    }
-        }
-        catch (e: Error){
-            Toast.makeText(context, "Member failed to add", Toast.LENGTH_SHORT).show()
+        getUserRef().child(getUserDir(member.email))
+                .get().addOnSuccessListener {
+                    member.name = it.child("name").value as String
+                    getBoardsRef().child(board.id).child("members")
+                            .child(getUserDir(member.email)).setValue(member)
+                    getUserRef().child(getUserDir(member.email)).child("keys")
+                            .child(board.id).setValue(true)
+                    Toast.makeText(context, "Member added sucessfully", Toast.LENGTH_SHORT).show()
+                }
+        if (board.members.size == 1){
+            getConvoRef().child(board.id).setValue(Convo(board.id, "${board.name}'s chat", "No messages sent yet"))
         }
     }
 

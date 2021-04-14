@@ -26,6 +26,9 @@ class QuickChatActionDialog(private val convo: Convo) : BottomSheetDialogFragmen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        edit_board_btn.text = "Edit Chat"
+        delete_board_btn.text = "Delete Chat"
+
         edit_board_btn.setOnClickListener {
             ConvoEditDialog(convo).show(requireActivity().supportFragmentManager, ConvoEditDialog.TAG)
             dismiss()
