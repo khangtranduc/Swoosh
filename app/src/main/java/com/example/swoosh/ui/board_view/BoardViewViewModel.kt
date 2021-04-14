@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.Board
 import com.example.swoosh.data.model.BoardItem
 import com.example.swoosh.data.model.FBItem
@@ -19,12 +20,29 @@ import kotlin.collections.HashMap
 
 class BoardViewViewModel(private val boardID: String) : ViewModel() {
     private val _boardItems = MutableLiveData<SortedMap<String, BoardItem>>()
-    private val _status = MutableLiveData<Status>(Status.LOADING)
+    private val _status = MutableLiveData(Status.LOADING)
+    private val _members = MutableLiveData<HashMap<String, Board.Member>>()
 
     val boardItems : LiveData<SortedMap<String, BoardItem>>
         get() = _boardItems
     val status : LiveData<Status>
         get() = _status
+    val members: LiveData<HashMap<String, Board.Member>>
+        get() = _members
+
+    fun fetchMembers(){
+        Repository.getBoardsRef().child(boardID)
+                .child("members")
+                .get().addOnSuccessListener {
+                    val to = object: GenericTypeIndicator<HashMap<String, Board.Member>>(){}
+
+                    val membersQuery = it.getValue(to)
+
+                    membersQuery?.let { members ->
+                        _members.value = members
+                    }
+                }
+    }
 
     fun fetchBoardItems(){
         _status.value = Status.LOADING

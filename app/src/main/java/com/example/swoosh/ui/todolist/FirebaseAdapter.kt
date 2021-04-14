@@ -51,6 +51,7 @@ class FirebaseAdapter(options: FirebaseRecyclerOptions<Todolist.Todo>,
             name.text = todo.name
             due.text = todo.due
             checkBox.buttonTintList = activity.getColorStateList(Todolist.parsePriority(todo.priority))
+            checkBox.isChecked = false
         }
     }
 

@@ -10,7 +10,7 @@ import kotlin.collections.ArrayList
 @SerialName("Board")
 data class Board(
         override var name: String = "",
-        var members: ArrayList<Member> = arrayListOf(),
+        var members: HashMap<String, Member> = hashMapOf(),
         var id: String = ""
 ) : SearchItem(){
     @Serializable

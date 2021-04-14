@@ -18,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import androidx.viewpager2.widget.ViewPager2
 import com.example.swoosh.R
@@ -25,24 +26,30 @@ import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.Board
 import com.example.swoosh.data.model.BoardItem
 import com.example.swoosh.ui.base.BoardItemFragment
+import com.example.swoosh.ui.dialog_fragments.AddMemberDialog
 import com.example.swoosh.ui.dialog_fragments.BoardItemCreationDialog
 import com.example.swoosh.utils.BoardUtils
 import com.example.swoosh.utils.PolySeri
 import com.example.swoosh.utils.Status
 import com.example.swoosh.utils.themeColor
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.board_item_overflow.*
+import kotlinx.android.synthetic.main.fab_add_sheet.*
 import kotlinx.android.synthetic.main.fragment_board_view.*
 import kotlinx.android.synthetic.main.fragment_note.*
 import kotlinx.android.synthetic.main.fragment_todolist.*
+import kotlinx.android.synthetic.main.members_overflow.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import java.lang.reflect.Member
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -60,6 +67,17 @@ class BoardView : Fragment() {
             }
             override fun onCancelled(error: DatabaseError) {
             }
+        }
+    }
+    private val memberEventListener: ValueEventListener by lazy {
+        object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                viewModel.fetchMembers()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+
         }
     }
 
@@ -87,11 +105,13 @@ class BoardView : Fragment() {
     override fun onResume() {
         super.onResume()
         Repository.getItemRef(board.id).addValueEventListener(valueEventListener)
+        Repository.getBoardsRef().child(board.id).child("members").addValueEventListener(memberEventListener)
     }
 
     override fun onStop() {
         super.onStop()
         Repository.getItemRef(board.id).removeEventListener(valueEventListener)
+        Repository.getBoardsRef().child(board.id).child("members").removeEventListener(memberEventListener)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -102,10 +122,13 @@ class BoardView : Fragment() {
         }
         board_view_title_tv.text = board.name
 
-//        lifecycleScope.launch {
-//            delay(requireContext().resources.getInteger(R.integer.motion_duration_long).toLong())
-//            board_view_appbar.animate().translationY(0f).setDuration(300).setInterpolator(AccelerateDecelerateInterpolator())
-//        }
+        board_view_members.setOnClickListener {
+            toggleMemberSheet()
+        }
+
+        members_overflow_scrim.setOnClickListener {
+            toggleMemberSheet()
+        }
 
         viewModel.boardItems.observe(viewLifecycleOwner) {
             updateBoardFragments(it)
@@ -115,8 +138,18 @@ class BoardView : Fragment() {
             updateStatus(it)
         }
 
+        viewModel.members.observe(viewLifecycleOwner){
+            updateMembers(it)
+        }
+
         board_view_reload_btn.setOnClickListener{
             viewModel.fetchBoardItems()
+        }
+        members_overflow_recycler.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+        add_member_button.setOnClickListener {
+            AddMemberDialog(board.id, requireContext()).show(childFragmentManager, AddMemberDialog.TAG)
         }
     }
 
@@ -148,6 +181,22 @@ class BoardView : Fragment() {
         }
     }
 
+    private fun toggleMemberSheet(){
+        val views = listOf<View>(board_view_members, members_overflow_card).sortedBy { !it.isVisible }
+        val transition = MaterialContainerTransform().apply {
+            startView = views.first()
+            endView = views.last()
+            duration = 300
+            addTarget(views.last())
+            scrimColor = Color.TRANSPARENT
+        }
+        TransitionManager.beginDelayedTransition(board_view_container, transition)
+        views.first().isVisible = false
+        views.last().isVisible = true
+        members_overflow_scrim.isVisible = !members_overflow_scrim.isVisible
+
+    }
+
     fun pushTodolist(){
         BoardItemCreationDialog(true, board).show(childFragmentManager, BoardItemCreationDialog.TAG)
     }
@@ -157,11 +206,11 @@ class BoardView : Fragment() {
     }
 
     fun navigateUp(){
-//        board_view_appbar.animate().translationY(-200f).setDuration(200).setInterpolator(AccelerateDecelerateInterpolator())
-//        lifecycleScope.launch {
-//            delay(200)
-//        }
         findNavController().navigateUp()
+    }
+
+    private fun updateMembers(members: HashMap<String, Board.Member>){
+        members_overflow_recycler.adapter = MemberAdapter(board.id).apply { submitList(members) }
     }
 
     private fun updateBoardFragments(boardItems: SortedMap<String, BoardItem>?){

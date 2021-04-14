@@ -89,10 +89,6 @@ object Repository {
         }
     }
 
-    fun addQuickChat(email: String){
-
-    }
-
     fun fetchUser(email: String){
         Firebase.database.reference
                 .child("users").child("${email.substringBefore("@")}_${email.substringBefore(".").substringAfter("@")}_${email.substringAfter(".")}")
@@ -209,9 +205,9 @@ object Repository {
         Firebase.database.reference.child("convoStore")
                 .child(board.id).removeValue()
 
-        for (i in board.members){
+        for ((key, value) in board.members){
             Firebase.database.reference.child("users")
-                    .child(getUserDir(i.email)).child("keys").child(board.id).removeValue()
+                    .child(getUserDir(value.email)).child("keys").child(board.id).removeValue()
         }
 
         Firebase.database.reference.child("itemStore")
@@ -255,6 +251,13 @@ object Repository {
         getConvoRef().child(convoID).child("lastMessage").setValue("${sender}: message deleted")
     }
 
+    fun removeMemberFromBoard(boardID: String, email: String){
+        getBoardsRef().child(boardID).child("members")
+                .child(getUserDir(email)).removeValue()
+        Firebase.database.reference.child("users")
+                .child(getUserDir(email)).child("keys").child(boardID).removeValue()
+    }
+
     fun pushQuickChatToFirebase(convo: Convo, membersCSV: String, context: Context){
         val client = getConvoRef().push()
 
@@ -286,15 +289,40 @@ object Repository {
                     membersArray.remove(i)
                 }
             }
+        }
 
-            convo.id = client.key.toString()
-            convo.lastMessage = "No messages sent yet"
+        convo.id = client.key.toString()
+        convo.lastMessage = "No messages sent yet"
 
-            client.setValue(convo).addOnSuccessListener {
-                Toast.makeText(context, "Convo created successfully", Toast.LENGTH_SHORT).show()
-            }.addOnFailureListener{
-                Toast.makeText(context, "Convo failed to create", Toast.LENGTH_SHORT).show()
-            }
+        client.setValue(convo).addOnSuccessListener {
+            Toast.makeText(context, "Convo created successfully", Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener{
+            Toast.makeText(context, "Convo failed to create", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun getUserRef(): DatabaseReference{
+        return Firebase.database.reference.child("users")
+    }
+
+    fun addMemberToBoard(boardID: String, member: Board.Member, context: Context){
+        if (member.email == Firebase.auth.currentUser?.email){
+            Toast.makeText(context, "You can't add yourself", Toast.LENGTH_SHORT).show()
+            return
+        }
+        try{
+            getUserRef().child(getUserDir(member.email))
+                    .get().addOnSuccessListener {
+                        member.name = it.child("name").value as String
+                        getBoardsRef().child(boardID).child("members")
+                                .child(getUserDir(member.email)).setValue(member)
+                        getUserRef().child(getUserDir(member.email)).child("keys")
+                                .child(boardID).setValue(true)
+                        Toast.makeText(context, "Member added sucessfully", Toast.LENGTH_SHORT).show()
+                    }
+        }
+        catch (e: Error){
+            Toast.makeText(context, "Member failed to add", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -319,19 +347,24 @@ object Repository {
 
         val usersRef = Firebase.database.reference.child("users")
 
-        val mem_copy = membersArray.map { it.clone() }
+        val mem_copy = membersArray.map { it }
 
         usersRef.get().addOnSuccessListener{
+            val to = object: GenericTypeIndicator<HashMap<String, User>>(){}
+
+            val users = it.getValue(to)
+
             for (i in mem_copy) {
-                val userDir = "${i.email.substringBefore("@")}_${i.email.substringBefore(".").substringAfter("@")}_${i.email.substringAfter(".")}"
+                val userDir = getUserDir(i.email)
                 if (it.hasChild(userDir)) {
                     usersRef.child(userDir).child("keys").child(client.key.toString()).setValue(true)
+                    users?.let { users -> i.name = users[userDir]?.name.toString() }
                 } else {
                     membersArray.remove(i)
                 }
             }
 
-            board.members = membersArray
+            board.members = membersArray.map {member ->  getUserDir(member.email) to member }.toMap(HashMap())
             board.id = client.key.toString()
 
             if (board.members.size > 1){
