@@ -33,7 +33,11 @@ class OnBoarding : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        on_boarding_viewpager.adapter = OnBoardingAdapter(requireActivity()).apply { submitList(items) }
+        on_boarding_viewpager.apply {
+            adapter = OnBoardingAdapter(requireActivity()).apply { submitList(items) }
+            setPageTransformer(OnBoardingTransform())
+        }
+
         TabLayoutMediator(on_boarding_dot_indicator, on_boarding_viewpager){_,_ -> }.attach()
 
         next_obpage_btn.setOnClickListener{

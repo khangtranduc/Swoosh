@@ -77,7 +77,7 @@ class LogIn : Fragment() {
                             }
                             else{
                                 Toast.makeText(requireContext(), "Sign in Success!", Toast.LENGTH_SHORT).show()
-                                Firebase.auth.currentUser?.let { user -> Repository.fetchUser(user.email.toString()) }
+                                Firebase.auth.currentUser?.let { user -> Repository.fetchUser(user.email.toString(), requireActivity().baseContext) }
                                 logIn()
                             }
                         }

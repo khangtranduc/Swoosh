@@ -89,7 +89,7 @@ object Repository {
         }
     }
 
-    fun fetchUser(email: String){
+    fun fetchUser(email: String, context: Context){
         Firebase.database.reference
                 .child("users").child("${email.substringBefore("@")}_${email.substringBefore(".").substringAfter("@")}_${email.substringAfter(".")}")
                 .get().addOnSuccessListener {
@@ -106,6 +106,11 @@ object Repository {
                     }.addOnFailureListener {
                         _user.value = temp_user
                     }
+
+                    Toast.makeText(context, "User loaded succesfully", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(context, "User loading failed", Toast.LENGTH_SHORT).show()
                 }
     }
 

@@ -41,17 +41,6 @@ import kotlinx.serialization.json.Json
 
 class Home : Fragment() {
 
-
-//    private val boards = arrayListOf(
-//            Board("ja"),
-//            Board("pe"),
-//            Board("an"),
-//            Board("pi"),
-//            Board("le"),
-//            Board("fr"),
-//            Board("ha")
-//    )
-
     private val viewModel: HomeViewModel by activityViewModels()
     private val chatViewModel: ChatViewModel by activityViewModels()
     private val valueEventListener : ValueEventListener by lazy{
@@ -99,7 +88,7 @@ class Home : Fragment() {
 
         home_reload_btn.setOnClickListener{
             viewModel.fetchBoards()
-            Repository.fetchUser(Firebase.auth.currentUser?.email.toString())
+            Repository.fetchUser(Firebase.auth.currentUser?.email.toString(), requireActivity().baseContext)
         }
 
         home_recycler.apply{

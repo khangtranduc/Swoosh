@@ -172,9 +172,15 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             app:tabRippleColor="@android:color/transparent"
-            app:tabBackground="@drawable/tab_selector"
+            app:tabIndicatorGravity="center"
+            app:tabIndicator="@drawable/selected_dot"
+            app:tabIndicatorColor="?attr/colorAccent"
+            app:tabBackground="@drawable/default_dot"
             app:tabGravity="center"
-            app:tabIndicatorHeight="0dp"
+            app:tabIndicatorAnimationMode="elastic"
+            app:tabPaddingEnd="16dp"
+            app:tabPaddingStart="16dp"
+            app:tabIndicatorHeight="8dp"
             />
 
         <androidx.viewpager2.widget.ViewPager2
@@ -184,7 +190,21 @@
             android:layout_marginTop="56dp"
             />
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_board_item_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            app:srcCompat="@drawable/ic_baseline_add_24"
+            />
+
     </RelativeLayout>
+
+    <include layout="@layout/fab_add_sheet" />
 
     <include layout="@layout/members_overflow"/>
 

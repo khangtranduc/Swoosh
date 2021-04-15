@@ -79,7 +79,7 @@ class Chat : Fragment() {
 
         chat_reload_btn.setOnClickListener{
             viewModel.fetchConvos()
-            Repository.fetchUser(Firebase.auth.currentUser?.email.toString())
+            Repository.fetchUser(Firebase.auth.currentUser?.email.toString(), requireActivity().baseContext)
         }
 
         convo_recycler.apply {

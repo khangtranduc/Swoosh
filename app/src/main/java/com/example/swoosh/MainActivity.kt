@@ -86,7 +86,7 @@ class MainActivity : AppCompatActivity(),
         setUpOnboarding()
 
         //set up current data on start up
-        Firebase.auth.currentUser?.let { Repository.fetchUser(it.email.toString()) }
+        Firebase.auth.currentUser?.let { Repository.fetchUser(it.email.toString(), baseContext) }
 
         //set up bottom sheet
         bottomSheet.behaviour.addBottomSheetCallback(object: BottomSheetBehavior.BottomSheetCallback() {
@@ -140,20 +140,6 @@ class MainActivity : AppCompatActivity(),
             dynamicFabToggle()
         }
 
-        add_sheet_scrim.setOnClickListener{
-            sheetToFab()
-        }
-
-        add_todolist_btn.setOnClickListener{
-            (supportFragmentManager.currentNavigationFragment as BoardView).pushTodolist()
-            sheetToFab()
-        }
-
-        add_notes_btn.setOnClickListener{
-            (supportFragmentManager.currentNavigationFragment as BoardView).pushNoteCollection()
-            sheetToFab()
-        }
-
         dynamic_button.setOnClickListener{
             dynamicOnCLick(dynamic_button.tag as Int)
         }
@@ -168,7 +154,7 @@ class MainActivity : AppCompatActivity(),
         }
 
         reload_user_btn.setOnClickListener{
-            Firebase.auth.currentUser?.let { Repository.fetchUser(it.email.toString()) }
+            Firebase.auth.currentUser?.let { Repository.fetchUser(it.email.toString(), baseContext) }
         }
     }
 
@@ -234,9 +220,7 @@ class MainActivity : AppCompatActivity(),
                 bottomSheet.close()
             }
             R.id.nav_board_view -> {
-                fabCreateBoardItem()
-                bottom_app_bar.animate().translationY(200f)
-                if (!add_board_fab.isShown) add_board_fab.show()
+                performHideBottomBar()
                 dynamic_button.visibility = View.GONE
             }
             R.id.nav_note_creation -> {
@@ -316,9 +300,6 @@ class MainActivity : AppCompatActivity(),
 
     private fun dynamicFabToggle(){
         when(id){
-            R.id.nav_board_view -> {
-                fabToSheet()
-            }
             R.id.nav_home -> {
                 BoardCreationDialog().show(supportFragmentManager, BoardCreationDialog.TAG)
             }
@@ -344,36 +325,6 @@ class MainActivity : AppCompatActivity(),
                 chat_et.setText("")
             }
         }
-    }
-
-    private fun sheetToFab(){
-        val transition = MaterialContainerTransform().apply {
-            startView = fab_add_card
-            endView = add_board_fab_fake
-            duration = 300
-            addTarget(add_board_fab_fake)
-            setPathMotion(MaterialArcMotion())
-            scrimColor = Color.TRANSPARENT
-        }
-        TransitionManager.beginDelayedTransition(coordinator_container, transition)
-        fab_add_card.visibility = View.GONE
-        add_sheet_scrim.visibility = View.GONE
-        add_board_fab.show()
-    }
-
-    private fun fabToSheet(){
-        val transition = MaterialContainerTransform().apply {
-            startView = add_board_fab
-            endView = fab_add_card
-            duration = 300
-            addTarget(fab_add_card)
-            setPathMotion(MaterialArcMotion())
-            scrimColor = Color.TRANSPARENT
-        }
-        TransitionManager.beginDelayedTransition(coordinator_container, transition)
-        add_board_fab.hide()
-        fab_add_card.visibility = View.VISIBLE
-        add_sheet_scrim.visibility = View.VISIBLE
     }
 
     private fun dynamicReplaceIcon(drawable: Int){
@@ -423,11 +374,6 @@ class MainActivity : AppCompatActivity(),
         expand_btn.animate().alpha(1f)
                 .setDuration(300)
                 .setInterpolator(DecelerateInterpolator())
-    }
-
-    private fun fabCreateBoardItem(){
-        bottom_app_bar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
-        add_board_fab.setImageResource(R.drawable.ic_baseline_add_24)
     }
 
     private fun fabAddPerson(){

@@ -28,10 +28,7 @@ import com.example.swoosh.data.model.BoardItem
 import com.example.swoosh.ui.base.BoardItemFragment
 import com.example.swoosh.ui.dialog_fragments.AddMemberDialog
 import com.example.swoosh.ui.dialog_fragments.BoardItemCreationDialog
-import com.example.swoosh.utils.BoardUtils
-import com.example.swoosh.utils.PolySeri
-import com.example.swoosh.utils.Status
-import com.example.swoosh.utils.themeColor
+import com.example.swoosh.utils.*
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
@@ -117,6 +114,31 @@ class BoardView : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        add_board_item_btn.scaleX = 0f
+        add_board_item_btn.scaleY = 0f
+        lifecycleScope.launch{
+            delay(300)
+            add_board_item_btn.animate().scaleX(1f).scaleY(1f).setDuration(150).setInterpolator(AccelerateDecelerateInterpolator())
+        }
+
+        add_board_item_btn.setOnClickListener{
+            toggleBoardItemSheet()
+        }
+
+        add_sheet_scrim.setOnClickListener{
+            toggleBoardItemSheet()
+        }
+
+        add_todolist_btn.setOnClickListener{
+            (requireActivity().supportFragmentManager.currentNavigationFragment as BoardView).pushTodolist()
+            toggleBoardItemSheet()
+        }
+
+        add_notes_btn.setOnClickListener{
+            (requireActivity().supportFragmentManager.currentNavigationFragment as BoardView).pushNoteCollection()
+            toggleBoardItemSheet()
+        }
+
         board_view_up_btn.setOnClickListener{
             navigateUp()
         }
@@ -181,6 +203,22 @@ class BoardView : Fragment() {
         }
     }
 
+    private fun toggleBoardItemSheet(){
+        val views = listOf<View>(add_board_item_btn, fab_add_card).sortedBy { !it.isVisible }
+        val transition = MaterialContainerTransform().apply {
+            startView = views.first()
+            endView = views.last()
+            duration = 300
+            addTarget(views.last())
+            setPathMotion(MaterialArcMotion())
+            scrimColor = Color.TRANSPARENT
+        }
+        TransitionManager.beginDelayedTransition(board_view_container, transition)
+        views.first().isVisible = false
+        views.last().isVisible = true
+        add_sheet_scrim.isVisible = !add_sheet_scrim.isVisible
+    }
+
     private fun toggleMemberSheet(){
         val views = listOf<View>(board_view_members, members_overflow_card).sortedBy { !it.isVisible }
         val transition = MaterialContainerTransform().apply {
@@ -206,6 +244,7 @@ class BoardView : Fragment() {
     }
 
     fun navigateUp(){
+        add_board_item_btn.animate().scaleY(0f).scaleX(0f).setDuration(150).setInterpolator(AccelerateInterpolator())
         findNavController().navigateUp()
     }
 

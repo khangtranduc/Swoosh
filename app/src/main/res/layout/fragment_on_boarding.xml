@@ -11,13 +11,17 @@
         android:id="@+id/on_boarding_dot_indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/previous_obpage_btn"
-        android:layout_marginBottom="8dp"
+        android:layout_toRightOf="@id/previous_obpage_btn"
+        android:layout_toLeftOf="@id/next_obpage_btn"
+        android:layout_alignBottom="@id/previous_obpage_btn"
+        app:tabIndicator="@drawable/selected_dot_ob"
+        app:tabIndicatorGravity="center"
+        app:tabIndicatorColor="@color/cyan_200"
         app:tabRippleColor="@android:color/transparent"
         app:tabPadding="2dp"
-        app:tabBackground="@drawable/tab_selector"
+        app:tabBackground="@drawable/default_dot_ob"
         app:tabGravity="center"
-        app:tabIndicatorHeight="0dp"
+        app:tabIndicatorHeight="4dp"
         />
 
     <androidx.viewpager2.widget.ViewPager2
@@ -26,30 +30,30 @@
         android:layout_height="match_parent"
         />
 
-    <com.google.android.material.button.MaterialButton
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito_semibold"
+        android:padding="12dp"
         android:textColor="?attr/colorOnPrimary"
         android:background="@drawable/button_type_1"
-        android:text="Previous"
-        android:foreground="@drawable/logout_ripple"
         android:id="@+id/previous_obpage_btn"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="24dp"
+        android:src="@drawable/ic_baseline_arrow_back_ios_new_24"
         android:layout_marginBottom="16dp"
         android:textAllCaps="false"
         android:textSize="16sp"
         />
 
-    <com.google.android.material.button.MaterialButton
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="12dp"
         android:fontFamily="@font/nunito_semibold"
         android:textColor="?attr/colorOnPrimary"
         android:background="@drawable/button_type_1"
-        android:foreground="@drawable/logout_ripple"
-        android:text="Next"
+        android:src="@drawable/ic_baseline_arrow_forward_ios_24"
         android:id="@+id/next_obpage_btn"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
