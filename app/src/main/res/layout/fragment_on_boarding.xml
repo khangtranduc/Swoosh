@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/ob_container"
     tools:context=".ui.on_boarding.OnBoarding">
 
     <com.google.android.material.tabs.TabLayout
@@ -62,5 +63,28 @@
         android:textAllCaps="false"
         android:textSize="16sp"
         />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/colorPrimary"
+        android:layout_centerInParent="true"
+        android:id="@+id/continue_ob_btn"
+        android:clickable="true"
+        android:elevation="6dp"
+        android:visibility="invisible"
+        app:cardCornerRadius="25dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Continue to App"
+            android:fontFamily="@font/nunito_bold"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="24sp"
+            android:paddingVertical="16dp"
+            android:paddingHorizontal="32dp"
+            />
+    </com.google.android.material.card.MaterialCardView>
 
 </RelativeLayout>

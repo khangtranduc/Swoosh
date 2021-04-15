@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.LinearLayout
 import androidx.lifecycle.lifecycleScope
 import com.example.swoosh.R
 import com.example.swoosh.data.model.OBPage
@@ -25,13 +26,22 @@ class OBPageFragment(private val obpage: OBPage) : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val animEnter = AnimationUtils.loadAnimation(requireContext(), R.anim.onboard_appear)
-
         obpage_text_tv.text = obpage.title
 
         obpage_content_tv.text = obpage.content
 
-        obpage_img.setImageResource(obpage.img)
+        if (obpage.title == "You're all set"){
+            ob_img_container.visibility = View.GONE
+            val layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            layoutParams.setMargins(12, resources.getDimension(R.dimen.on_boarding_top_text_displaced).toInt(), 12, 8)
+            obpage_text_tv.layoutParams = layoutParams
+        }
+        else{
+            obpage_img.setImageResource(obpage.img)
+        }
     }
 
 }

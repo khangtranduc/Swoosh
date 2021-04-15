@@ -4,4 +4,5 @@
     <dimen name="grid_3">24dp</dimen>
     <dimen name="navigation_drawer_profile_image_size_padded">32dp</dimen>
     <dimen name="bottom_app_bar_height">56dp</dimen>
+    <dimen name="on_boarding_top_text_displaced">196dp</dimen>
 </resources>
