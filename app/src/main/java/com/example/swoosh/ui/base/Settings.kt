@@ -34,14 +34,14 @@ class Settings : Fragment() {
 
         Firebase.auth.currentUser?.let { email_settings_tv.text = it.email.toString() }
 
-        dark_mode_switch.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked){
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            }
-            else{
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-        }
+//        dark_mode_switch.setOnCheckedChangeListener { buttonView, isChecked ->
+//            if (isChecked){
+//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+//            }
+//            else{
+//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//            }
+//        }
 
         settings_up_btn.setOnClickListener {
             findNavController().navigateUp()

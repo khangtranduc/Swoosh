@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.swoosh.R
 import com.example.swoosh.data.Repository
@@ -18,6 +19,8 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_log_in.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class LogIn : Fragment() {
 
@@ -66,6 +69,9 @@ class LogIn : Fragment() {
             }
 
             login_btn.isEnabled = false
+            login_tv.text = "Loading..."
+            login_progress.visibility = View.VISIBLE
+            login_btn.alpha = 0.5f
 
             Firebase.auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener{
@@ -73,6 +79,9 @@ class LogIn : Fragment() {
                             if (Firebase.auth.currentUser?.isEmailVerified != true){
                                 Snackbar.make(view, "Email is not verified!", Snackbar.LENGTH_SHORT).show()
                                 login_btn.isEnabled = true
+                                login_progress.visibility = View.INVISIBLE
+                                login_tv.text = "Log In"
+                                login_btn.alpha = 1f
                                 Firebase.auth.signOut()
                             }
                             else{
