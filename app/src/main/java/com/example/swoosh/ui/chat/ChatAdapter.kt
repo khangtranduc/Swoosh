@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.swoosh.R
 import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.Convo
+import com.example.swoosh.ui.base.UserUriViewModel
 import com.example.swoosh.ui.dialog_fragments.QuickChatActionDialog
 import com.example.swoosh.utils.currentNavigationFragment
 import kotlinx.serialization.encodeToString

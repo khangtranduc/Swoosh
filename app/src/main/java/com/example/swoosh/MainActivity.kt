@@ -30,6 +30,7 @@ import com.example.swoosh.ui.board_view.BoardView
 import com.example.swoosh.ui.chat.Chat
 import com.example.swoosh.ui.chat.ChatWindow
 import com.example.swoosh.ui.chat.ChatWindowArgs
+import com.example.swoosh.ui.chat.ChatWindowDirections
 import com.example.swoosh.ui.dialog_fragments.QuickChatCreationDialog
 import com.example.swoosh.ui.home.Home
 import com.example.swoosh.ui.home.HomeViewModel
@@ -174,10 +175,9 @@ class MainActivity : AppCompatActivity(),
                 val uri: Uri? = data.data
                 val convoID = (supportFragmentManager.currentNavigationFragment as ChatWindow).getConvoId()
 
-                Log.d("debug", "${uri == null}")
-
                 uri?.let { Repository.pushImageToConvo(convoID, it, applicationContext) }
             }
+            (supportFragmentManager.currentNavigationFragment as ChatWindow).refresh()
         }
     }
 

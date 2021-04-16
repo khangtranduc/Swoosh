@@ -26,9 +26,6 @@ open class MessageAdapter(options: FirebaseRecyclerOptions<Message>,
                           private val convoID: String, private val activityViewModel: UserUriViewModel
 ) : FirebaseRecyclerAdapter<Message, MessageAdapter.ViewHolder>(options) {
 
-
-    private val otherUsersImageUri = hashMapOf<String, Uri>()
-
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val in_container = itemView.findViewById<ConstraintLayout>(R.id.in_message_container)
         val in_image = itemView.findViewById<CircleImageView>(R.id.in_message_img)
@@ -60,22 +57,31 @@ open class MessageAdapter(options: FirebaseRecyclerOptions<Message>,
                 else if (message.message.substringBefore(":") == activity.resources.getString(R.string.anonymous_board)){
                     out_message.visibility = View.GONE
                     out_picture.visibility = View.VISIBLE
-                    Repository.getConvoImageRef(convoID, message.message.substringAfter(":")).downloadUrl.addOnSuccessListener {
+                    if (activityViewModel.images[message.message.substringAfter(":")] == null){
+                        Repository.getConvoImageRef(convoID, message.message.substringAfter(":")).downloadUrl.addOnSuccessListener {
+                            Glide.with(activity)
+                                    .load(it)
+                                    .placeholder(R.drawable.ic_launcher_background)
+                                    .into(out_picture)
+                            activityViewModel.images[message.message.substringAfter(":")] = it
+                        }
+                                .addOnFailureListener{
+                                    out_message.visibility = View.VISIBLE
+                                    out_picture.visibility = View.GONE
+                                    out_message.text = "Image Loading Failed"
+                                }
+                    }
+                    else {
                         Glide.with(activity)
-                                .load(it)
+                                .load(activityViewModel.images[message.message.substringAfter(":")])
                                 .placeholder(R.drawable.ic_launcher_background)
                                 .into(out_picture)
-                        itemView.setOnLongClickListener {
-                            MessageDeleteDialog(message.id, convoID, message.sender,
-                                    true, message.message.substringAfter(":")).show(activity.supportFragmentManager, MessageDeleteDialog.TAG)
-                            false
-                        }
                     }
-                            .addOnFailureListener{
-                                out_message.visibility = View.VISIBLE
-                                out_picture.visibility = View.GONE
-                                out_message.text = "Image Loading Failed"
-                            }
+                    itemView.setOnLongClickListener {
+                        MessageDeleteDialog(message.id, convoID, message.sender,
+                                true, message.message.substringAfter(":")).show(activity.supportFragmentManager, MessageDeleteDialog.TAG)
+                        false
+                    }
                 }
                 else{
                     out_message.text = message.message
@@ -115,17 +121,26 @@ open class MessageAdapter(options: FirebaseRecyclerOptions<Message>,
                 else if (message.message.substringBefore(":") == activity.resources.getString(R.string.anonymous_board)){
                     in_message.visibility = View.GONE
                     in_picture.visibility = View.VISIBLE
-                    Repository.getConvoImageRef(convoID, message.message.substringAfter(":")).downloadUrl.addOnSuccessListener {
+                    if (activityViewModel.images[message.message.substringAfter(":")] == null){
+                        Repository.getConvoImageRef(convoID, message.message.substringAfter(":")).downloadUrl.addOnSuccessListener {
+                            Glide.with(activity)
+                                    .load(it)
+                                    .placeholder(R.drawable.ic_launcher_background)
+                                    .into(in_picture)
+                            activityViewModel.images[message.message.substringAfter(":")] = it
+                        }
+                                .addOnFailureListener{
+                                    in_picture.visibility = View.GONE
+                                    in_message.visibility = View.VISIBLE
+                                    in_message.text = "Image Loading Failed"
+                                }
+                    }
+                    else{
                         Glide.with(activity)
-                                .load(it)
+                                .load(activityViewModel.images[message.message.substringAfter(":")])
                                 .placeholder(R.drawable.ic_launcher_background)
                                 .into(in_picture)
                     }
-                            .addOnFailureListener{
-                                in_picture.visibility = View.GONE
-                                in_message.visibility = View.VISIBLE
-                                in_message.text = "Image Loading Failed"
-                            }
                 }
                 else{
                     in_message.text = message.message

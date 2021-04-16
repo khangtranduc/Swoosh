@@ -86,6 +86,12 @@
             android:defaultValue="null"
             app:argType="string"
             />
+        <action
+            android:id="@+id/refresh"
+            app:destination="@id/nav_chat_window"
+            app:popUpTo="@id/nav_chat_window"
+            app:popUpToInclusive="true"
+            />
     </fragment>
     <fragment
         android:id="@+id/nav_search"

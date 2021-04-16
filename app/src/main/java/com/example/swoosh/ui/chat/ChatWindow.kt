@@ -22,15 +22,17 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.android.material.transition.MaterialContainerTransform
 import kotlinx.android.synthetic.main.fragment_chat_window.*
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class ChatWindow : Fragment() {
 
     val args: ChatWindowArgs by navArgs()
-    private val convo: Convo by lazy {
+    private val convo: Convo by lazy{
         Json.decodeFromString(args.convo)
     }
     private val viewModel: UserUriViewModel by activityViewModels()
+    private lateinit var options: FirebaseRecyclerOptions<Message>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +57,7 @@ class ChatWindow : Fragment() {
         chat_window_up_btn.setOnClickListener {
             navigateUp()
         }
+
         if (convo.name.substringAfter(":") == resources.getString(R.string.anonymous_board)){
             chat_window_title_tv.text = convo.name.substringBefore(":")
         }
@@ -62,7 +65,7 @@ class ChatWindow : Fragment() {
             chat_window_title_tv.text = convo.name
         }
 
-        val options = FirebaseRecyclerOptions.Builder<Message>()
+        options = FirebaseRecyclerOptions.Builder<Message>()
                 .setLifecycleOwner(viewLifecycleOwner)
                 .setQuery(Repository.getConvoStoreQuery(convo.id), Message::class.java)
                 .build()
@@ -81,6 +84,16 @@ class ChatWindow : Fragment() {
 
     fun getConvoId() : String{
         return convo.id
+    }
+
+    fun refresh(){
+        message_recycler.apply {
+            adapter = object: MessageAdapter(options, requireActivity(), convo.id, viewModel){
+                override fun onDataChanged() {
+                    message_recycler.layoutManager?.smoothScrollToPosition(message_recycler, null, itemCount)
+                }
+            }
+        }
     }
 
     private fun navigateUp(){

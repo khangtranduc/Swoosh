@@ -5,4 +5,6 @@ import androidx.lifecycle.ViewModel
 
 class UserUriViewModel : ViewModel() {
     val otherUsersImageUri = hashMapOf<String, Uri>()
+
+    val images = hashMapOf<String, Uri>()
 }
