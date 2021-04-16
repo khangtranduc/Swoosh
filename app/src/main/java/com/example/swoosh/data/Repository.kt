@@ -30,6 +30,7 @@ object Repository {
         get() = _user
 
     const val IMAGE_REQUEST = 10
+    const val REQUEST_IMAGE = 11
     const val SPEECH_INPUT = 69
 
     fun getUserDir(email: String) : String{
@@ -48,6 +49,39 @@ object Repository {
 
     fun getUserImageRef(email: String) : StorageReference{
         return Firebase.storage.reference.child("userImage/${getUserDir(email)}")
+    }
+
+    fun getConvoImageRef(convoID: String, lastPathSegment: String) : StorageReference{
+        return Firebase.storage.reference.child("convoImage/$convoID/$lastPathSegment")
+    }
+
+    fun pushImageToConvo(convoID: String, uri: Uri, context: Context){
+        val client = Firebase.database.reference
+                .child("convoStore")
+                .child(convoID)
+                .push()
+
+        user.value?.let {
+            val message = Message(
+                    Firebase.auth.currentUser?.email.toString(),
+                    it.name,
+                    "${context.resources.getString(R.string.anonymous_board)}:${uri.lastPathSegment}",
+                    System.currentTimeMillis(),
+                    client.key.toString()
+            )
+
+            Firebase.storage.reference.child("convoImage/$convoID/${uri.lastPathSegment}").putFile(uri)
+                    .addOnSuccessListener {
+                        Toast.makeText(context, "Image Uploaded Successfully", Toast.LENGTH_SHORT).show()
+                        client.setValue(message)
+                    }
+                    .addOnFailureListener{
+                        Toast.makeText(context, "Image Failed to Upload", Toast.LENGTH_SHORT).show()
+                    }
+
+            getConvoRef().child(convoID).child("lastMessage").setValue("${it.name}: Sent an image")
+            getConvoRef().child(convoID).child("lastSenderEmail").setValue(message.senderEmail)
+        }
     }
 
     fun updateUserParticulars(user: User, email: String){
@@ -257,11 +291,16 @@ object Repository {
         getConvoRef().child(convoID).child("lastMessage").setValue("${message.sender}: ${message.message}")
     }
 
-    fun deleteMessageFromFirebase(messageID: String, convoID: String, sender: String){
+    fun deleteMessageFromFirebase(messageID: String, convoID: String, sender: String, isImage: Boolean = false, lastPathSegment: String = ""){
         Firebase.database.reference
                 .child("convoStore")
                 .child(convoID)
                 .child(messageID).child("message").setValue(messageID)
+
+        if (isImage){
+            getConvoImageRef(convoID, lastPathSegment).delete()
+        }
+
         getConvoRef().child(convoID).child("lastMessage").setValue("${sender}: message deleted")
     }
 

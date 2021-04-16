@@ -14,6 +14,8 @@
         <item name="appbarIcons">@color/white</item>
 
         <item name="in_background">#232323</item>
+
+        <item name="ting_color">@color/black</item>
     </style>
     <style name="ThemeOverlay.Toolbar" parent="ThemeOverlay.AppCompat.Dark"/>
 </resources>

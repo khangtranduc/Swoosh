@@ -107,6 +107,8 @@
                     android:background="@drawable/chat_selection_highlight"
                     android:inputType="textAutoComplete"
                     android:fontFamily="@font/nunito"
+                    android:gravity="bottom"
+                    android:paddingBottom="4.75dp"
                     android:paddingStart="12dp"
                     android:paddingEnd="12dp"
                     android:hint="Text Message..."

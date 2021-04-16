@@ -1,8 +1,11 @@
 package com.example.swoosh
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -46,6 +49,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.fab_add_sheet.*
 import kotlinx.android.synthetic.main.fragment_bottom_sheet.*
+import kotlinx.android.synthetic.main.fragment_user_edit_dialog.*
 import kotlinx.android.synthetic.main.user_info.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -134,7 +138,10 @@ class MainActivity : AppCompatActivity(),
         }
 
         add_media.setOnClickListener{
-
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            intent.type = "image/*"
+            startActivityForResult(intent, Repository.REQUEST_IMAGE)
         }
 
         add_board_fab.setOnClickListener{
@@ -156,6 +163,19 @@ class MainActivity : AppCompatActivity(),
 
         reload_user_btn.setOnClickListener{
             Firebase.auth.currentUser?.let { Repository.fetchUser(it.email.toString(), baseContext) }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == Repository.REQUEST_IMAGE){
+            if (resultCode == Activity.RESULT_OK && data != null){
+                val uri: Uri? = data.data
+                val convoID = (supportFragmentManager.currentNavigationFragment as ChatWindow).getConvoId()
+
+                uri?.let { Repository.pushImageToConvo(convoID, it, applicationContext) }
+            }
         }
     }
 

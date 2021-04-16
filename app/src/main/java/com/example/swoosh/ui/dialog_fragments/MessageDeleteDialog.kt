@@ -13,7 +13,11 @@ import com.example.swoosh.data.Repository
 import com.example.swoosh.data.model.Message
 import kotlinx.android.synthetic.main.message_deletion_dialog.*
 
-class MessageDeleteDialog(private val messageID: String, private val convoID: String, private val sender: String) : DialogFragment() {
+class MessageDeleteDialog(private val messageID: String,
+                          private val convoID: String,
+                          private val sender: String,
+                          private val isImage: Boolean = false,
+                          private val lastPathSegment: String = "") : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (dialog != null && dialog?.window != null) {
             dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -31,7 +35,7 @@ class MessageDeleteDialog(private val messageID: String, private val convoID: St
         }
 
         message_delete_btn.setOnClickListener{
-            Repository.deleteMessageFromFirebase(messageID, convoID, sender)
+            Repository.deleteMessageFromFirebase(messageID, convoID, sender, isImage, lastPathSegment)
             dismiss()
         }
     }

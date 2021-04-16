@@ -26,7 +26,7 @@
         <com.example.swoosh.ui.widgets.CutoutTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/colorOnPrimary"
+            android:background="?attr/ting_color"
             android:fontFamily="@font/fredoka_one"
             android:text="@string/app_name"
             android:textAlignment="center"
@@ -48,7 +48,7 @@
         android:layout_height="60dp"
         android:inputType="textEmailAddress"
         android:ems="10"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="96dp"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:textSize="14sp"
