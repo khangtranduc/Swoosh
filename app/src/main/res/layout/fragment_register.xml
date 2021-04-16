@@ -9,13 +9,30 @@
     android:padding="30dp"
     tools:context=".ui.register.Register">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/muli_black"
-        android:text="@string/app_name"
-        android:textColor="?attr/colorPrimary"
-        android:textSize="60sp"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="82dp">
+
+        <ImageView
+            android:layout_width="600dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/blue_paint"
+            android:id="@+id/regi_text_background"
+            />
+
+        <com.example.swoosh.ui.widgets.CutoutTextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/colorOnPrimary"
+            android:text="@string/app_name"
+            android:textAlignment="center"
+            android:textSize="70sp"
+            android:fontFamily="@font/fredoka_one"
+            />
+
+    </FrameLayout>
 
     <EditText
         android:id="@+id/register_name_et"

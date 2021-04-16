@@ -51,6 +51,7 @@ class LogIn : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val currentUser = Firebase.auth.currentUser
+        text_background.visibility = View.VISIBLE
 
         lifecycleScope.launch {
             text_background.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.translation_cycle))
@@ -98,6 +99,7 @@ class LogIn : Fragment() {
         }
 
         register_now.setOnClickListener{
+            text_background.visibility = View.GONE
             findNavController().navigate(LogInDirections.gotoRegister())
         }
     }
@@ -119,6 +121,7 @@ class LogIn : Fragment() {
     private fun logIn(){
         homeViewModel.fetchBoards()
         chatViewModel.fetchConvos()
+        text_background.visibility = View.GONE
         findNavController().navigate(LogInDirections.gotoHome())
     }
 }

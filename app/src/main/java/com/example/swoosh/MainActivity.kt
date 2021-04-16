@@ -31,6 +31,7 @@ import com.example.swoosh.ui.dialog_fragments.QuickChatCreationDialog
 import com.example.swoosh.ui.home.Home
 import com.example.swoosh.ui.home.HomeViewModel
 import com.example.swoosh.ui.nav.BottomSheet
+import com.example.swoosh.ui.register.Register
 import com.example.swoosh.utils.SandwichState
 import com.example.swoosh.utils.Status
 import com.example.swoosh.utils.currentNavigationFragment
@@ -172,6 +173,9 @@ class MainActivity : AppCompatActivity(),
                 }
                 else if (id == R.id.nav_board_view){
                     (supportFragmentManager.currentNavigationFragment as BoardView).navigateUp()
+                }
+                else if (id == R.id.register){
+                    (supportFragmentManager.currentNavigationFragment as Register).navigateUp()
                 }
                 else{
                     findNavController(R.id.nav_host_fragment).navigateUp(appBarConfiguration)

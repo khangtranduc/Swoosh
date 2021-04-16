@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="preloaded_fonts" translatable="false">
+        <item>@font/alegreya_black</item>
+        <item>@font/arvo_bold</item>
+        <item>@font/bevan</item>
+        <item>@font/candal</item>
+        <item>@font/corben_bold</item>
+        <item>@font/exo_2_black</item>
+        <item>@font/fredoka_one</item>
+        <item>@font/heebo_black</item>
+        <item>@font/krona_one</item>
         <item>@font/muli_black</item>
         <item>@font/nunito</item>
         <item>@font/nunito_bold</item>
         <item>@font/nunito_extrabold</item>
         <item>@font/nunito_semibold</item>
         <item>@font/poppins_bold</item>
+        <item>@font/prompt_black</item>
+        <item>@font/prompt_extrabold</item>
     </array>
 </resources>

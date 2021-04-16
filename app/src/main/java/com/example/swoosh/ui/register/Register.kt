@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.swoosh.R
 import com.example.swoosh.data.model.User
@@ -15,6 +17,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_register.*
+import kotlinx.coroutines.launch
 
 class Register : Fragment() {
 
@@ -35,6 +38,13 @@ class Register : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        regi_text_background.visibility = View.VISIBLE
+
+        lifecycleScope.launch {
+            regi_text_background.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.translation_cycle))
+        }
+
         register_btn.setOnClickListener{
             val name = register_name_et.text.toString()
             val email = register_email_et.text.toString()
@@ -72,7 +82,13 @@ class Register : Fragment() {
         }
     }
 
+    fun navigateUp(){
+        regi_text_background.visibility = View.GONE
+        findNavController().navigateUp()
+    }
+
     private fun gotoLogIn(){
+        regi_text_background.visibility = View.GONE
         findNavController().navigate(RegisterDirections.gotoLogIn())
     }
 }
