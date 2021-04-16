@@ -65,17 +65,17 @@ open class MessageAdapter(options: FirebaseRecyclerOptions<Message>,
                                 .load(it)
                                 .placeholder(R.drawable.ic_launcher_background)
                                 .into(out_picture)
+                        itemView.setOnLongClickListener {
+                            MessageDeleteDialog(message.id, convoID, message.sender,
+                                    true, message.message.substringAfter(":")).show(activity.supportFragmentManager, MessageDeleteDialog.TAG)
+                            false
+                        }
                     }
                             .addOnFailureListener{
                                 out_message.visibility = View.VISIBLE
                                 out_picture.visibility = View.GONE
                                 out_message.text = "Image Loading Failed"
                             }
-                    itemView.setOnLongClickListener {
-                        MessageDeleteDialog(message.id, convoID, message.sender,
-                                true, message.message.substringAfter(":")).show(activity.supportFragmentManager, MessageDeleteDialog.TAG)
-                        false
-                    }
                 }
                 else{
                     out_message.text = message.message

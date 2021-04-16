@@ -174,6 +174,8 @@ class MainActivity : AppCompatActivity(),
                 val uri: Uri? = data.data
                 val convoID = (supportFragmentManager.currentNavigationFragment as ChatWindow).getConvoId()
 
+                Log.d("debug", "${uri == null}")
+
                 uri?.let { Repository.pushImageToConvo(convoID, it, applicationContext) }
             }
         }
