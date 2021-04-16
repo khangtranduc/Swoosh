@@ -44,6 +44,7 @@ android {
 
 dependencies {
     //Transparent Text View
+    implementation 'it.gilvegliach.android:transparent-text-textview:1.0.3'
 
     //Viewpager 2
     implementation "androidx.viewpager2:viewpager2:1.0.0"

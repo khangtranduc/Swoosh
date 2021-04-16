@@ -12,9 +12,7 @@ import com.example.swoosh.R
 import com.example.swoosh.data.model.*
 import com.example.swoosh.utils.Status
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.GenericTypeIndicator
-import com.google.firebase.database.Query
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
@@ -62,10 +60,10 @@ object Repository {
         userRef.child("from").setValue(user.from)
 
         //update thing from chat
-        updateConvoAftNameChange(user.name)
+        updateStuffAftNameChange(user.name, email)
     }
 
-    private fun updateConvoAftNameChange(newName: String){
+    private fun updateStuffAftNameChange(newName: String, email: String){
         getKeysRef().get().addOnSuccessListener {
             val to = object: GenericTypeIndicator<Map<String, Boolean>>(){}
 
@@ -73,6 +71,17 @@ object Repository {
             keys?.let { keys ->
                 for ((key, value) in keys){
                     if (value){
+                        getBoardsRef().child(key).child("members").child(getUserDir(email))
+                                .child("name").addListenerForSingleValueEvent(object: ValueEventListener{
+                                    override fun onDataChange(snapshot: DataSnapshot) {
+                                        if (snapshot.exists()){
+                                            getBoardsRef().child(key).child("members").child(getUserDir(email))
+                                                    .child("name").setValue(newName)
+                                        }
+                                    }
+
+                                    override fun onCancelled(error: DatabaseError) {}
+                                })
                         getConvoRef().child(key).get().addOnSuccessListener { snapshot ->
                             val convo = snapshot.getValue(Convo::class.java)
 

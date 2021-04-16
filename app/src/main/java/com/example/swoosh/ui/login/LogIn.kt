@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.view.animation.LinearInterpolator
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -50,6 +52,10 @@ class LogIn : Fragment() {
 
         val currentUser = Firebase.auth.currentUser
 
+        lifecycleScope.launch {
+            text_background.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.translation_cycle))
+        }
+
         if (currentUser != null && currentUser.isEmailVerified){
             logIn()
         }
@@ -68,20 +74,14 @@ class LogIn : Fragment() {
                 return@setOnClickListener
             }
 
-            login_btn.isEnabled = false
-            login_tv.text = "Loading..."
-            login_progress.visibility = View.VISIBLE
-            login_btn.alpha = 0.5f
+            toggleLogin()
 
             Firebase.auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener{
                         if (it.isSuccessful){
                             if (Firebase.auth.currentUser?.isEmailVerified != true){
                                 Snackbar.make(view, "Email is not verified!", Snackbar.LENGTH_SHORT).show()
-                                login_btn.isEnabled = true
-                                login_progress.visibility = View.INVISIBLE
-                                login_tv.text = "Log In"
-                                login_btn.alpha = 1f
+                                toggleLogin()
                                 Firebase.auth.signOut()
                             }
                             else{
@@ -91,7 +91,7 @@ class LogIn : Fragment() {
                             }
                         }
                         else{
-                            login_btn.isEnabled = true
+                            toggleLogin()
                             Toast.makeText(requireContext(), "Sign in failed: ${it.exception?.message}", Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -100,6 +100,20 @@ class LogIn : Fragment() {
         register_now.setOnClickListener{
             findNavController().navigate(LogInDirections.gotoRegister())
         }
+    }
+
+    fun toggleLogin(){
+        if (login_btn.isEnabled){
+            login_progress.visibility = View.VISIBLE
+            login_tv.text = "Loading..."
+            login_btn.alpha = 0.5f
+        }
+        else{
+            login_progress.visibility = View.INVISIBLE
+            login_tv.text = "Log In"
+            login_btn.alpha  = 1f
+        }
+        login_btn.isEnabled = !login_btn.isEnabled
     }
 
     private fun logIn(){
