@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -98,9 +99,13 @@ class Search : Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                var regex = ".*".toRegex()
+                if (count != 0){
+                    regex = "[${s.toString().toLowerCase()}].*".toRegex()
+                }
                 val filteredList = arrayListOf<SearchItem>()
                 for (i in searchItems) {
-                    if (i.name.toLowerCase().matches("${s.toString().toLowerCase()}.*".toRegex())){
+                    if (i.name.toLowerCase().matches(regex)){
                         filteredList.add(i)
                     }
                 }
