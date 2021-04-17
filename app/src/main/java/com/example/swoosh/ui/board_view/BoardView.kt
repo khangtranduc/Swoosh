@@ -122,21 +122,23 @@ class BoardView : Fragment() {
         }
 
         add_board_item_btn.setOnClickListener{
-            toggleBoardItemSheet()
+            lifecycleScope.launch {
+                toggleBoardItemSheet()
+            }
         }
 
         add_sheet_scrim.setOnClickListener{
-            toggleBoardItemSheet()
+            lifecycleScope.launch { toggleBoardItemSheet() }
         }
 
         add_todolist_btn.setOnClickListener{
             (requireActivity().supportFragmentManager.currentNavigationFragment as BoardView).pushTodolist()
-            toggleBoardItemSheet()
+            lifecycleScope.launch { toggleBoardItemSheet() }
         }
 
         add_notes_btn.setOnClickListener{
             (requireActivity().supportFragmentManager.currentNavigationFragment as BoardView).pushNoteCollection()
-            toggleBoardItemSheet()
+            lifecycleScope.launch { toggleBoardItemSheet() }
         }
 
         board_view_up_btn.setOnClickListener{
@@ -145,11 +147,11 @@ class BoardView : Fragment() {
         board_view_title_tv.text = board.name
 
         board_view_members.setOnClickListener {
-            toggleMemberSheet()
+            lifecycleScope.launch { toggleMemberSheet() }
         }
 
         members_overflow_scrim.setOnClickListener {
-            toggleMemberSheet()
+            lifecycleScope.launch { toggleMemberSheet() }
         }
 
         viewModel.boardItems.observe(viewLifecycleOwner) {
