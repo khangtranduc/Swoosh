@@ -51,8 +51,8 @@ object Repository {
         return Firebase.storage.reference.child("userImage/${getUserDir(email)}")
     }
 
-    fun getConvoImageRef(convoID: String, lastPathSegment: String) : StorageReference{
-        return Firebase.storage.reference.child("convoImage/$convoID/$lastPathSegment")
+    fun getConvoImageRef(convoID: String, timeClicked: String) : StorageReference{
+        return Firebase.storage.reference.child("convoImage/$convoID/$timeClicked")
     }
 
     fun pushImageToConvo(convoID: String, uri: Uri, context: Context){
@@ -62,15 +62,18 @@ object Repository {
                 .push()
 
         user.value?.let {
+
+            val timeClicked = System.currentTimeMillis()
+
             val message = Message(
                     Firebase.auth.currentUser?.email.toString(),
                     it.name,
-                    "${context.resources.getString(R.string.anonymous_board)}:${uri.lastPathSegment}",
+                    "${context.resources.getString(R.string.anonymous_board)}:${timeClicked}",
                     System.currentTimeMillis(),
                     client.key.toString()
             )
 
-            Firebase.storage.reference.child("convoImage/$convoID/${uri.lastPathSegment}").putFile(uri)
+            Firebase.storage.reference.child("convoImage/$convoID/${timeClicked}").putFile(uri)
                     .addOnSuccessListener {
                         Toast.makeText(context, "Image Uploaded Successfully", Toast.LENGTH_SHORT).show()
                         client.setValue(message)
