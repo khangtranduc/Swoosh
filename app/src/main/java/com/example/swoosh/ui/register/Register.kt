@@ -53,11 +53,25 @@ class Register : Fragment() {
 
             if (TextUtils.isEmpty(name) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(confirmPassword)){
                 Toast.makeText(requireContext(), "Some fields are empty", Toast.LENGTH_SHORT).show()
+                lifecycleScope.launch {
+                    val shakeAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.shake_animation)
+                    register_email_et.startAnimation(shakeAnim)
+                    register_name_et.startAnimation(shakeAnim)
+                    register_password_et.startAnimation(shakeAnim)
+                    register_pass_confirm_et.startAnimation(shakeAnim)
+                }
                 return@setOnClickListener
             }
 
             if (password != confirmPassword){
                 Toast.makeText(requireContext(), "Confirm password does not match", Toast.LENGTH_SHORT).show()
+                lifecycleScope.launch {
+                    val shakeAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.shake_animation)
+                    register_password_et.startAnimation(shakeAnim)
+                    register_pass_confirm_et.startAnimation(shakeAnim)
+                    register_pass_confirm_et.setText("")
+                    register_password_et.setText("")
+                }
                 return@setOnClickListener
             }
 
@@ -76,6 +90,13 @@ class Register : Fragment() {
                         }
                     }
                     else{
+                        lifecycleScope.launch {
+                            val shakeAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.shake_animation)
+                            register_email_et.startAnimation(shakeAnim)
+                            register_name_et.startAnimation(shakeAnim)
+                            register_password_et.startAnimation(shakeAnim)
+                            register_pass_confirm_et.startAnimation(shakeAnim)
+                        }
                         Toast.makeText(context, "Registration Failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                     }
                 }

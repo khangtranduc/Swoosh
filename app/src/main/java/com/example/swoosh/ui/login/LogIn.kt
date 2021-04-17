@@ -71,6 +71,10 @@ class LogIn : Fragment() {
 
             if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
                 Toast.makeText(requireContext(), "Some fields are empty!", Toast.LENGTH_SHORT).show()
+                lifecycleScope.launch {
+                    email_et.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.shake_animation))
+                    password_et.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.shake_animation))
+                }
                 login_btn.isEnabled = true
                 return@setOnClickListener
             }
@@ -93,6 +97,12 @@ class LogIn : Fragment() {
                         }
                         else{
                             toggleLogin()
+                            lifecycleScope.launch {
+                                email_et.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.shake_animation))
+                                password_et.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.shake_animation))
+                                email_et.setText("")
+                                password_et.setText("")
+                            }
                             Toast.makeText(requireContext(), "Sign in failed: ${it.exception?.message}", Toast.LENGTH_SHORT).show()
                         }
                     }
