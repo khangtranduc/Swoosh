@@ -109,7 +109,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
-        android:fitsSystemWindows="true"
         android:paddingTop="2dp"
         android:paddingBottom="56dp"
         android:transitionGroup="true"
