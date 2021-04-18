@@ -372,6 +372,9 @@ object Repository {
             Toast.makeText(context, "You can't add yourself", Toast.LENGTH_SHORT).show()
             return
         }
+
+        Log.d("debug", "${board.members}")
+
         getUserRef().child(getUserDir(member.email))
                 .get().addOnSuccessListener {
                     member.name = it.child("name").value as String

@@ -252,6 +252,7 @@ class BoardView : Fragment() {
 
     private fun updateMembers(members: HashMap<String, Board.Member>){
         members_overflow_recycler.adapter = MemberAdapter(board.id, requireActivity().baseContext).apply { submitList(members) }
+        board.members = members
     }
 
     private fun updateBoardFragments(boardItems: SortedMap<String, BoardItem>?){

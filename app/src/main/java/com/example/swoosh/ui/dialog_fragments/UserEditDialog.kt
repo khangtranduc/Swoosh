@@ -112,7 +112,10 @@ class UserEditDialog() : DialogFragment() {
                 val uri: Uri? = data.data
                 uriGlobal = uri
 
-
+                Glide.with(requireContext())
+                        .load(uri)
+                        .placeholder(R.drawable.ic_launcher_background)
+                        .into(profile_preview)
             }
         }
     }

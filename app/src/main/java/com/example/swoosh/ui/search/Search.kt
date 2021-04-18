@@ -101,7 +101,8 @@ class Search : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 var regex = ".*".toRegex()
                 if (count != 0){
-                    regex = "[${s.toString().toLowerCase()}].*".toRegex()
+                    regex = if (!"$s".contains("[\\[\\](){}?*+!]".toRegex())) "${s.toString().toLowerCase()}.*".toRegex()
+                    else "[${s.toString().toLowerCase()}].*".toRegex()
                 }
                 val filteredList = arrayListOf<SearchItem>()
                 for (i in searchItems) {

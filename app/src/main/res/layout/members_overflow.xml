@@ -61,7 +61,7 @@
                 android:layout_height="40dp"
                 android:background="@drawable/button_type_1"
                 android:textAllCaps="false"
-                android:text="Add User"
+                android:text="Add Member"
                 android:fontFamily="@font/nunito_bold"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"
