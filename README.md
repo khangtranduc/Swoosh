@@ -5,4 +5,4 @@ It allows people to create groups and add team members. Team members will be abl
 1. Access a team board which can contain multiple todolists and notes
 2. Access to a real time texting service supported by firebase.
 
-*(This project was a school project - the firebase server might have been closed by now)*
+*(This project was a school project/ experiment with UI design - the firebase server might have been closed by now)*
